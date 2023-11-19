@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingSystemDatabase", "VotingSystemDatabase\VotingSystemDatabase.csproj", "{D708FF49-F27E-4503-91E0-2BCCFB037B27}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mail", "Mail\Mail.csproj", "{3F472DAD-629B-4ACE-BD30-DBB0328AB391}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestFullApi", "RestFullApi\RestFullApi.csproj", "{F28CCC50-1640-4584-8B3E-AAA683768A37}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "AngularApp", "AngularApp\AngularApp.esproj", "{E18B0571-637C-4774-BF92-5967FB872C47}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D708FF49-F27E-4503-91E0-2BCCFB037B27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D708FF49-F27E-4503-91E0-2BCCFB037B27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D708FF49-F27E-4503-91E0-2BCCFB037B27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D708FF49-F27E-4503-91E0-2BCCFB037B27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F472DAD-629B-4ACE-BD30-DBB0328AB391}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F472DAD-629B-4ACE-BD30-DBB0328AB391}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F472DAD-629B-4ACE-BD30-DBB0328AB391}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F472DAD-629B-4ACE-BD30-DBB0328AB391}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F28CCC50-1640-4584-8B3E-AAA683768A37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F28CCC50-1640-4584-8B3E-AAA683768A37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F28CCC50-1640-4584-8B3E-AAA683768A37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F28CCC50-1640-4584-8B3E-AAA683768A37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E18B0571-637C-4774-BF92-5967FB872C47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E18B0571-637C-4774-BF92-5967FB872C47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E18B0571-637C-4774-BF92-5967FB872C47}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{E18B0571-637C-4774-BF92-5967FB872C47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E18B0571-637C-4774-BF92-5967FB872C47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E18B0571-637C-4774-BF92-5967FB872C47}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E7ED97BD-1808-4D5B-A4D0-B4B72428052F}
+	EndGlobalSection
+EndGlobal

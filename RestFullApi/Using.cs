@@ -1,0 +1,9 @@
+﻿global using Microsoft.EntityFrameworkCore;
+global using Microsoft.AspNetCore.Mvc;
+global using VotingSystemDatabase.Models;
+global using RestFullApi.Dto.Request;
+global using RestFullApi.Dto.Response;
+global using Mail;
+global using RestFullApi.Commons;
+global using System.Security.Cryptography;
+global using System.Text;
