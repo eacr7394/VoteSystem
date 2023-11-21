@@ -5,7 +5,7 @@ public partial class VoteSystemContext : DbContext
 
     private const string CONNECTION_STRING = $"Server=localhost;Port=3306;User=root;Password=4094;Database=vote_system;";
     private string ConnectionString { get; }
-
+    
     public VoteSystemContext()
     {
         ConnectionString = CONNECTION_STRING;

@@ -1,14 +1,19 @@
 ﻿namespace RestFullApi.Controllers;
 
+[ClaimRequirement(ClaimPermissionName.AdminController, ClaimPermissionValue.FULL_ACCESS)]
 [Route("api/[controller]")]
 [ApiController]
-public class AssistantController : ControllerBase
+public class AssistantController : BaseController<AssistantController>
 {
+    public AssistantController(ILogger<AssistantController> logger, 
+        VoteSystemContext voteSystemContext) : base(logger, voteSystemContext)
+    {
+    }
+
     [HttpGet]
     public async Task<IEnumerable<AssistantResponse>> Get()
     {
-        using var context = new VoteSystemContext();
-        return await context.Assistants.Select(x => new AssistantResponse
+        return await VSContext.Assistants.Select(x => new AssistantResponse
         {
             Id = x.Id,
             Created = x.Created,
@@ -20,8 +25,7 @@ public class AssistantController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult> Get(string id)
     {
-        using var context = new VoteSystemContext();
-        var assistant = await context.Assistants.Select(x => new AssistantResponse
+        var assistant = await VSContext.Assistants.Select(x => new AssistantResponse
         {
             Id = x.Id,
             Created = x.Created,
@@ -38,8 +42,7 @@ public class AssistantController : ControllerBase
     [HttpPost]
     public async Task Post([FromBody] AssistantRequest request)
     {
-        using var context = new VoteSystemContext();
-        await context.Assistants.AddAsync(new Assistant
+        await VSContext.Assistants.AddAsync(new Assistant
         {
             Id = Guid.NewGuid().ToString(),
             Created = DateTime.UtcNow,
@@ -47,21 +50,20 @@ public class AssistantController : ControllerBase
             UnitId = request.UnitId,
 
         });
-        await context.SaveChangesAsync();
+        await VSContext.SaveChangesAsync();
     }
 
 
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(string id)
     {
-        using var context = new VoteSystemContext();
-        var assistant = await context.Assistants.SingleOrDefaultAsync(x => x.Id == id);
+        var assistant = await VSContext.Assistants.SingleOrDefaultAsync(x => x.Id == id);
         if (assistant == null)
         {
             return NotFound();
         }
-        context.Assistants.Remove(assistant);
-        await context.SaveChangesAsync();
+        VSContext.Assistants.Remove(assistant);
+        await VSContext.SaveChangesAsync();
         return Ok();
     }
 }

@@ -1,12 +1,15 @@
 ﻿namespace RestFullApi.Controllers;
 
+[ClaimRequirement(ClaimPermissionName.AdminController, ClaimPermissionValue.FULL_ACCESS)]
 [Route("api/[controller]")]
 [ApiController]
-public class UserHasVotingController : ControllerBase
+public class UserHasVotingController : BaseController<UserHasVotingController>
 {
     private readonly SmtpClient SmtpClient;
 
-    public UserHasVotingController(SmtpClient smtpClient)
+    public UserHasVotingController(ILogger<UserHasVotingController> logger,
+        VoteSystemContext voteSystemContext, SmtpClient smtpClient) : base(logger,
+            voteSystemContext)
     {
         SmtpClient = smtpClient;
     }
@@ -14,8 +17,7 @@ public class UserHasVotingController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<UserHasVotingResponse>> Get()
     {
-        using var context = new VoteSystemContext();
-        return await context.UserHasVotings.Select(x => new UserHasVotingResponse
+        return await VSContext.UserHasVotings.Select(x => new UserHasVotingResponse
         {
             Accepted = x.Accepted,
             Created = x.Created,
@@ -34,8 +36,7 @@ public class UserHasVotingController : ControllerBase
     [HttpGet("{userId}/{votingId}")]
     public async Task<ActionResult> Get(string userId, string votingId)
     {
-        using var context = new VoteSystemContext();
-        var user = await context.UserHasVotings.Select(x => new UserHasVotingResponse
+        var user = await VSContext.UserHasVotings.Select(x => new UserHasVotingResponse
         {
             Accepted = x.Accepted,
             Created = x.Created,
@@ -59,10 +60,9 @@ public class UserHasVotingController : ControllerBase
     [HttpPost]
     public async Task Post([FromBody] UserHasVotingRequest request)
     {
-        using var context = new VoteSystemContext();
         var uniqueKey = StringExtension.RandomString(250);
-        var user = context.Users.Single(x=> x.Id == request.UserId);
-        var voting = context.Votings.Single(x => x.Id == request.VotingId);
+        var user = VSContext.Users.Single(x => x.Id == request.UserId);
+        var voting = VSContext.Votings.Single(x => x.Id == request.VotingId);
         var template = new SmtpTemplate(SmtpTemplate.Template.VoteRequest);
         template.AddParameter(new SmtpTemplateParameter
         {
@@ -100,7 +100,7 @@ public class UserHasVotingController : ControllerBase
             Value = uniqueKey,
         });
         template.AddResources(VoteRequest.PhMonteBelloLogo, VoteRequest.PhMonteBelloLogoCid);
-        await context.UserHasVotings.AddAsync(new UserHasVoting
+        await VSContext.UserHasVotings.AddAsync(new UserHasVoting
         {
             Accepted = "no",
             Created = DateTime.UtcNow,
@@ -115,7 +115,7 @@ public class UserHasVotingController : ControllerBase
             VotingMeetingAdminId = request.VotingMeetingAdminId,
         });
         SmtpClient.Send(user.Email, template);
-        await context.SaveChangesAsync();
+        await VSContext.SaveChangesAsync();
     }
 
     [HttpPut("{userId}/{votingId}")]
@@ -124,8 +124,7 @@ public class UserHasVotingController : ControllerBase
         request.UserId = userId;
         request.VotingId = votingId;
 
-        using var context = new VoteSystemContext();
-        var user = await context.UserHasVotings.SingleOrDefaultAsync(x => x.UserId == request.UserId && x.VotingId == request.VotingId);
+        var user = await VSContext.UserHasVotings.SingleOrDefaultAsync(x => x.UserId == request.UserId && x.VotingId == request.VotingId);
         if (user == null)
         {
             return NotFound();
@@ -136,21 +135,20 @@ public class UserHasVotingController : ControllerBase
         }
         user.Accepted = request.Accepted;
         user.VotedTime = DateTime.UtcNow;
-        await context.SaveChangesAsync();
+        await VSContext.SaveChangesAsync();
         return Ok();
     }
 
     [HttpDelete("{userId}/{votingId}")]
     public async Task<ActionResult> Delete(string userId, string votingId)
     {
-        using var context = new VoteSystemContext();
-        var user = await context.UserHasVotings.SingleOrDefaultAsync(x => x.UserId == userId && x.VotingId == votingId);
+        var user = await VSContext.UserHasVotings.SingleOrDefaultAsync(x => x.UserId == userId && x.VotingId == votingId);
         if (user == null)
         {
             return NotFound();
         }
-        context.UserHasVotings.Remove(user);
-        await context.SaveChangesAsync();
+        VSContext.UserHasVotings.Remove(user);
+        await VSContext.SaveChangesAsync();
         return Ok();
     }
 }

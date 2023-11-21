@@ -1,14 +1,19 @@
 ﻿namespace RestFullApi.Controllers;
 
+[ClaimRequirement(ClaimPermissionName.AdminController, ClaimPermissionValue.FULL_ACCESS)]
 [Route("api/[controller]")]
 [ApiController]
-public class AdminController : ControllerBase
+public class AdminController : BaseController<AdminController>
 {
+    public AdminController(ILogger<AdminController> logger, VoteSystemContext voteSystemContext) 
+        : base(logger, voteSystemContext)
+    {
+    }
+
     [HttpGet]
     public async Task<IEnumerable<AdminResponse>> Get()
     {
-        using var context = new VoteSystemContext();
-        return await context.Admins.Select(x => new AdminResponse
+        return await VSContext.Admins.Select(x => new AdminResponse
         {
             Id = x.Id,
             Email = x.Email,
@@ -19,14 +24,13 @@ public class AdminController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult> Get(string id)
     {
-        using var context = new VoteSystemContext();
-        var admin = await context.Admins.Select(x => new AdminResponse
+        var admin = await VSContext.Admins.Select(x => new AdminResponse
         {
             Id = x.Id,
             Email = x.Email,
             Username = x.Username
         }).SingleOrDefaultAsync(x => x.Id == id);
-        if(admin == null)
+        if (admin == null)
         {
             return NotFound();
         }
@@ -36,29 +40,27 @@ public class AdminController : ControllerBase
     [HttpPost]
     public async Task Post([FromBody] AdminRequest request)
     {
-        using var context = new VoteSystemContext();
-        await context.Admins.AddAsync(new Admin
+        await VSContext.Admins.AddAsync(new Admin
         {
             Id = Guid.NewGuid().ToString(),
             Email = request.Email,
             Username = request.Username,
             Password = StringExtension.GetSHA256Hash(request.Password),
         });
-        await context.SaveChangesAsync();
+        await VSContext.SaveChangesAsync();
     }
 
 
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(string id)
     {
-        using var context = new VoteSystemContext();
-        var admin = await context.Admins.SingleOrDefaultAsync(x => x.Id == id);
+        var admin = await VSContext.Admins.SingleOrDefaultAsync(x => x.Id == id);
         if (admin == null)
         {
             return NotFound();
         }
-        context.Admins.Remove(admin);
-        await context.SaveChangesAsync();
+        VSContext.Admins.Remove(admin);
+        await VSContext.SaveChangesAsync();
         return Ok();
     }
 }

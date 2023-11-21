@@ -1,14 +1,19 @@
 ﻿namespace RestFullApi.Controllers;
 
+[ClaimRequirement(ClaimPermissionName.AdminController, ClaimPermissionValue.FULL_ACCESS)]
 [Route("api/[controller]")]
 [ApiController]
-public class VotingController : ControllerBase
+public class VotingController : BaseController<VotingController>
 {
+    public VotingController(ILogger<VotingController> logger, VoteSystemContext voteSystemContext)
+        : base(logger, voteSystemContext)
+    {
+    }
+
     [HttpGet]
     public async Task<IEnumerable<VotingResponse>> Get()
     {
-        using var context = new VoteSystemContext();
-        return await context.Votings.Select(x => new VotingResponse
+        return await VSContext.Votings.Select(x => new VotingResponse
         {
             Id = x.Id,
             Description = x.Description,
@@ -20,15 +25,14 @@ public class VotingController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult> Get(string id)
     {
-        using var context = new VoteSystemContext();
-        var voting = await context.Votings.Select(x => new VotingResponse
+        var voting = await VSContext.Votings.Select(x => new VotingResponse
         {
             Id = x.Id,
             Description = x.Description,
             MeetingId = x.MeetingId,
             MeetingAdminId = x.MeetingAdminId
         }).SingleOrDefaultAsync(x => x.Id == id);
-        if(voting == null)
+        if (voting == null)
         {
             return NotFound();
         }

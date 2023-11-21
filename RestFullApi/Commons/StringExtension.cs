@@ -30,4 +30,23 @@ public static class StringExtension
         }
         return hex.ToString();
     }
+
+    public static string GetClientIpAddress(HttpContext httpContext)
+    {
+        // Attempt to get the client's IP address
+        var clientIpAddress = httpContext.Connection.RemoteIpAddress;
+
+        // If the client is behind a proxy, you might need to consider X-Forwarded-For header
+        var forwardedHeader = httpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault();
+        if (!string.IsNullOrEmpty(forwardedHeader))
+        {
+            // Use the first IP address in the comma-separated list
+            clientIpAddress = IPAddress.Parse(forwardedHeader.Split(',')[0]);
+        }
+
+        // Convert the IP address to a string
+        var ipAddressString = clientIpAddress?.ToString() ?? "Unknown";
+
+        return ipAddressString;
+    }
 }

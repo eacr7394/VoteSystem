@@ -2,29 +2,34 @@
 
 [Route("api/[controller]")]
 [ApiController]
-public class UnitController : ControllerBase
+public class UnitController : BaseController<UnitController>
 {
+    public UnitController(ILogger<UnitController> logger, VoteSystemContext voteSystemContext) 
+        : base(logger,voteSystemContext)
+    {
+    }
+
+    [ClaimRequirement(ClaimPermissionName.UnitController, ClaimPermissionValue.GET_ALL)]
     [HttpGet]
     public async Task<IEnumerable<UnitResponse>> Get()
     {
-        using var context = new VoteSystemContext();
-        return await context.Units.Select(x => new UnitResponse
+        return await VSContext.Units.Select(x => new UnitResponse
         {
             Id = x.Id,
             Number = x.Number
         }).ToArrayAsync();
     }
 
+    [ClaimRequirement(ClaimPermissionName.UnitController, ClaimPermissionValue.GET)]
     [HttpGet("{number}")]
     public async Task<ActionResult> Get(int number)
     {
-        using var context = new VoteSystemContext();
-        var unit = await context.Units.Select(x => new UnitResponse
+        var unit = await VSContext.Units.Select(x => new UnitResponse
         {
             Id = x.Id,
             Number = x.Number,
         }).SingleOrDefaultAsync(x => x.Number == number);
-        if(unit == null)
+        if (unit == null)
         {
             return NotFound();
         }

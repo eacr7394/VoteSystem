@@ -6,11 +6,18 @@ namespace VotingSystemDatabase.Models;
 
 public partial class VoteSystemContext : DbContext
 {
+
     public virtual DbSet<Admin> Admins { get; set; }
 
     public virtual DbSet<Assistant> Assistants { get; set; }
 
+    public virtual DbSet<LogEntry> LogEntries { get; set; }
+
     public virtual DbSet<Meeting> Meetings { get; set; }
+
+    public virtual DbSet<Permission> Permissions { get; set; }
+
+    public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Unit> Units { get; set; }
 
@@ -86,6 +93,27 @@ public partial class VoteSystemContext : DbContext
                 .HasConstraintName("fk_assistant_unit1");
         });
 
+        modelBuilder.Entity<LogEntry>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("log_entry");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Category)
+                .HasMaxLength(250)
+                .HasColumnName("category");
+            entity.Property(e => e.CreatedAt)
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+            entity.Property(e => e.LogLevel)
+                .HasMaxLength(250)
+                .HasColumnName("log_level");
+            entity.Property(e => e.Message)
+                .HasColumnType("text")
+                .HasColumnName("message");
+        });
+
         modelBuilder.Entity<Meeting>(entity =>
         {
             entity.HasKey(e => new { e.Id, e.AdminId })
@@ -110,6 +138,97 @@ public partial class VoteSystemContext : DbContext
                 .HasForeignKey(d => d.AdminId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_meeting_admin1");
+        });
+
+        modelBuilder.Entity<Permission>(entity =>
+        {
+            entity.HasKey(e => new { e.ControllerName, e.ControllerAction })
+                .HasName("PRIMARY")
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+
+            entity.ToTable("permission");
+
+            entity.Property(e => e.ControllerName)
+                .HasMaxLength(50)
+                .HasColumnName("controller_name");
+            entity.Property(e => e.ControllerAction)
+                .HasMaxLength(50)
+                .HasColumnName("controller_action");
+        });
+
+        modelBuilder.Entity<Role>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("role");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(38)
+                .IsFixedLength()
+                .HasColumnName("id");
+            entity.Property(e => e.Description)
+                .HasMaxLength(50)
+                .HasColumnName("description");
+
+            entity.HasMany(d => d.Admins).WithMany(p => p.Roles)
+                .UsingEntity<Dictionary<string, object>>(
+                    "RoleHasAdmin",
+                    r => r.HasOne<Admin>().WithMany()
+                        .HasForeignKey("AdminId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("fk_role_has_admin_admin1"),
+                    l => l.HasOne<Role>().WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("fk_role_has_admin_role1"),
+                    j =>
+                    {
+                        j.HasKey("RoleId", "AdminId")
+                            .HasName("PRIMARY")
+                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+                        j.ToTable("role_has_admin");
+                        j.HasIndex(new[] { "AdminId" }, "fk_role_has_admin_admin1_idx");
+                        j.HasIndex(new[] { "RoleId" }, "fk_role_has_admin_role1_idx");
+                        j.IndexerProperty<string>("RoleId")
+                            .HasMaxLength(38)
+                            .IsFixedLength()
+                            .HasColumnName("role_id");
+                        j.IndexerProperty<string>("AdminId")
+                            .HasMaxLength(38)
+                            .IsFixedLength()
+                            .HasColumnName("admin_id");
+                    });
+
+            entity.HasMany(d => d.PermissionControllers).WithMany(p => p.Roles)
+                .UsingEntity<Dictionary<string, object>>(
+                    "RoleHasPermission",
+                    r => r.HasOne<Permission>().WithMany()
+                        .HasForeignKey("PermissionControllerName", "PermissionControllerAction")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("fk_role_has_permission_permission1"),
+                    l => l.HasOne<Role>().WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("fk_role_has_permission_role1"),
+                    j =>
+                    {
+                        j.HasKey("RoleId", "PermissionControllerName", "PermissionControllerAction")
+                            .HasName("PRIMARY")
+                            .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0 });
+                        j.ToTable("role_has_permission");
+                        j.HasIndex(new[] { "PermissionControllerName", "PermissionControllerAction" }, "fk_role_has_permission_permission1_idx");
+                        j.HasIndex(new[] { "RoleId" }, "fk_role_has_permission_role1_idx");
+                        j.IndexerProperty<string>("RoleId")
+                            .HasMaxLength(38)
+                            .IsFixedLength()
+                            .HasColumnName("role_id");
+                        j.IndexerProperty<string>("PermissionControllerName")
+                            .HasMaxLength(50)
+                            .HasColumnName("permission_controller_name");
+                        j.IndexerProperty<string>("PermissionControllerAction")
+                            .HasMaxLength(50)
+                            .HasColumnName("permission_controller_action");
+                    });
         });
 
         modelBuilder.Entity<Unit>(entity =>
