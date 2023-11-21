@@ -13,6 +13,10 @@ public partial class Admin
 
     public string Password { get; set; } = null!;
 
+    public int BlockCounter { get; set; }
+
+    public DateTime? BlockedTime { get; set; }
+
     public virtual ICollection<Meeting> Meetings { get; set; } = new List<Meeting>();
 
     public virtual ICollection<Role> Roles { get; set; } = new List<Role>();

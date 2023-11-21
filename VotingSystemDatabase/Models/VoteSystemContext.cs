@@ -49,6 +49,10 @@ public partial class VoteSystemContext : DbContext
                 .HasMaxLength(38)
                 .IsFixedLength()
                 .HasColumnName("id");
+            entity.Property(e => e.BlockCounter).HasColumnName("block_counter");
+            entity.Property(e => e.BlockedTime)
+                .HasColumnType("datetime")
+                .HasColumnName("blocked_time");
             entity.Property(e => e.Email)
                 .HasMaxLength(350)
                 .HasColumnName("email");

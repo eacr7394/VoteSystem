@@ -2,6 +2,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 var tokenParams = builder.Configuration.GetSection("TokenValidationParametersConfiguration");
 
+string[] allowedOrigins = builder.Configuration.GetSection("CorsSettings:AllowOrigins").Get<string[]>()!;
+string[] allowedHeaders = builder.Configuration.GetSection("CorsSettings:AllowHeaders").Get<string[]>()!;
+string[] allowedMethods = builder.Configuration.GetSection("CorsSettings:AllowMethods").Get<string[]>()!;
+
 builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
 
 builder.Services.Configure<TokenValidationParametersConfiguration>(builder.Configuration
@@ -94,8 +98,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder =>
+        {
+            builder.WithOrigins(allowedOrigins)
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials();
+        });
+});
 var app = builder.Build();
+
+app.UseCors("AllowSpecificOrigin");
 
 app.UseMiddleware<ExceptionMiddleware>();
 

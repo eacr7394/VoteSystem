@@ -16,22 +16,41 @@ public class AuthController : BaseController<AuthController>
         env = environment;
     }
 
-    private IActionResult SendJSONWebToken(LoginModel login)
+    private async Task<IActionResult> SendJSONWebToken(LoginModel login)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenParametersConfiguration.IssuerSigningKey));
 
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
         var user = VSContext.Admins.SingleOrDefault(x => x.Username == login.Username);
+        var passwordSha256 = StringExtension.GetSHA256Hash(login.Password);
 
         if (user == null)
         {
             return Forbid();
         }
-        var passwordSha256 = StringExtension.GetSHA256Hash(login.Password);
-        if (user.Password != passwordSha256)
+        else if (user.BlockedTime.HasValue && (DateTime.UtcNow - user.BlockedTime.Value).Hours <= 24)
         {
+            return BadRequest(new
+            {
+                Error = "Su usuario ha sido bloqueado"
+            });
+        }
+        else if (user.Password != passwordSha256 && user.BlockCounter < 3)
+        {
+            user.BlockCounter++;
+            await VSContext.SaveChangesAsync();
             return Forbid();
+        }
+        else if (user.Password != passwordSha256 && user.BlockCounter >= 3)
+        {
+            user.BlockCounter = 0;
+            user.BlockedTime = DateTime.UtcNow;
+            await VSContext.SaveChangesAsync();
+            return BadRequest(new
+            {
+                Error = "Su usuario ha sido bloqueado"
+            });
         }
 
         Logger.LogInformation(Serialize(user));
@@ -61,9 +80,8 @@ public class AuthController : BaseController<AuthController>
             IsEssential = true,
             Secure = true,
             SameSite = SameSiteMode.Strict,
-            Domain = tokenParametersConfiguration.Domain,
-            Expires = DateTime.UtcNow.AddDays(1),
-            MaxAge = TimeSpan.FromDays(1),
+            Expires = DateTime.UtcNow.AddHours(1),
+            MaxAge = TimeSpan.FromHours(1),
         });
 
         if (env.IsDevelopment())
@@ -75,9 +93,9 @@ public class AuthController : BaseController<AuthController>
 
 
     [HttpPost("authorize")]
-    public IActionResult Authorize([FromBody] LoginModel login)
+    public async Task<IActionResult> Authorize([FromBody] LoginModel login)
     {
-        return SendJSONWebToken(login);
+        return await SendJSONWebToken(login);
     }
 
     [Authorize]

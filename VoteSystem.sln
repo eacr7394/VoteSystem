@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mail", "Mail\Mail.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestFullApi", "RestFullApi\RestFullApi.csproj", "{F28CCC50-1640-4584-8B3E-AAA683768A37}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "AngularApp", "AngularApp\AngularApp.esproj", "{E18B0571-637C-4774-BF92-5967FB872C47}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "AngularVoteSystemApp", "AngularVoteSystemApp\AngularVoteSystemApp.esproj", "{E3B27FA3-388D-4837-999E-4CD7B64AE562}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,12 +29,12 @@ Global
 		{F28CCC50-1640-4584-8B3E-AAA683768A37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F28CCC50-1640-4584-8B3E-AAA683768A37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F28CCC50-1640-4584-8B3E-AAA683768A37}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E18B0571-637C-4774-BF92-5967FB872C47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E18B0571-637C-4774-BF92-5967FB872C47}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E18B0571-637C-4774-BF92-5967FB872C47}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{E18B0571-637C-4774-BF92-5967FB872C47}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E18B0571-637C-4774-BF92-5967FB872C47}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E18B0571-637C-4774-BF92-5967FB872C47}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{E3B27FA3-388D-4837-999E-4CD7B64AE562}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3B27FA3-388D-4837-999E-4CD7B64AE562}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3B27FA3-388D-4837-999E-4CD7B64AE562}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{E3B27FA3-388D-4837-999E-4CD7B64AE562}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3B27FA3-388D-4837-999E-4CD7B64AE562}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3B27FA3-388D-4837-999E-4CD7B64AE562}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

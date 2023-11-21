@@ -1,1 +1,0 @@
-C:\Users\edwin\source\repos\VoteSystem\AngularApp\obj\Debug\AngularApp.esproj.CoreCompileInputs.cache
