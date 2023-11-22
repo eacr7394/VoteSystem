@@ -1,1 +1,69 @@
-Crear Usuario
+<c-row class="justify-content-center">
+  <c-col md="6">
+    <c-card class="p-3">
+      <c-card-body>
+        <form cForm>
+          <c-row class="justify-content-center text-center">
+            <p class="text-medium-emphasis">Creación de Propietario</p>
+            <c-input-group class="mb-3">
+              <span cInputGroupText>
+                <svg cIcon name="cilUser"></svg>
+              </span>
+              <input type="email" name="email" [(ngModel)]="this.email" autoComplete="email" cFormControl placeholder="Correo Electrónico" />
+            </c-input-group>
+
+            <c-input-group class="mb-3">
+              <span cInputGroupText>
+                <svg cIcon name="cilUser"></svg>
+              </span>
+              <input name="name" [(ngModel)]="this.name" autoComplete="name" cFormControl placeholder="Nombre" />
+            </c-input-group>
+
+            <c-input-group class="mb-3">
+              <span cInputGroupText>
+                <svg cIcon name="cilUser"></svg>
+              </span>
+              <input name="lastname" [(ngModel)]="this.lastname" autoComplete="lastname" cFormControl placeholder="Apellido" />
+            </c-input-group>
+
+            <c-input-group class="mb-3">
+              <span cInputGroupText>
+                <svg cIcon name="cilUser"></svg>
+              </span>
+              <ng-select id="unitsSelect"
+                         [ngModelOptions]="{standalone: true}"
+                         [items]="options"
+                         bindLabel="number"
+                         bindValue="id"
+                         [(ngModel)]="this.unitId"
+                         placeholder="Casa #"
+                         (search)="onSearch($event.term)"
+                         class="form-control ng-select-left"
+                         style="z-index: 1000;">
+                <ng-template ng-option let-item="item" let-index="index">
+                  <div class="p-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span> {{ item.number }}</span>
+                      <small class="text-muted">ID: {{ item.id }}</small>
+                    </div>
+                  </div>
+                </ng-template>
+              </ng-select>
+            </c-input-group>
+
+            <p></p>
+            <c-row class="justify-content-center text-center" style="color:red;" [hidden]="!error">
+              <h6>{{this.errorMessage}}</h6>
+            </c-row>
+            <c-row class="justify-content-center text-center">
+              <button cButton class="px-7" color="primary" (click)="createUser()">
+                Crear
+              </button>
+            </c-row>
+          </c-row>
+        </form>
+
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>

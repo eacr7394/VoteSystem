@@ -12,5 +12,13 @@ export class UserListService {
   private apiUrl = environment.apiUrl + "/user";
 
   constructor(private http: HttpClient, private db: IndexedDbService) { }
-            
+
+  public async getUsers(): Promise<Observable<any>> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const options = { headers, withCredentials: true };          
+    return this.http.get(`${this.apiUrl}`, options);
+  }
+
 }

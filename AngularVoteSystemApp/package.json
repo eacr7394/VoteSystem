@@ -35,6 +35,7 @@
     "@coreui/icons": "^3.0.1",
     "@coreui/icons-angular": "~4.5.27",
     "@coreui/utils": "^2.0.2",
+    "@ng-select/ng-select": "^12.0.4",
     "chart.js": "^3.9.1",
     "idb": "^7.1.1",
     "lodash-es": "^4.17.21",

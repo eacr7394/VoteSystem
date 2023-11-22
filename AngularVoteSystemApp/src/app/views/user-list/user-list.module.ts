@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '@coreui/angular';
+import { SmartTableModule } from '../../../lib/smart-table/smart-table.module';
 
 import {
   AvatarModule,
@@ -40,7 +42,9 @@ import { WidgetsModule } from '../widgets/widgets.module';
     ChartjsModule,
     AvatarModule,
     TableModule,
-    WidgetsModule
+    WidgetsModule,
+    SmartTableModule,
+    SharedModule
   ],
   declarations: [UserListComponent]
 })

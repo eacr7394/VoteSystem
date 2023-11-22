@@ -1,6 +1,6 @@
 ﻿namespace RestFullApi.Controllers;
 
-[ClaimRequirement(ClaimPermissionName.AdminController, ClaimPermissionValue.FULL_ACCESS)]
+[ClaimRequirement(ClaimPermissionName.UserController, ClaimPermissionValue.FULL_ACCESS)]
 [Route("api/[controller]")]
 [ApiController]
 public class UserController : BaseController<UserController>
@@ -60,16 +60,4 @@ public class UserController : BaseController<UserController>
         await VSContext.SaveChangesAsync();
     }
 
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete(string id)
-    {
-        var user = await VSContext.Users.SingleOrDefaultAsync(x => x.Id == id);
-        if (user == null)
-        {
-            return NotFound();
-        }
-        VSContext.Users.Remove(user);
-        await VSContext.SaveChangesAsync();
-        return Ok();
-    }
 }

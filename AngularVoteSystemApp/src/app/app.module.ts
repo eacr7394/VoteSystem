@@ -38,6 +38,7 @@ import {
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
+import { SmartTableModule } from '../lib/smart-table/smart-table.module';
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -47,7 +48,8 @@ const APP_CONTAINERS = [
 
 @NgModule({
   declarations: [AppComponent, ...APP_CONTAINERS],
-  imports: [     
+  imports: [
+    SmartTableModule,
     HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,

@@ -5,3 +5,23 @@
     }
   }
 }
+
+.ng-dropdown-panel {
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ng-dropdown-panel .ng-option {
+  padding: 8px;
+}
+
+.ng-dropdown-panel .ng-option.ng-option-marked {
+  background-color: #007bff;
+  color: white;
+}
+
+.ng-dropdown-panel .ng-option.ng-option-marked:hover {
+  background-color: #0056b3;
+}
+
