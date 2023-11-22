@@ -52,18 +52,4 @@ public class AssistantController : BaseController<AssistantController>
         });
         await VSContext.SaveChangesAsync();
     }
-
-
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete(string id)
-    {
-        var assistant = await VSContext.Assistants.SingleOrDefaultAsync(x => x.Id == id);
-        if (assistant == null)
-        {
-            return NotFound();
-        }
-        VSContext.Assistants.Remove(assistant);
-        await VSContext.SaveChangesAsync();
-        return Ok();
-    }
 }

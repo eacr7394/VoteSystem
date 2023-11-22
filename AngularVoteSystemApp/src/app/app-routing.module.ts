@@ -5,12 +5,17 @@ import { DefaultLayoutComponent } from './containers';
 import { Page404Component } from './views/pages/page404/page404.component';
 import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
-import { RegisterComponent } from './views/pages/register/register.component';
+import { AuthGuard } from './auth.guard';
+import { RoleGuard } from './role.guard';
+
+import { UserListComponent } from './views/user-list/user-list.component';
+import { UserCreateComponent } from './views/user-create/user-create.component';
+import { UserDeleteComponent } from './views/user-delete/user-delete.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'user-list',  
     pathMatch: 'full'
   },
   {
@@ -21,51 +26,25 @@ const routes: Routes = [
     },
     children: [
       {
-        path: 'dashboard',
+        canActivate: [AuthGuard, RoleGuard],
+        path: 'user-list',
         loadChildren: () =>
-          import('./views/dashboard/dashboard.module').then((m) => m.DashboardModule)
+          import('./views/user-list/user-list.module').then((m) => m.UserListModule)
       },
       {
-        path: 'theme',
+        canActivate: [AuthGuard, RoleGuard],
+        path: 'user-create',
         loadChildren: () =>
-          import('./views/theme/theme.module').then((m) => m.ThemeModule)
+          import('./views/user-create/user-create.module').then((m) => m.UserCreateModule)
       },
       {
-        path: 'base',
+        canActivate: [AuthGuard, RoleGuard],
+        path: 'user-delete',
         loadChildren: () =>
-          import('./views/base/base.module').then((m) => m.BaseModule)
+          import('./views/user-delete/user-delete.module').then((m) => m.UserDeleteModule)
       },
       {
-        path: 'buttons',
-        loadChildren: () =>
-          import('./views/buttons/buttons.module').then((m) => m.ButtonsModule)
-      },
-      {
-        path: 'forms',
-        loadChildren: () =>
-          import('./views/forms/forms.module').then((m) => m.CoreUIFormsModule)
-      },
-      {
-        path: 'charts',
-        loadChildren: () =>
-          import('./views/charts/charts.module').then((m) => m.ChartsModule)
-      },
-      {
-        path: 'icons',
-        loadChildren: () =>
-          import('./views/icons/icons.module').then((m) => m.IconsModule)
-      },
-      {
-        path: 'notifications',
-        loadChildren: () =>
-          import('./views/notifications/notifications.module').then((m) => m.NotificationsModule)
-      },
-      {
-        path: 'widgets',
-        loadChildren: () =>
-          import('./views/widgets/widgets.module').then((m) => m.WidgetsModule)
-      },
-      {
+        canActivate: [AuthGuard, RoleGuard],
         path: 'pages',
         loadChildren: () =>
           import('./views/pages/pages.module').then((m) => m.PagesModule)
@@ -94,13 +73,14 @@ const routes: Routes = [
     }
   },
   {
-    path: 'register',
-    component: RegisterComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    path: 'user-list',
+    component: UserListComponent,
     data: {
-      title: 'Register Page'
+      title: 'User List Page'
     }
   },
-  {path: '**', redirectTo: 'login'}
+  { path: '**', redirectTo: 'user-list'}
 ];
 
 @NgModule({

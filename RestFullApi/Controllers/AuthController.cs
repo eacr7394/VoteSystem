@@ -73,6 +73,11 @@ public class AuthController : BaseController<AuthController>
 
         var token = $"Bearer {new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken)}";
 
+        if (user.BlockCounter != 0)
+        {
+            user.BlockCounter = 0;
+            await VSContext.SaveChangesAsync();
+        }
 
         Response.Cookies.Append(Authorization, token, new CookieOptions()
         {

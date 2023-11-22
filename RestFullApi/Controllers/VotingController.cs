@@ -53,17 +53,4 @@ public class VotingController : BaseController<VotingController>
         await context.SaveChangesAsync();
     }
 
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete(string id)
-    {
-        using var context = new VoteSystemContext();
-        var voting = await context.Votings.SingleOrDefaultAsync(x => x.Id == id);
-        if (voting == null)
-        {
-            return NotFound();
-        }
-        context.Votings.Remove(voting);
-        await context.SaveChangesAsync();
-        return Ok();
-    }
 }

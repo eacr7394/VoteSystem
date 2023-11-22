@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { LoginService } from './login.service';
+import { IndexedDbService } from '../../../indexed-db.service';
+import {  Router } from '@angular/router';   
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,16 @@ export class LoginComponent {
   protected error: boolean = false;
   protected errorMessage: string = "Verifique sus credenciales";
 
-  constructor(private loginService: LoginService) { }
+  constructor(private loginService: LoginService, private db: IndexedDbService,
+    private router: Router) {
+  }
+
+  async ngOnInit(): Promise<void> {
+
+    if (await this.loginService.isAuthenticated()) {
+      this.router.navigate(['/user-list']);
+    }
+  }
 
   clearForm(): void {
     this.errorMessage = "Verifique sus credenciales";
@@ -28,6 +39,8 @@ export class LoginComponent {
     this.loginService.login(this.userName, this.password).subscribe(
       (response: any) => {
         this.clearForm();
+        this.db.set(this.db.IsAuthenticatedKey, true);
+        this.router.navigate(['/user-list']);
         console.log('Inicio de sesión exitoso', response);
       },
       (response: any) => {

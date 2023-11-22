@@ -60,20 +60,6 @@ public class UserController : BaseController<UserController>
         await VSContext.SaveChangesAsync();
     }
 
-    [HttpPut("{id}")]
-    public async Task<ActionResult> Put(string id, [FromBody] UserRequest request)
-    {
-        request.Id = id;
-        var user = await VSContext.Users.SingleOrDefaultAsync(x => x.Id == request.Id);
-        if (user == null)
-        {
-            return NotFound();
-        }
-        user.Updated = DateTime.UtcNow;
-        await VSContext.SaveChangesAsync();
-        return Ok();
-    }
-
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(string id)
     {
