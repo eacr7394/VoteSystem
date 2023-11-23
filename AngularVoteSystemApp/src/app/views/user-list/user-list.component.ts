@@ -25,7 +25,7 @@ export class UserListComponent implements OnInit {
         itemArray.forEach((item: any) => {
           let user: IItem = {
             Correo: item.email, Nombre: item.name, Apellido: item.lastname,
-            '# de Casa': item.unitNumber, Creado: item.created, Actualizado: item.updated
+            '# de Casa': item.unitNumber, Creado: new Date(item.created).toLocaleString(), Actualizado: new Date(item.updated).toLocaleString()
           };
           users.push(user);
         });

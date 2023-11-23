@@ -1,0 +1,36 @@
+<c-row class="justify-content-center">
+  <c-col md="6">
+    <c-card class="p-3">
+      <c-card-body>
+        <form cForm [formGroup]="form">
+          <c-row class="justify-content-center text-center">
+            <h6 class="text-medium-emphasis">Creación de Asamblea</h6>
+
+            <c-input-group class="mb-3">
+              <c-input-group style="color: black" class="mb-3">
+                <h6>Introduce la fecha de la Asamblea</h6>
+              </c-input-group>
+
+              <span cInputGroupText>
+                <svg cIcon></svg>
+              </span>
+
+              <c-date-picker cFormControl formControlName="dateCreated" #dateCreated [(ngModel)]="date" closeOnSelect placeholder="Fecha de Asamblea" cFormControl />
+
+            </c-input-group>
+
+            <c-row class="justify-content-center text-center" style="color:red;" *ngIf="error">
+              <h6>{{ errorMessage }}</h6>
+            </c-row>
+
+            <c-row class="justify-content-center text-center">
+              <button cButton class="px-7" color="primary" (click)="createMeeting()">
+                Crear
+              </button>
+            </c-row>
+          </c-row>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>

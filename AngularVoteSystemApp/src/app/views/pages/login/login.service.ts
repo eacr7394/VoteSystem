@@ -35,6 +35,11 @@ export class LoginService {
     return authenticated;
   }
 
+  public async getUserId(): Promise<string> {
+    let userId: string = await this.db.get(this.db.UserIdKey);
+    return userId;
+  }
+
   public async hasRole(role: any): Promise<boolean> {
     return true;
   }

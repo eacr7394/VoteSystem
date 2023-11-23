@@ -6,7 +6,6 @@ namespace VotingSystemDatabase.Models;
 
 public partial class VoteSystemContext : DbContext
 {
-
     public virtual DbSet<Admin> Admins { get; set; }
 
     public virtual DbSet<Assistant> Assistants { get; set; }
@@ -140,6 +139,8 @@ public partial class VoteSystemContext : DbContext
                 .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
             entity.ToTable("meeting");
+
+            entity.HasIndex(e => e.Date, "date_UNIQUE").IsUnique();
 
             entity.HasIndex(e => e.AdminId, "fk_meeting_admin1_idx");
 

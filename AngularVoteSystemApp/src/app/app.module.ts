@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -38,7 +38,8 @@ import {
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
-import { SmartTableModule } from '../lib/smart-table/smart-table.module';
+import { SmartTableModule } from '../lib/smart-table/smart-table.module';    
+import { DatePickerModule } from '../lib/date-picker/date-picker.module';
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -49,6 +50,7 @@ const APP_CONTAINERS = [
 @NgModule({
   declarations: [AppComponent, ...APP_CONTAINERS],
   imports: [
+    DatePickerModule,
     SmartTableModule,
     HttpClientModule,
     BrowserModule,

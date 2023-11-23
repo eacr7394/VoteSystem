@@ -16,7 +16,7 @@ public class AuthController : BaseController<AuthController>
         env = environment;
     }
 
-    private async Task<IActionResult> SendJSONWebToken(LoginModel login)
+    private async Task<IActionResult> SendJSONWebToken(AuthRequest login)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenParametersConfiguration.IssuerSigningKey));
 
@@ -57,6 +57,7 @@ public class AuthController : BaseController<AuthController>
 
         var permissions = user.Roles.Select(role => role.PermissionControllers);
         List<Claim> claims = [new Claim(ClaimTypes.Name, login.Username)];
+
         foreach (var permission in permissions)
         {
             foreach (var item in permission)
@@ -64,6 +65,12 @@ public class AuthController : BaseController<AuthController>
                 claims.Add(new Claim(item.ControllerName, item.ControllerAction));
             }
         }
+
+        var response = new AuthResponse
+        {
+            Id = user.Id,
+            Roles = []
+        };
 
         var jwtSecurityToken = new JwtSecurityToken(issuer: tokenParametersConfiguration.Issuer,
           audience: tokenParametersConfiguration.Audience,
@@ -93,12 +100,12 @@ public class AuthController : BaseController<AuthController>
         {
             Response.Headers.Append(Authorization, token);
         }
-        return Ok();
+        return Ok(response);
     }
 
 
     [HttpPost("authorize")]
-    public async Task<IActionResult> Authorize([FromBody] LoginModel login)
+    public async Task<IActionResult> Authorize([FromBody] AuthRequest login)
     {
         return await SendJSONWebToken(login);
     }

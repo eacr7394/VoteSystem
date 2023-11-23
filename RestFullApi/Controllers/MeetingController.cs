@@ -1,6 +1,6 @@
 ﻿namespace RestFullApi.Controllers;
 
-[ClaimRequirement(ClaimPermissionName.AdminController, ClaimPermissionValue.FULL_ACCESS)]
+[ClaimRequirement(ClaimPermissionName.MeetingController, ClaimPermissionValue.FULL_ACCESS)]
 [Route("api/[controller]")]
 [ApiController]
 public class MeetingController : BaseController<MeetingController>
@@ -39,8 +39,15 @@ public class MeetingController : BaseController<MeetingController>
     }
 
     [HttpPost]
-    public async Task Post([FromBody] MeetingRequest request)
+    public async Task<IActionResult> Post([FromBody] MeetingRequest request)
     {
+        if (VSContext.Meetings.Any(x=> x.Date == request.Date))
+        {
+            return BadRequest(new
+            {
+                Error = "La fecha dada para la Asamblea ya existe"
+            });
+        }
         await VSContext.Meetings.AddAsync(new Meeting
         {
             Id = Guid.NewGuid().ToString(),
@@ -48,6 +55,7 @@ public class MeetingController : BaseController<MeetingController>
             AdminId = request.AdminId
         });
         await VSContext.SaveChangesAsync();
+        return NoContent();
     }
 
 }

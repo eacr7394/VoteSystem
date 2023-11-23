@@ -18,57 +18,57 @@ export const navItems: INavData[] = [
     },
     {
         name: 'Quórum',
-        url: '/assistant',
+        url: '#',
         iconComponent: { name: 'cil-star' },
         children: [
             {
                 name: 'Lista',
-                url: '/assistant/list'
+                url: '/assistant-list'
             },
             {
                 name: 'Creación',
-                url: '/assistant/create'
+                url: '/assistant-create'
             }
         ]
     },
     {
         name: 'Asambleas',
-        url: '/meeting',
+        url: '#',
         iconComponent: { name: 'cil-puzzle' },
         children: [
             {
                 name: 'Lista',
-                url: '/meeting/list'
+                url: '/meeting-list'
             },
             {
                 name: 'Creación',
-                url: '/meeting/create'
+                url: '/meeting-create'
             }
         ]
     },
     {
         name: 'Votaciones',
-        url: '/voting',
+        url: '#',
         iconComponent: { name: 'cil-notes' },
         children: [
             {
                 name: 'Lista',
-                url: '/voting/list'
+                url: '/voting-list'
             },
             {
                 name: 'Creación',
-                url: '/voting/create'
+                url: '/voting-create'
             }
         ]
     },
     {
         name: 'Votos de Propietarios',
-        url: '/user-has-voting',
+        url: '#',
         iconComponent: { name: 'cil-notes' },
         children: [
             {
                 name: 'Lista',
-                url: '/user-has-voting/list'
+                url: '/user-has-voting-list'
             }
         ]
     },

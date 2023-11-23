@@ -1,4 +1,6 @@
-﻿namespace RestFullApi.Dto.Request;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace RestFullApi.Dto.Request;
 
 public sealed class MeetingRequest
 {

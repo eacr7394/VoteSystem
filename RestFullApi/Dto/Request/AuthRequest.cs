@@ -1,6 +1,6 @@
-﻿namespace RestFullApi.Security.Authorize.Jwt;
+﻿namespace RestFullApi.Dto.Request;
 
-public class LoginModel
+public class AuthRequest
 {
     public string Username { get; set; } = null!;
     public string Password { get; set; } = null!;

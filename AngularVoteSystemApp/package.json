@@ -37,6 +37,7 @@
     "@coreui/utils": "^2.0.2",
     "@ng-select/ng-select": "^12.0.4",
     "chart.js": "^3.9.1",
+    "date-fns": "^2.30.0",
     "idb": "^7.1.1",
     "lodash-es": "^4.17.21",
     "ngx-scrollbar": "^13.0.3",

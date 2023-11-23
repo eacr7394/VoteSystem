@@ -10,7 +10,9 @@ import { RoleGuard } from './role.guard';
 
 import { UserListComponent } from './views/user-list/user-list.component';
 import { UserCreateComponent } from './views/user-create/user-create.component';
-import { UserDeleteComponent } from './views/user-delete/user-delete.component';
+
+import { MeetingListComponent } from './views/meeting-list/meeting-list.component';
+import { MeetingCreateComponent } from './views/meeting-create/meeting-create.component';
 
 const routes: Routes = [
   {
@@ -39,10 +41,16 @@ const routes: Routes = [
       },
       {
         canActivate: [AuthGuard, RoleGuard],
-        path: 'user-delete',
+        path: 'meeting-list',
         loadChildren: () =>
-          import('./views/user-delete/user-delete.module').then((m) => m.UserDeleteModule)
+          import('./views/meeting-list/meeting-list.module').then((m) => m.MeetingListModule)
       },
+      {
+        canActivate: [AuthGuard, RoleGuard],
+        path: 'meeting-create',
+        loadChildren: () =>
+          import('./views/meeting-create/meeting-create.module').then((m) => m.MeetingCreateModule)
+      }, 
       {
         canActivate: [AuthGuard, RoleGuard],
         path: 'pages',
@@ -78,6 +86,30 @@ const routes: Routes = [
     component: UserListComponent,
     data: {
       title: 'User List Page'
+    }
+  },
+  {
+    canActivate: [AuthGuard, RoleGuard],
+    path: 'user-create',
+    component: UserCreateComponent,
+    data: {
+      title: 'User Create Page'
+    }
+  },
+  {
+    canActivate: [AuthGuard, RoleGuard],
+    path: 'meeting-list',
+    component: MeetingListComponent,
+    data: {
+      title: 'Meeting List Page'
+    }
+  },
+  {
+    canActivate: [AuthGuard, RoleGuard],
+    path: 'meeting-create',
+    component: MeetingCreateComponent,
+    data: {
+      title: 'Meeting Create Page'
     }
   },
   { path: '**', redirectTo: 'user-list'}

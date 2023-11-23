@@ -40,6 +40,7 @@ export class LoginComponent {
       (response: any) => {
         this.clearForm();
         this.db.set(this.db.IsAuthenticatedKey, true);
+        this.db.set(this.db.UserIdKey, response.id);
         this.router.navigate(['/user-list']);
         console.log('Inicio de sesión exitoso', response);
       },
