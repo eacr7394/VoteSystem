@@ -22,7 +22,6 @@ import { ChartjsModule } from '@coreui/angular-chartjs';
 import { AssistantCreateRoutingModule } from './assistant-create-routing.module';
 import { AssistantCreateComponent } from './assistant-create.component';
 
-import { WidgetsModule } from '../widgets/widgets.module';
 
 @NgModule({
   imports: [
@@ -42,7 +41,6 @@ import { WidgetsModule } from '../widgets/widgets.module';
     ChartjsModule,
     AvatarModule,
     TableModule,
-    WidgetsModule,
     FormsModule,
     NgSelectModule
   ],

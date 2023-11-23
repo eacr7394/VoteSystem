@@ -22,8 +22,6 @@ import { ChartjsModule } from '@coreui/angular-chartjs';
 import { VotingCreateRoutingModule } from './voting-create-routing.module';
 import { VotingCreateComponent } from './voting-create.component';
 
-import { WidgetsModule } from '../widgets/widgets.module';
-
 @NgModule({
   imports: [
     VotingCreateRoutingModule,
@@ -42,7 +40,6 @@ import { WidgetsModule } from '../widgets/widgets.module';
     ChartjsModule,
     AvatarModule,
     TableModule,
-    WidgetsModule,
     FormsModule,
     NgSelectModule
   ],

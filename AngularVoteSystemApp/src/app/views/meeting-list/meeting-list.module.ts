@@ -22,8 +22,6 @@ import { ChartjsModule } from '@coreui/angular-chartjs';
 import { MeetingListRoutingModule } from './meeting-list-routing.module';
 import { MeetingListComponent } from './meeting-list.component';
 
-import { WidgetsModule } from '../widgets/widgets.module';
-
 @NgModule({
   imports: [
     MeetingListRoutingModule,
@@ -42,7 +40,6 @@ import { WidgetsModule } from '../widgets/widgets.module';
     ChartjsModule,
     AvatarModule,
     TableModule,
-    WidgetsModule,
     SmartTableModule,
     SharedModule
   ],

@@ -22,7 +22,6 @@ import { ChartjsModule } from '@coreui/angular-chartjs';
 import { VotingListRoutingModule } from './voting-list-routing.module';
 import { VotingListComponent } from './voting-list.component';
 
-import { WidgetsModule } from '../widgets/widgets.module';
 
 @NgModule({
   imports: [
@@ -42,7 +41,6 @@ import { WidgetsModule } from '../widgets/widgets.module';
     ChartjsModule,
     AvatarModule,
     TableModule,
-    WidgetsModule,
     SmartTableModule,
     SharedModule
   ],

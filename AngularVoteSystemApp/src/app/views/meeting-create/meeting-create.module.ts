@@ -22,8 +22,6 @@ import { ChartjsModule } from '@coreui/angular-chartjs';
 import { MeetingCreateRoutingModule } from './meeting-create-routing.module';
 import { MeetingCreateComponent } from './meeting-create.component';
 
-import { WidgetsModule } from '../widgets/widgets.module';
-
 @NgModule({
   imports: [
     MeetingCreateRoutingModule,
@@ -42,7 +40,6 @@ import { WidgetsModule } from '../widgets/widgets.module';
     ChartjsModule,
     AvatarModule,
     TableModule,
-    WidgetsModule,
     FormsModule,
     NgSelectModule,
     DatePickerModule

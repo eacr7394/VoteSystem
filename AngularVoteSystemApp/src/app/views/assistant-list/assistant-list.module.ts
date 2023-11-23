@@ -22,8 +22,6 @@ import { ChartjsModule } from '@coreui/angular-chartjs';
 import { AssistantListRoutingModule } from './assistant-list-routing.module';
 import { AssistantListComponent } from './assistant-list.component';
 
-import { WidgetsModule } from '../widgets/widgets.module';
-
 @NgModule({
   imports: [
     AssistantListRoutingModule,
@@ -42,7 +40,6 @@ import { WidgetsModule } from '../widgets/widgets.module';
     ChartjsModule,
     AvatarModule,
     TableModule,
-    WidgetsModule,
     SmartTableModule,
     SharedModule
   ],
