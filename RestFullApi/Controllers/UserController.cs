@@ -21,7 +21,8 @@ public class UserController : BaseController<UserController>
             UnitId = x.UnitId,
             Email = x.Email,
             Created = x.Created,
-            Updated = x.Updated
+            Updated = x.Updated,
+            UnitNumber = x.Unit.Number
         }).ToArrayAsync();
     }
 
@@ -36,7 +37,8 @@ public class UserController : BaseController<UserController>
             UnitId = x.UnitId,
             Email = x.Email,
             Created = x.Created,
-            Updated = x.Updated
+            Updated = x.Updated,
+            UnitNumber = x.Unit.Number
         }).SingleOrDefaultAsync(x => x.Id == id);
         if (user == null)
         {

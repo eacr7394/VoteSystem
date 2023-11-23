@@ -1,32 +1,36 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import { map, Observable } from 'rxjs';
 import { IItem } from '../../../lib/smart-table/smart-table.type';
 import { UserListService } from './user-list.service';
 
 @Component({
   templateUrl: 'user-list.component.html',
   styleUrls: ['user-list.component.scss'],
-  providers: [UserListService]
+  providers: [UserListService],
 })
-export class UserListComponent {
+export class UserListComponent implements OnInit {
+  title = 'Lista de Propietarios';
+  usersData$!: Observable<IItem[]>;
 
-  async ngOnInit(): Promise<void> {
-    this.usersData = await this.getUsers();
-  }
   constructor(private userListService: UserListService) { }
 
-  title = 'Lista de Propietarios';
+  ngOnInit(): void {
+    this.usersData$ = this.getUsers();
+  }
 
-  usersData: IItem[] = [];
-
-  async getUsers(): Promise<IItem[]> {
-
-    const users: IItem[] = [];
-
-    (await this.userListService.getUsers()).forEach((value: IItem) => {
-      users.push(value);
-    });
-
-    return users;
+  private getUsers(): Observable<IItem[]> {
+    return this.userListService.getUsers().pipe(
+      map((itemArray: []) => {
+        let users: IItem[] = [];
+        itemArray.forEach((item: any) => {
+          let user: IItem = {
+            Correo: item.email, Nombre: item.name, Apellido: item.lastname,
+            '# de Casa': item.unitNumber, Creado: item.created, Actualizado: item.updated
+          };
+          users.push(user);
+        });
+        return users;
+      })
+    );
   }
 }

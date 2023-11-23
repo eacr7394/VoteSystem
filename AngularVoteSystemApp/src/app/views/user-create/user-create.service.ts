@@ -9,7 +9,7 @@ import { IndexedDbService } from '../../indexed-db.service';
 })
 export class UserCreateService {
 
-  private apiUrl = environment.apiUrl + "/user";
+  private apiUrlUser = environment.apiUrl + "/user";
 
   private apiUnitUrl = environment.apiUrl + "/unit";
 
@@ -21,5 +21,13 @@ export class UserCreateService {
     });
     const options = { headers, withCredentials: true };
     return this.http.get(`${this.apiUnitUrl}`, options);
+  }
+
+  public async createUser(body: any): Promise<Observable<any>> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const options = { headers, withCredentials: true };
+    return this.http.post(`${this.apiUrlUser}`, body ,options);
   }
 }

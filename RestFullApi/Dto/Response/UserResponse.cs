@@ -14,5 +14,7 @@ public sealed class UserResponse
 
     public DateTime? Updated { get; set; }
 
+    public int? UnitNumber { get; set; } = null!;
+
     public string UnitId { get; set; } = null!;
 }
