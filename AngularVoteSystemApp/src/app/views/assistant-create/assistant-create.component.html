@@ -1,0 +1,119 @@
+<c-row class="justify-content-center">
+  <c-col md="6">
+    <c-card class="p-3">
+      <c-card-body>
+        <form cForm [formGroup]="form">
+          <c-row class="justify-content-center text-center">
+            <p class="text-medium-emphasis">Registro de Asistencia</p>
+
+            <c-input-group class="mb-6">
+              <span cInputGroupText>
+                <svg cIcon name="cilUser"></svg>
+              </span>
+              <ng-select formControlName="canVoteSelect" id="canVoteSelect"
+                         [items]="optionsCanVotes"
+                         bindLabel="value"
+                         bindValue="id"
+                         autofocus
+                         placeholder="¿Puede Votar? "
+                         [(ngModel)]="canVote"
+                         (search)="onSearchCanVote($event.term)"
+                         class="form-control">
+                <ng-template ng-option let-item="item" let-index="index">
+                  <div class="p-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span> &nbsp;{{ item.value }}</span>
+                      <small class="text-muted">ID: {{ item.id }}</small>
+                    </div>
+                  </div>
+                </ng-template>
+              </ng-select>
+              <c-input-group style="color: red" class="mb-3">
+                <h6 *ngIf="form.get('canVoteSelect')?.hasError('required') && form.get('canVoteSelect')?.touched">
+                  Requiere que indique si el propietario puede votar.
+                </h6>
+              </c-input-group>
+            </c-input-group>
+
+            <c-input-group class="mb-6">
+              <span cInputGroupText>
+                <svg cIcon name="cilUser"></svg>
+              </span>
+              <ng-select formControlName="unitsSelect" id="unitsSelect"
+                         [items]="optionsUnits"
+                         bindLabel="number"
+                         bindValue="id"
+                         autofocus
+                         placeholder="Casa #"
+                         [(ngModel)]="unitId"
+                         (search)="onSearchUnit($event.term)"
+                         class="form-control">
+                <ng-template ng-option let-item="item" let-index="index">
+                  <div class="p-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span> {{ item.number }}</span>
+                      <small class="text-muted">ID: {{ item.id }}</small>
+                    </div>
+                  </div>
+                </ng-template>
+              </ng-select>
+              <c-input-group style="color: red" class="mb-3">
+                <h6 *ngIf="form.get('unitsSelect')?.hasError('required') && form.get('unitsSelect')?.touched">
+                  El # de Casa es requerido.
+                </h6>
+                <h6 *ngIf="form.get('unitsSelect')?.hasError('min') && form.get('unitsSelect')?.touched">
+                  El # de Casa no puede ser menor que {{ form.get('unitsSelect')?.getError('min') }}.
+                </h6>
+                <h6 *ngIf="form.get('unitsSelect')?.hasError('max') && form.get('unitsSelect')?.touched">
+                  El # de Casa no puede ser mayor que {{ form.get('unitsSelect')?.getError('max') }}.
+                </h6>
+              </c-input-group>
+            </c-input-group>
+
+            <c-input-group class="mb-6">
+              <c-input-group style="color: black" class="mb-3">
+                <h6>Fecha de Asamblea</h6>
+              </c-input-group>
+              <span cInputGroupText>
+                <svg cIcon name="cilUser"></svg>
+              </span>
+              <ng-select formControlName="meetingsSelect" id="meetingsSelect"
+                         [items]="optionsMeetings"
+                         bindLabel="value"
+                         bindValue="id"
+                         autofocus
+                         placeholder=""
+                         [(ngModel)]="meetingId"
+                         (search)="onSearchMeeting($event.term)"
+                         class="form-control">
+                <ng-template ng-option let-item="item" let-index="index">
+                  <div class="p-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span> {{ item.number }}</span>
+                      <small class="text-muted">ID: {{ item.id }}</small>
+                    </div>
+                  </div>
+                </ng-template>
+              </ng-select>
+              <c-input-group style="color: red" class="mb-3">
+                <h6 *ngIf="form.get('meetingsSelect')?.hasError('required') && form.get('meetingsSelect')?.touched">
+                  La fecha de la Asamblea es requerida.
+                </h6>
+              </c-input-group>
+            </c-input-group>
+
+            <p></p>
+            <c-row class="justify-content-center text-center" style="color:red;" [hidden]="!error">
+              <h6>{{this.errorMessage}}</h6>
+            </c-row>
+            <c-row class="justify-content-center text-center">
+              <button cButton class="px-7" color="primary" (click)="createAssistant()">
+                Crear
+              </button>
+            </c-row>
+          </c-row>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>

@@ -10,6 +10,8 @@ public sealed class AssistantResponse
 
     public string UnitId { get; set; } = null!;
 
+    public int? UnitNumber { get; set; } = null!;
+
     public string MeetingId { get; set; } = null!;
 
     public string MeetingAdminId { get; set; } = null!;

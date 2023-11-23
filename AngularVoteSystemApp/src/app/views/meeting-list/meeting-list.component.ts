@@ -14,12 +14,12 @@ export class MeetingListComponent implements OnInit {
 
   constructor(private meetingListService: MeetingListService) { }
 
-  ngOnInit(): void {
-    this.meetingsData$ = this.getUsers();
+  async ngOnInit(): Promise<void> {
+    this.meetingsData$ = await this.getUsers();
   }
 
-  private getUsers(): Observable<IItem[]> {
-    return this.meetingListService.getMeetings().pipe(
+  private async getUsers(): Promise<Observable<IItem[]>> {
+    return (await this.meetingListService.getAllMeetingsAsync()).pipe(
       map((itemArray: []) => {
         let meetings: IItem[] = [];
         itemArray.forEach((item: any) => {

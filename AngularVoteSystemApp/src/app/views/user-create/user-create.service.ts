@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../app.environment';
-import { IndexedDbService } from '../../indexed-db.service';
+import { environment } from '../../app.environment';                 
 
 @Injectable({
   providedIn: 'root',
@@ -13,21 +12,21 @@ export class UserCreateService {
 
   private apiUnitUrl = environment.apiUrl + "/unit";
 
-  constructor(private http: HttpClient, private db: IndexedDbService) { }
+  constructor(private http: HttpClient) { }
 
-  public async getUnits(): Promise<Observable<any>> {
+  public async getAllUnitsAsync(): Promise<Observable<any>> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
     const options = { headers, withCredentials: true };
-    return this.http.get(`${this.apiUnitUrl}`, options);
+    return await this.http.get(`${this.apiUnitUrl}`, options);
   }
 
-  public async createUser(body: any): Promise<Observable<any>> {
+  public async createUserAsync(body: any): Promise<Observable<any>> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
     const options = { headers, withCredentials: true };
-    return this.http.post(`${this.apiUrlUser}`, body ,options);
+    return await this.http.post(`${this.apiUrlUser}`, body ,options);
   }
 }

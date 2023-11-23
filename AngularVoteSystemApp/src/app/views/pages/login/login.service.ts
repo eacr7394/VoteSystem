@@ -13,20 +13,20 @@ export class LoginService {
 
   constructor(private http: HttpClient, private db: IndexedDbService) { }
 
-  login(userName: string, password: string): Observable<any> {
+  async login(userName: string, password: string): Promise<Observable<any>> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
     const options = { headers, withCredentials: true };
-    return this.http.post(`${this.apiUrl}/authorize`, { username: userName, password: password }, options);
+    return await this.http.post(`${this.apiUrl}/authorize`, { username: userName, password: password }, options);
   }
 
-  logout(): Observable<any> {
+  async logout(): Promise<Observable<any>> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
     const options = { headers, withCredentials: true };
-    return this.http.post(`${this.apiUrl}/logout`, {}, options);
+    return await this.http.post(`${this.apiUrl}/logout`, {}, options);
   }
 
   public async isAuthenticated(): Promise<boolean> {

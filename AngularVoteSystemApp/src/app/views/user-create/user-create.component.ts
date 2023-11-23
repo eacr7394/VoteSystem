@@ -82,7 +82,7 @@ export class UserCreateComponent {
       email: this.email.toLowerCase()
     };
 
-    (await this.userCreateService.createUser(user)).subscribe(
+    (await this.userCreateService.createUserAsync(user)).subscribe(
       (response: any) => {
         this.clearForm();
         console.log('Usuario creado exitosamente', response);
@@ -101,7 +101,7 @@ export class UserCreateComponent {
 
     const units: any[] = [];
 
-    (await this.userCreateService.getUnits()).forEach((item: []) => {
+    (await this.userCreateService.getAllUnitsAsync()).forEach((item: []) => {
       item.forEach((item: any) => {
         let obj = { id: item.id, number: String(item.number) };
         units.push(obj);

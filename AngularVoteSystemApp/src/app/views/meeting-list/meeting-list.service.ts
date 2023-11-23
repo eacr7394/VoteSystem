@@ -12,12 +12,12 @@ export class MeetingListService {
 
   constructor(private http: HttpClient) { }
 
-  public getMeetings(): Observable<any> {
+
+  public async getAllMeetingsAsync(): Promise<Promise<any>> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    const options = { headers, withCredentials: true };          
-    return this.http.get(`${this.apiUrl}`, options);
+    const options = { headers, withCredentials: true };
+    return await this.http.get(`${this.apiUrl}`, options);
   }
-
 }

@@ -14,6 +14,12 @@ import { UserCreateComponent } from './views/user-create/user-create.component';
 import { MeetingListComponent } from './views/meeting-list/meeting-list.component';
 import { MeetingCreateComponent } from './views/meeting-create/meeting-create.component';
 
+import { AssistantListComponent } from './views/assistant-list/assistant-list.component';
+import { AssistantCreateComponent } from './views/assistant-create/assistant-create.component';
+
+import { VotingListComponent } from './views/voting-list/voting-list.component';
+import { VotingCreateComponent } from './views/voting-create/voting-create.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -50,6 +56,30 @@ const routes: Routes = [
         path: 'meeting-create',
         loadChildren: () =>
           import('./views/meeting-create/meeting-create.module').then((m) => m.MeetingCreateModule)
+      },
+      {
+        canActivate: [AuthGuard, RoleGuard],
+        path: 'assistant-list',
+        loadChildren: () =>
+          import('./views/assistant-list/assistant-list.module').then((m) => m.AssistantListModule)
+      },
+      {
+        canActivate: [AuthGuard, RoleGuard],
+        path: 'assistant-create',
+        loadChildren: () =>
+          import('./views/assistant-create/assistant-create.module').then((m) => m.AssistantCreateModule)
+      },
+      {
+        canActivate: [AuthGuard, RoleGuard],
+        path: 'voting-list',
+        loadChildren: () =>
+          import('./views/voting-list/voting-list.module').then((m) => m.VotingListModule)
+      },
+      {
+        canActivate: [AuthGuard, RoleGuard],
+        path: 'voting-create',
+        loadChildren: () =>
+          import('./views/voting-create/voting-create.module').then((m) => m.VotingCreateModule)
       }, 
       {
         canActivate: [AuthGuard, RoleGuard],

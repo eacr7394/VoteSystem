@@ -48,8 +48,15 @@ public class UserController : BaseController<UserController>
     }
 
     [HttpPost]
-    public async Task Post([FromBody] UserRequest request)
+    public async Task<IActionResult> Post([FromBody] UserRequest request)
     {
+        if (VSContext.Users.Any(x => x.UnitId == request.UnitId))
+        {
+            return BadRequest(new
+            {
+                Error = "La unidad ya tiene usuario asignado."
+            });
+        }
         await VSContext.Users.AddAsync(new User
         {
             Id = Guid.NewGuid().ToString(),
@@ -60,6 +67,7 @@ public class UserController : BaseController<UserController>
             Created = DateTime.UtcNow
         });
         await VSContext.SaveChangesAsync();
+        return NoContent();
     }
 
 }

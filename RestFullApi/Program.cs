@@ -13,9 +13,9 @@ builder.Services.Configure<TokenValidationParametersConfiguration>(builder.Confi
 
 builder.Services.AddSingleton<SmtpClient>();
 
-builder.Services.AddSingleton<VoteSystemContext>();
+builder.Services.AddScoped<VoteSystemContext>();
 
-builder.Services.AddSingleton<ILoggerProvider, DatabaseLoggerProvider>();
+builder.Services.AddTransient<ILoggerProvider, DatabaseLoggerProvider>();
 
 builder.Services.AddControllers(options =>
 {

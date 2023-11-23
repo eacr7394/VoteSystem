@@ -2,15 +2,8 @@
 
 public class DatabaseLoggerProvider : ILoggerProvider
 {
-    private readonly VoteSystemContext _dbContext;
-
-    public DatabaseLoggerProvider(VoteSystemContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
-
     public ILogger CreateLogger(string categoryName) =>
-        new DatabaseLogger(_dbContext, categoryName);
+        new DatabaseLogger(categoryName);
 
     public void Dispose() { }
 }

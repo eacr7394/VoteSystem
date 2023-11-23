@@ -47,7 +47,7 @@ export const navItems: INavData[] = [
         ]
     },
     {
-        name: 'Votaciones',
+        name: 'Temas de Votaciones',
         url: '#',
         iconComponent: { name: 'cil-notes' },
         children: [

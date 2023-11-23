@@ -12,12 +12,12 @@ export class UserListService {
 
   constructor(private http: HttpClient) { }
 
-  public getUsers(): Observable<any> {
+  public async getAllUsersAsync(): Promise<Observable<any>> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
     const options = { headers, withCredentials: true };          
-    return this.http.get(`${this.apiUrl}`, options);
+    return await this.http.get(`${this.apiUrl}`, options);
   }
 
 }

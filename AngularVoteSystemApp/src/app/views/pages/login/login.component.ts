@@ -32,11 +32,11 @@ export class LoginComponent {
     this.error = false;
   }
 
-  login(): void {
+  async login(): Promise<void> {
     if (this.userName == "" || this.password == "") {
       return;
     }
-    this.loginService.login(this.userName, this.password).subscribe(
+    (await this.loginService.login(this.userName, this.password)).subscribe(
       (response: any) => {
         this.clearForm();
         this.db.set(this.db.IsAuthenticatedKey, true);
@@ -55,8 +55,8 @@ export class LoginComponent {
 
   }
 
-  logout(): void {
-    this.loginService.logout().subscribe(
+  async logout(): Promise<void> {
+    (await this.loginService.logout()).subscribe(
       (response: void) => {
         // Manejar la respuesta exitosa (redirección, limpiar token, etc.)
         console.log('Cierre de sesión exitoso', response);

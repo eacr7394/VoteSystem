@@ -2,12 +2,10 @@
 
 public class DatabaseLogger : ILogger
 {
-    private readonly VoteSystemContext _dbContext;
     private readonly string _categoryName;
 
-    public DatabaseLogger(VoteSystemContext dbContext, string categoryName)
+    public DatabaseLogger(string categoryName)
     {
-        _dbContext = dbContext;
         _categoryName = categoryName;
     }
 
@@ -31,9 +29,14 @@ public class DatabaseLogger : ILogger
             Message = formatter(state, exception),
             CreatedAt = DateTime.UtcNow
         };
-
-        _dbContext.LogEntries.Add(logEntry);
-        _dbContext.SaveChanges();
+        using var context = new VoteSystemContext();
+        using var trans = context.Database.BeginTransaction();
+        context.LogEntries.Add(logEntry);
+        context.SaveChanges();
+        trans.Commit();
+        trans.Dispose();
+        context.Database.CloseConnection();
+        context.Dispose();
     }
 
 }

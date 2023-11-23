@@ -1,6 +1,6 @@
 ﻿namespace RestFullApi.Controllers;
 
-[ClaimRequirement(ClaimPermissionName.AdminController, ClaimPermissionValue.FULL_ACCESS)]
+[ClaimRequirement(ClaimPermissionName.AssistantController, ClaimPermissionValue.FULL_ACCESS)]
 [Route("api/[controller]")]
 [ApiController]
 public class AssistantController : BaseController<AssistantController>
@@ -21,7 +21,9 @@ public class AssistantController : BaseController<AssistantController>
             UnitId = x.UnitId,
             MeetingAdminId = x.MeetingAdminId,
             MeetingId = x.MeetingId,
-            MeetingDate = x.Meeting.Date
+            MeetingDate = x.Meeting.Date,
+            UnitNumber = x.Unit.Number,
+
         }).ToArrayAsync();
     }
 
@@ -36,7 +38,9 @@ public class AssistantController : BaseController<AssistantController>
             UnitId = x.UnitId,
             MeetingAdminId = x.MeetingAdminId,
             MeetingId = x.MeetingId,
-            MeetingDate = x.Meeting.Date
+            MeetingDate = x.Meeting.Date,
+            UnitNumber = x.Unit.Number,
+
         }).SingleOrDefaultAsync(x => x.Id == id);
         if(assistant == null)
         {
@@ -46,17 +50,26 @@ public class AssistantController : BaseController<AssistantController>
     }
 
     [HttpPost]
-    public async Task Post([FromBody] AssistantRequest request)
+    public async Task<IActionResult> Post([FromBody] AssistantRequest request)
     {
+        if (VSContext.Assistants.Any(x => x.UnitId == request.UnitId && x.MeetingId == request.MeetingId))
+        {
+            return BadRequest(new
+            {
+                Error = "La unidad ya tiene un asistente asociado a la Asamblea."
+            });
+        }
+        var meeting = VSContext.Meetings.Single(x => x.Id == request.MeetingId);
         await VSContext.Assistants.AddAsync(new Assistant
         {
             Id = Guid.NewGuid().ToString(),
             Created = DateTime.UtcNow,
             CanVote = request.CanVote,
             UnitId = request.UnitId,
-            MeetingAdminId = request.MeetingAdminId,
+            MeetingAdminId = meeting.AdminId,
             MeetingId = request.MeetingId
         });
         await VSContext.SaveChangesAsync();
+        return NoContent();
     }
 }

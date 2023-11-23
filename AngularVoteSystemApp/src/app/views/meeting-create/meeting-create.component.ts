@@ -56,7 +56,7 @@ export class MeetingCreateComponent {
       date: this.getUtcDate(this.date)
     };
 
-    (await this.meetingCreateService.createMeeting(meeting)).subscribe(
+    (await this.meetingCreateService.createMeetingAsync(meeting)).subscribe(
       (response: any) => {
         this.clearForm();
         console.log('Asamblea creada exitosamente', response);
