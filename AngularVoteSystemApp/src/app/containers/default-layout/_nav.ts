@@ -13,11 +13,7 @@ export const navItems: INavData[] = [
             {
                 name: 'Creación',
                 url: 'user-create'
-            },
-            {
-                name: 'Eliminación',
-                url: 'user-delete'
-            },
+            }
         ]
     },
     {
