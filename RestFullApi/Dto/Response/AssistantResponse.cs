@@ -9,4 +9,10 @@ public sealed class AssistantResponse
     public string CanVote { get; set; } = null!;
 
     public string UnitId { get; set; } = null!;
+
+    public string MeetingId { get; set; } = null!;
+
+    public string MeetingAdminId { get; set; } = null!;
+
+    public DateOnly? MeetingDate { get; set; } = null!;
 }

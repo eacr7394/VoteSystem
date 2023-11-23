@@ -66,11 +66,13 @@ public partial class VoteSystemContext : DbContext
 
         modelBuilder.Entity<Assistant>(entity =>
         {
-            entity.HasKey(e => new { e.Id, e.UnitId })
+            entity.HasKey(e => new { e.Id, e.UnitId, e.MeetingId, e.MeetingAdminId })
                 .HasName("PRIMARY")
-                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0, 0 });
 
             entity.ToTable("assistant");
+
+            entity.HasIndex(e => new { e.MeetingId, e.MeetingAdminId }, "fk_assistant_meeting1_idx");
 
             entity.HasIndex(e => e.UnitId, "fk_assistant_unit1_idx");
 
@@ -84,6 +86,14 @@ public partial class VoteSystemContext : DbContext
                 .HasMaxLength(38)
                 .IsFixedLength()
                 .HasColumnName("unit_id");
+            entity.Property(e => e.MeetingId)
+                .HasMaxLength(38)
+                .IsFixedLength()
+                .HasColumnName("meeting_id");
+            entity.Property(e => e.MeetingAdminId)
+                .HasMaxLength(38)
+                .IsFixedLength()
+                .HasColumnName("meeting_admin_id");
             entity.Property(e => e.CanVote)
                 .HasColumnType("enum('yes','no')")
                 .HasColumnName("can_vote");
@@ -95,6 +105,11 @@ public partial class VoteSystemContext : DbContext
                 .HasForeignKey(d => d.UnitId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_assistant_unit1");
+
+            entity.HasOne(d => d.Meeting).WithMany(p => p.Assistants)
+                .HasForeignKey(d => new { d.MeetingId, d.MeetingAdminId })
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_assistant_meeting1");
         });
 
         modelBuilder.Entity<LogEntry>(entity =>
@@ -298,13 +313,13 @@ public partial class VoteSystemContext : DbContext
 
         modelBuilder.Entity<UserHasVoting>(entity =>
         {
-            entity.HasKey(e => new { e.UserId, e.UserUnitId, e.AssistantId, e.AssistantUnitId, e.VotingId, e.VotingMeetingId, e.VotingMeetingAdminId })
+            entity.HasKey(e => new { e.UserId, e.UserUnitId, e.VotingId, e.VotingMeetingId, e.VotingMeetingAdminId, e.AssistantId, e.AssistantUnitId, e.AssistantMeetingId, e.AssistantMeetingAdminId })
                 .HasName("PRIMARY")
-                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0, 0, 0, 0, 0 });
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 });
 
             entity.ToTable("user_has_voting");
 
-            entity.HasIndex(e => new { e.AssistantId, e.AssistantUnitId }, "fk_user_has_voting_assistant1_idx");
+            entity.HasIndex(e => new { e.AssistantId, e.AssistantUnitId, e.AssistantMeetingId, e.AssistantMeetingAdminId }, "fk_user_has_voting_assistant1_idx");
 
             entity.HasIndex(e => new { e.VotingId, e.VotingMeetingId, e.VotingMeetingAdminId }, "fk_user_has_voting_voting1_idx");
 
@@ -316,14 +331,6 @@ public partial class VoteSystemContext : DbContext
                 .HasMaxLength(38)
                 .IsFixedLength()
                 .HasColumnName("user_unit_id");
-            entity.Property(e => e.AssistantId)
-                .HasMaxLength(38)
-                .IsFixedLength()
-                .HasColumnName("assistant_id");
-            entity.Property(e => e.AssistantUnitId)
-                .HasMaxLength(38)
-                .IsFixedLength()
-                .HasColumnName("assistant_unit_id");
             entity.Property(e => e.VotingId)
                 .HasMaxLength(38)
                 .IsFixedLength()
@@ -336,6 +343,22 @@ public partial class VoteSystemContext : DbContext
                 .HasMaxLength(38)
                 .IsFixedLength()
                 .HasColumnName("voting_meeting_admin_id");
+            entity.Property(e => e.AssistantId)
+                .HasMaxLength(38)
+                .IsFixedLength()
+                .HasColumnName("assistant_id");
+            entity.Property(e => e.AssistantUnitId)
+                .HasMaxLength(38)
+                .IsFixedLength()
+                .HasColumnName("assistant_unit_id");
+            entity.Property(e => e.AssistantMeetingId)
+                .HasMaxLength(38)
+                .IsFixedLength()
+                .HasColumnName("assistant_meeting_id");
+            entity.Property(e => e.AssistantMeetingAdminId)
+                .HasMaxLength(38)
+                .IsFixedLength()
+                .HasColumnName("assistant_meeting_admin_id");
             entity.Property(e => e.Accepted)
                 .HasColumnType("enum('yes','no')")
                 .HasColumnName("accepted");
@@ -352,11 +375,6 @@ public partial class VoteSystemContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("voted_time");
 
-            entity.HasOne(d => d.Assistant).WithMany(p => p.UserHasVotings)
-                .HasForeignKey(d => new { d.AssistantId, d.AssistantUnitId })
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_user_has_voting_assistant1");
-
             entity.HasOne(d => d.User).WithMany(p => p.UserHasVotings)
                 .HasForeignKey(d => new { d.UserId, d.UserUnitId })
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -366,6 +384,11 @@ public partial class VoteSystemContext : DbContext
                 .HasForeignKey(d => new { d.VotingId, d.VotingMeetingId, d.VotingMeetingAdminId })
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_user_has_voting_voting1");
+
+            entity.HasOne(d => d.Assistant).WithMany(p => p.UserHasVotings)
+                .HasForeignKey(d => new { d.AssistantId, d.AssistantUnitId, d.AssistantMeetingId, d.AssistantMeetingAdminId })
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_user_has_voting_assistant1");
         });
 
         modelBuilder.Entity<Voting>(entity =>

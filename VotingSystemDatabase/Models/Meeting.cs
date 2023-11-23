@@ -13,5 +13,7 @@ public partial class Meeting
 
     public virtual Admin Admin { get; set; } = null!;
 
+    public virtual ICollection<Assistant> Assistants { get; set; } = new List<Assistant>();
+
     public virtual ICollection<Voting> Votings { get; set; } = new List<Voting>();
 }

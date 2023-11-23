@@ -13,6 +13,12 @@ public partial class Assistant
 
     public string UnitId { get; set; } = null!;
 
+    public string MeetingId { get; set; } = null!;
+
+    public string MeetingAdminId { get; set; } = null!;
+
+    public virtual Meeting Meeting { get; set; } = null!;
+
     public virtual Unit Unit { get; set; } = null!;
 
     public virtual ICollection<UserHasVoting> UserHasVotings { get; set; } = new List<UserHasVoting>();

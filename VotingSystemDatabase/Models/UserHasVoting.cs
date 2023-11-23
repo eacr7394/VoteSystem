@@ -19,15 +19,19 @@ public partial class UserHasVoting
 
     public string UserUnitId { get; set; } = null!;
 
-    public string AssistantId { get; set; } = null!;
-
-    public string AssistantUnitId { get; set; } = null!;
-
     public string VotingId { get; set; } = null!;
 
     public string VotingMeetingId { get; set; } = null!;
 
     public string VotingMeetingAdminId { get; set; } = null!;
+
+    public string AssistantId { get; set; } = null!;
+
+    public string AssistantUnitId { get; set; } = null!;
+
+    public string AssistantMeetingId { get; set; } = null!;
+
+    public string AssistantMeetingAdminId { get; set; } = null!;
 
     public virtual Assistant Assistant { get; set; } = null!;
 

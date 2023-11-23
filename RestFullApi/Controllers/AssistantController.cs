@@ -19,6 +19,9 @@ public class AssistantController : BaseController<AssistantController>
             Created = x.Created,
             CanVote = x.CanVote,
             UnitId = x.UnitId,
+            MeetingAdminId = x.MeetingAdminId,
+            MeetingId = x.MeetingId,
+            MeetingDate = x.Meeting.Date
         }).ToArrayAsync();
     }
 
@@ -31,6 +34,9 @@ public class AssistantController : BaseController<AssistantController>
             Created = x.Created,
             CanVote = x.CanVote,
             UnitId = x.UnitId,
+            MeetingAdminId = x.MeetingAdminId,
+            MeetingId = x.MeetingId,
+            MeetingDate = x.Meeting.Date
         }).SingleOrDefaultAsync(x => x.Id == id);
         if(assistant == null)
         {
@@ -48,7 +54,8 @@ public class AssistantController : BaseController<AssistantController>
             Created = DateTime.UtcNow,
             CanVote = request.CanVote,
             UnitId = request.UnitId,
-
+            MeetingAdminId = request.MeetingAdminId,
+            MeetingId = request.MeetingId
         });
         await VSContext.SaveChangesAsync();
     }
