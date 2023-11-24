@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
-
+import { FormsModule } from '@angular/forms';   
 import {
   AvatarModule,
   ButtonGroupModule,
   ButtonModule,
-  CardModule,
+  CardModule,            
   DatePickerModule,
   FormModule,
   GridModule,
@@ -41,9 +39,8 @@ import { MeetingCreateComponent } from './meeting-create.component';
     ChartjsModule,
     AvatarModule,
     TableModule,
-    FormsModule,
-    NgSelectModule,
-    DatePickerModule
+    FormsModule,    
+    DatePickerModule,  
   ],
   declarations: [MeetingCreateComponent]
 })

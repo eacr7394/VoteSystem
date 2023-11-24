@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { cilSpeak } from '@coreui/icons';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 import { MeetingService } from '../../services/meeting.service';
 import { VotingService } from '../../services/voting.service';
@@ -20,6 +22,25 @@ export class VotingCreateComponent {
     });
   }
 
+
+  async ngOnInit(): Promise<void> {
+
+    this.optionsMeeting = (await this.meetingService.getAllMeetingsPromiseAnyArray()).map((option: any) => ({
+      value: option.id,
+      label: option.value,
+    }));
+    this.optionsMeeting$.next([...this.optionsMeeting]);
+    this.searchValueMeeting$.subscribe((next) => {
+      const filtered = this.optionsMeeting.filter((option: any) =>
+        option.label.toLowerCase().startsWith(next.trimStart().toLowerCase()),
+      );
+      this.optionsMeeting$.next([...filtered]);
+    });            
+    this.cdr.detectChanges();
+  }
+
+  icons = { cilSpeak };
+
   form: FormGroup;
 
   title = 'Creación de temas de votación';
@@ -30,24 +51,10 @@ export class VotingCreateComponent {
 
   protected error: boolean = false;
 
-  private allOptionsMeetings: any[] = [];
+  optionsMeeting: any;
+  readonly optionsMeeting$ = new BehaviorSubject<any[]>([]);
+  readonly searchValueMeeting$ = new Subject<string>();
 
-  optionsMeetings = this.allOptionsMeetings;
-     
-  onSearchMeeting(term: string) {
-    this.optionsMeetings = this.allOptionsMeetings.filter(option =>
-      option.value.toLowerCase().includes(term.toLowerCase())
-    );
-  }
-
-  async ngOnInit(): Promise<void> {
-    this.allOptionsMeetings = await this.getMeetings();
-    this.onSearchMeeting('');
-    if (this.allOptionsMeetings.length > 0) {
-      this.meetingId = this.allOptionsMeetings[0].id;
-    }
-    this.cdr.detectChanges();
-  }
 
   clearForm(): void {
     this.errorMessage = "";
@@ -84,20 +91,6 @@ export class VotingCreateComponent {
         console.error('Error al crear el tema de votación', response);
       }
     );
-  }
-
-  async getMeetings(): Promise<any[]> {
-
-    const meetings: any[] = [];
-
-    (await this.meetingService.getAllMeetingsAsync()).forEach((item: []) => {
-      item.forEach((item: any) => {
-        let obj = { id: item.id, value: String(item.date) };
-        meetings.push(obj);
-      });
-    });
-
-    return meetings;
   }
 
 }

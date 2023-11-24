@@ -24,7 +24,7 @@ export class UnitService {
 
   public async getAllUnitsPromiseAnyArrayAsync(): Promise<any[]> {
     const units: any[] = [];   
-    (await this.getAllUnitsAsync()).forEach((item: []) => {
+    await (await this.getAllUnitsAsync()).forEach((item: []) => {
       item.forEach((item: any) => {
         let obj = { id: item.id, number: String(item.number) };
         units.push(obj);

@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';        
 
 import {
   AvatarModule,
@@ -11,6 +10,7 @@ import {
   CardModule,
   FormModule,
   GridModule,
+  MultiSelectModule,
   NavModule,
   ProgressModule,
   TableModule,
@@ -42,7 +42,7 @@ import { AssistantCreateComponent } from './assistant-create.component';
     AvatarModule,
     TableModule,
     FormsModule,
-    NgSelectModule
+    MultiSelectModule
   ],
   declarations: [AssistantCreateComponent]
 })

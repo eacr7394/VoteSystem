@@ -70,28 +70,23 @@
               </c-input-group>
             </c-input-group>
 
-            <c-input-group class="mb-3">
-              <span cInputGroupText>
-                <svg cIcon name="cilUser"></svg>
-              </span>
-              <ng-select formControlName="unitsSelect" id="unitsSelect"
-                         [items]="options"
-                         bindLabel="number"
-                         bindValue="id"
-                         autofocus
-                         placeholder="Casa #"
-                         [(ngModel)]="unitId"
-                         (search)="onSearch($event.term)"
-                         class="form-control">
-                <ng-template ng-option let-item="item" let-index="index">
-                  <div class="p-2">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span> {{ item.number }}</span>
-                      <small class="text-muted">ID: {{ item.id }}</small>
-                    </div>
-                  </div>
-                </ng-template>
-              </ng-select>
+            <c-input-group class="mb-6">
+              <c-input-group style="color: black" class="mb-3">
+                <h6>Casa #</h6>
+              </c-input-group>
+              <c-multi-select selectionType="text" formControlName="unitsSelect" id="unitsSelect"
+                              [options]="(optionsUnit$ | async) ?? []"
+                              placeholder="Casa #"
+                              [(ngModel)]="unitId"
+                              (searchValueChange)="searchValueUnit$.next($event)"
+                              class="form-control">
+                <c-multi-select-option *ngFor="let option of optionsUnit$ | async"
+                                       [value]="option.value">
+                  <svg [cIcon]="icons.cil-speak" class="me-1" />
+                  {{ option.label }}
+                </c-multi-select-option>
+              </c-multi-select>
+
               <c-input-group style="color: red" class="mb-3">
                 <h6 *ngIf="form.get('unitsSelect')?.hasError('required') && form.get('unitsSelect')?.touched">
                   El # de Casa es requerido.
@@ -103,8 +98,8 @@
                   El # de Casa no puede ser mayor que {{ form.get('unitsSelect')?.getError('max') }}.
                 </h6>
               </c-input-group>
-            </c-input-group>
 
+            </c-input-group>
             <p></p>
             <c-row class="justify-content-center text-center" style="color:red;" [hidden]="!error">
               <h6>{{this.errorMessage}}</h6>

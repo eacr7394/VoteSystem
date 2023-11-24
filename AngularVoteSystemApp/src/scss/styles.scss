@@ -6,7 +6,8 @@ $enable-ltr: true;
 $enable-rtl: true;
 
 // Import styles with default layout.
-@import "@coreui/coreui/scss/coreui";
+@import "@coreui/coreui-pro/scss/coreui";
+@import "@coreui/coreui-pro/scss/themes/dark";
 
 // Import Chart.js custom tooltips styles
 @import "@coreui/chartjs/scss/coreui-chartjs";

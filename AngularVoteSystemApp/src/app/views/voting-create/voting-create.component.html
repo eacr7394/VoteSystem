@@ -11,32 +11,25 @@
               <c-input-group style="color: black" class="mb-3">
                 <h6>Fecha de Asamblea</h6>
               </c-input-group>
-              <span cInputGroupText>
-                <svg cIcon name="cilUser"></svg>
-              </span>
-              <ng-select formControlName="meetingsSelect" id="meetingsSelect"
-                         [items]="optionsMeetings"
-                         bindLabel="value"
-                         bindValue="id"
-                         autofocus
-                         placeholder=""
-                         [(ngModel)]="meetingId"
-                         (search)="onSearchMeeting($event.term)"
-                         class="form-control">
-                <ng-template ng-option let-item="item" let-index="index">
-                  <div class="p-2">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span> {{ item.number }}</span>
-                      <small class="text-muted">ID: {{ item.id }}</small>
-                    </div>
-                  </div>
-                </ng-template>
-              </ng-select>
+              <c-multi-select selectionType="text" formControlName="meetingsSelect" id="meetingsSelect"
+                              [options]="(optionsMeeting$ | async) ?? []"
+                              placeholder="Fecha de Asamblea"
+                              [(ngModel)]="meetingId"
+                              (searchValueChange)="searchValueMeeting$.next($event)"
+                              class="form-control">
+                <c-multi-select-option *ngFor="let option of optionsMeeting$ | async"
+                                       [value]="option.value">
+                  <svg [cIcon]="icons.cil-speak" class="me-1" />
+                  {{ option.label }}
+                </c-multi-select-option>
+              </c-multi-select>
+
               <c-input-group style="color: red" class="mb-3">
                 <h6 *ngIf="form.get('meetingsSelect')?.hasError('required') && form.get('meetingsSelect')?.touched">
                   La fecha de la Asamblea es requerida.
                 </h6>
               </c-input-group>
+
             </c-input-group>
 
             <p></p>

@@ -8,7 +8,7 @@
 }
 
 ::-webkit-scrollbar {
-  width: .7em;
+  width: .9em;
 }
 
 ::-webkit-scrollbar-track {
@@ -19,7 +19,7 @@
 
 ::-webkit-scrollbar-thumb {
   background: #999;
-  border: .15em solid var(--cui-body-bg, #fff);
+  border: .2em solid var(--cui-body-bg, #fff);
   border-radius: 100vw;
 }
 
@@ -28,9 +28,9 @@
 }
 
 .dark-theme::-webkit-scrollbar-thumb {
-  background: #444;
+  background: var(--cui-gray-600, #444);
 }
 
 .dark-theme::-webkit-scrollbar-thumb:hover {
-  background: #999;
+  background: var(--cui-gray-400, #999);
 }

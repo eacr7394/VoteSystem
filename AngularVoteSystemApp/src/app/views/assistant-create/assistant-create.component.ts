@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { cilSpeak } from '@coreui/icons';   
+import { BehaviorSubject, Subject } from 'rxjs';
+
+
+
 import { AssistantService } from '../../services/assistant.service';
 import { MeetingService } from '../../services/meeting.service';
 import { UnitService } from '../../services/unit.service';
@@ -12,7 +17,7 @@ import { UnitService } from '../../services/unit.service';
 })
 export class AssistantCreateComponent {
   constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef,
-    private assistantService: AssistantService,     
+    private assistantService: AssistantService,
     private meetingService: MeetingService,
     private unitService: UnitService) {
     this.form = this.fb.group({
@@ -24,29 +29,60 @@ export class AssistantCreateComponent {
 
   async ngOnInit(): Promise<void> {
 
-    this.allOptionsMeetings = await this.getMeetings();
+    this.optionsCanVote = this.optionsCanVoteDataArray.map((option: any) => ({
+      value: option.id,
+      label: option.value,
+    }));
+    this.optionsCanVote$.next([...this.optionsCanVote]);
+    this.searchValueCanVote$.subscribe((next) => {
+      const filtered = this.optionsCanVote.filter((option: any) =>
+        option.label.toLowerCase().startsWith(next.trimStart().toLowerCase()),
+      );
+      this.optionsCanVote$.next([...filtered]);
+    });
 
-    this.onSearchMeeting('');
+    this.optionsUnit = (await this.unitService.getAllUnitsPromiseAnyArrayAsync()).map((option: any) => ({
+      value: option.id,
+      label: "Casa #" + option.number,
+    }));                             
+    this.optionsUnit$.next([...this.optionsUnit]);
+    this.searchValueUnit$.subscribe((next) => {
+      const filtered = this.optionsUnit.filter((option: any) =>
+        option.label.toLowerCase().endsWith(next.trimEnd().toLowerCase()),
+      );
+      this.optionsUnit$.next([...filtered]);
+    });
 
-    if (this.allOptionsMeetings.length > 0) {
-
-      this.meetingId = this.allOptionsMeetings[0].id;
-
-    }
-
-    this.allOptionsUnits = await this.unitService.getAllUnitsPromiseAnyArrayAsync();
-
-    this.onSearchUnit('');
-
-    if (this.allOptionsUnits.length > 0) {
-
-      this.unitId = this.allOptionsUnits[0].id;
-
-    }
+    this.optionsMeeting = (await this.meetingService.getAllMeetingsPromiseAnyArray()).map((option: any) => ({
+      value: option.id,
+      label: option.value,
+    }));
+    this.optionsMeeting$.next([...this.optionsMeeting]);
+    this.searchValueMeeting$.subscribe((next) => {
+      const filtered = this.optionsMeeting.filter((option: any) =>
+        option.label.toLowerCase().startsWith(next.trimStart().toLowerCase()),
+      );
+      this.optionsMeeting$.next([...filtered]);
+    });              
 
     this.cdr.detectChanges();
 
   }
+
+  optionsCanVote: any;
+  optionsCanVoteDataArray: any[] = [{ id: "yes", value: "Sí, puede votar." }, { id: "no", value: "No, no puede votar." }];
+  readonly optionsCanVote$ = new BehaviorSubject<any[]>([]);
+  readonly searchValueCanVote$ = new Subject<string>();
+
+  optionsUnit: any;                   
+  readonly optionsUnit$ = new BehaviorSubject<any[]>([]);
+  readonly searchValueUnit$ = new Subject<string>();
+
+  optionsMeeting: any;
+  readonly optionsMeeting$ = new BehaviorSubject<any[]>([]);
+  readonly searchValueMeeting$ = new Subject<string>();
+
+  icons = { cilSpeak };
 
   title = 'Quorum';
 
@@ -60,35 +96,7 @@ export class AssistantCreateComponent {
 
   protected errorMessage: string = "";
 
-  protected error: boolean = false;
-
-  private allOptionsUnits: any[] = [];
-
-  optionsUnits = this.allOptionsUnits;
-
-  optionsCanVotes: any[] = [{ id: "yes", value: "Sí" }, { id: "no", value: "No" }];
-
-  private allOptionsMeetings: any[] = [];
-
-  optionsMeetings = this.allOptionsMeetings;
-
-  onSearchCanVote(term: string) {
-    this.optionsCanVotes = this.optionsCanVotes.filter(option =>
-      option.value.toLowerCase().includes(term.toLowerCase())
-    );
-  }
-
-  onSearchUnit(term: string) {
-    this.optionsUnits = this.allOptionsUnits.filter(option =>
-      option.number.toLowerCase().includes(term.toLowerCase())
-    );
-  }
-
-  onSearchMeeting(term: string) {
-    this.optionsMeetings = this.allOptionsMeetings.filter(option =>
-      option.value.toLowerCase().includes(term.toLowerCase())
-    );
-  }
+  protected error: boolean = false;    
 
   clearForm(): void {
     this.errorMessage = "";
@@ -108,7 +116,7 @@ export class AssistantCreateComponent {
   }
 
   async createAssistant(): Promise<void> {
-    if (!this.validateForm()) {
+    if (!this.validateForm() || this.unitId === "" || this.meetingId === "" || this.canVote === "") {
       return;
     }
     let user = {
@@ -132,19 +140,5 @@ export class AssistantCreateComponent {
       }
     );
   }            
-
-  async getMeetings(): Promise<any[]> {
-
-    const meetings: any[] = [];
-
-    (await this.meetingService.getAllMeetingsAsync()).forEach((item: []) => {
-      item.forEach((item: any) => {
-        let obj = { id: item.id, value: String(item.date) };
-        meetings.push(obj);
-      });
-    });
-
-    return meetings;
-  }
 
 }

@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 import { UserService } from '../../services/user.service';
 import { UnitService } from '../../services/unit.service';
+import { cilSpeak } from '@coreui/icons';
+
 
 @Component({
   templateUrl: 'user-create.component.html',
@@ -19,18 +22,26 @@ export class UserCreateComponent {
       email: ['', [Validators.required, Validators.email, Validators.maxLength(250)]],
       name: ['', [Validators.required, Validators.maxLength(45)]],
       lastname: ['', [Validators.required, Validators.maxLength(45)]],
-      unitsSelect: ['', [Validators.required, Validators.min(1), Validators.max(426)]]
+      unitsSelect: ['', [Validators.required]]
     });
   }
 
   async ngOnInit(): Promise<void> {
-    this.allOptions = await this.unitService.getAllUnitsPromiseAnyArrayAsync();
-    this.onSearch('');
-    if (this.allOptions.length > 0) {
-      this.unitId = this.allOptions[0].id;
-    }
+    this.optionsUnit = (await this.unitService.getAllUnitsPromiseAnyArrayAsync()).map((option: any) => ({
+      value: option.id,
+      label: "Casa #" + option.number,
+    }));
+    this.optionsUnit$.next([...this.optionsUnit]);
+    this.searchValueUnit$.subscribe((next) => {
+      const filtered = this.optionsUnit.filter((option: any) =>
+        option.label.toLowerCase().endsWith(next.trimEnd().toLowerCase()),
+      );
+      this.optionsUnit$.next([...filtered]);
+    });
     this.cdr.detectChanges();
   }
+
+  icons = { cilSpeak };
 
   form: FormGroup;
 
@@ -48,15 +59,9 @@ export class UserCreateComponent {
 
   protected error: boolean = false;
 
-  private allOptions: any[] = [];
-
-  options = this.allOptions;
-
-  onSearch(term: string) {
-    this.options = this.allOptions.filter(option =>
-      option.number.toLowerCase().includes(term.toLowerCase())
-    );
-  }
+  optionsUnit: any;
+  readonly optionsUnit$ = new BehaviorSubject<any[]>([]);
+  readonly searchValueUnit$ = new Subject<string>();
 
   clearForm(): void {
     this.errorMessage = "";

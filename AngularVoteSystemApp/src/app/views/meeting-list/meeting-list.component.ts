@@ -13,28 +13,12 @@ export class MeetingListComponent {
   constructor(private meetingService: MeetingService) { }
 
   async ngOnInit(): Promise<void> {
-    this.meetingsData$ = await this.getUsers();
+    this.meetingsData$ = await this.meetingService.getAllMeetingsPromiseObservableIItemArrayAsync();
   }
 
   title = 'Lista de Asambleas';
 
   meetingsData$!: Observable<IItem[]>;
-
-
-
-  private async getUsers(): Promise<Observable<IItem[]>> {
-    return (await this.meetingService.getAllMeetingsAsync()).pipe(
-      map((itemArray: []) => {
-        let meetings: IItem[] = [];
-        itemArray.forEach((item: any) => {
-          let meeting: IItem = {
-            Identificador: item.id, 'Fecha de Celebración': item.date, 'Identificador del Administrador': item.adminId
-          };
-          meetings.push(meeting);
-        });
-        return meetings;
-      })
-    );
-  }
+              
 
 }
