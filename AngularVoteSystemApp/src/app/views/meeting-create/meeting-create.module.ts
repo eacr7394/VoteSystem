@@ -3,19 +3,20 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { DatePickerModule } from '../../../lib/date-picker/date-picker.module';
+
 import {
   AvatarModule,
   ButtonGroupModule,
   ButtonModule,
   CardModule,
+  DatePickerModule,
   FormModule,
   GridModule,
   NavModule,
   ProgressModule,
   TableModule,
   TabsModule
-} from '@coreui/angular';
+} from '@coreui/angular-pro';
 import { IconModule } from '@coreui/icons-angular';
 import { ChartjsModule } from '@coreui/angular-chartjs';
 

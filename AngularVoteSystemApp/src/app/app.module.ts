@@ -23,6 +23,7 @@ import {
   ButtonGroupModule,
   ButtonModule,
   CardModule,
+  DatePickerModule,
   DropdownModule,
   FooterModule,
   FormModule,
@@ -33,13 +34,12 @@ import {
   ProgressModule,
   SharedModule,
   SidebarModule,
+  SmartTableModule,
   TabsModule,
   UtilitiesModule
-} from '@coreui/angular';
+} from '@coreui/angular-pro';
 
-import { IconModule, IconSetService } from '@coreui/icons-angular';
-import { SmartTableModule } from '../lib/smart-table/smart-table.module';    
-import { DatePickerModule } from '../lib/date-picker/date-picker.module';
+import { IconModule, IconSetService } from '@coreui/icons-angular';        
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,

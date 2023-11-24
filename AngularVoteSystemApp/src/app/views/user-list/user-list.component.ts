@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { IItem } from '../../../lib/smart-table/smart-table.type';
+import { IItem } from '@coreui/angular-pro';
 import { UserListService } from './user-list.service';
 
 @Component({

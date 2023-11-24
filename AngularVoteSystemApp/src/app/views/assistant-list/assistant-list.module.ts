@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from '@coreui/angular';
-import { SmartTableModule } from '../../../lib/smart-table/smart-table.module';
+import { SharedModule, SmartTableModule } from '@coreui/angular-pro';
 
 import {
   AvatarModule,
@@ -15,7 +14,7 @@ import {
   ProgressModule,
   TableModule,
   TabsModule
-} from '@coreui/angular';
+} from '@coreui/angular-pro';
 import { IconModule } from '@coreui/icons-angular';
 import { ChartjsModule } from '@coreui/angular-chartjs';
 

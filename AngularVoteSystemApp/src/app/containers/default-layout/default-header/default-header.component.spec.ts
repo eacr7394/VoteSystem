@@ -8,7 +8,7 @@ import {
   GridModule,
   HeaderModule,
   NavModule, SidebarModule
-} from '@coreui/angular';
+} from '@coreui/angular-pro';
 import { IconSetService } from '@coreui/icons-angular';
 import { iconSubset } from '../../../icons/icon-subset';
 import { DefaultHeaderComponent } from './default-header.component';
