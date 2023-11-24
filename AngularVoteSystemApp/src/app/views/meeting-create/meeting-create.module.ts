@@ -15,8 +15,7 @@ import {
   TableModule,
   TabsModule
 } from '@coreui/angular-pro';
-import { IconModule } from '@coreui/icons-angular';
-import { ChartjsModule } from '@coreui/angular-chartjs';
+import { IconModule } from '@coreui/icons-angular';      
 
 import { MeetingCreateRoutingModule } from './meeting-create-routing.module';
 import { MeetingCreateComponent } from './meeting-create.component';
@@ -36,7 +35,6 @@ import { MeetingCreateComponent } from './meeting-create.component';
     FormModule,
     ButtonModule,
     ButtonGroupModule,
-    ChartjsModule,
     AvatarModule,
     TableModule,
     FormsModule,    

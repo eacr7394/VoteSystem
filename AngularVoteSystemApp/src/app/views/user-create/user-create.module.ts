@@ -16,8 +16,7 @@ import {
   TableModule,
   TabsModule
 } from '@coreui/angular-pro';
-import { IconModule } from '@coreui/icons-angular';
-import { ChartjsModule } from '@coreui/angular-chartjs';
+import { IconModule } from '@coreui/icons-angular';      
 
 import { UserCreateRoutingModule } from './user-create-routing.module';
 import { UserCreateComponent } from './user-create.component';
@@ -37,7 +36,6 @@ import { UserCreateComponent } from './user-create.component';
     FormModule,
     ButtonModule,
     ButtonGroupModule,
-    ChartjsModule,
     AvatarModule,
     TableModule,
     FormsModule,

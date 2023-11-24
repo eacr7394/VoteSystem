@@ -16,8 +16,7 @@ import {
   TableModule,
   TabsModule
 } from '@coreui/angular-pro';
-import { IconModule } from '@coreui/icons-angular';
-import { ChartjsModule } from '@coreui/angular-chartjs';
+import { IconModule } from '@coreui/icons-angular';       
 
 import { VotingCreateRoutingModule } from './voting-create-routing.module';
 import { VotingCreateComponent } from './voting-create.component';
@@ -37,7 +36,6 @@ import { VotingCreateComponent } from './voting-create.component';
     FormModule,
     ButtonModule,
     ButtonGroupModule,
-    ChartjsModule,
     AvatarModule,
     TableModule,
     FormsModule,

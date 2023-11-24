@@ -15,8 +15,7 @@ import {
   TableModule,
   TabsModule
 } from '@coreui/angular-pro';
-import { IconModule } from '@coreui/icons-angular';
-import { ChartjsModule } from '@coreui/angular-chartjs';
+import { IconModule } from '@coreui/icons-angular';       
 
 import { AssistantListRoutingModule } from './assistant-list-routing.module';
 import { AssistantListComponent } from './assistant-list.component';
@@ -35,8 +34,7 @@ import { AssistantListComponent } from './assistant-list.component';
     ButtonModule,
     FormModule,
     ButtonModule,
-    ButtonGroupModule,
-    ChartjsModule,
+    ButtonGroupModule,   
     AvatarModule,
     TableModule,
     SmartTableModule,
