@@ -1,15 +1,24 @@
 import { Component } from '@angular/core';
-import { VotingCreateService } from './voting-create.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MeetingListService } from '../meeting-list/meeting-list.service';    
 
+import { MeetingService } from '../../services/meeting.service';
+import { VotingService } from '../../services/voting.service';
 
 @Component({
   templateUrl: 'voting-create.component.html',
-  styleUrls: ['voting-create.component.scss']
+  styleUrls: ['voting-create.component.scss'],
+  providers: [MeetingService, VotingService]
 })
 export class VotingCreateComponent {
+
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef,
+    private votingService: VotingService,
+    private meetingService: MeetingService) {
+    this.form = this.fb.group({
+      meetingsSelect: ['', [Validators.required]],
+    });
+  }
 
   form: FormGroup;
 
@@ -25,7 +34,6 @@ export class VotingCreateComponent {
 
   optionsMeetings = this.allOptionsMeetings;
      
-
   onSearchMeeting(term: string) {
     this.optionsMeetings = this.allOptionsMeetings.filter(option =>
       option.value.toLowerCase().includes(term.toLowerCase())
@@ -33,22 +41,12 @@ export class VotingCreateComponent {
   }
 
   async ngOnInit(): Promise<void> {
-
     this.allOptionsMeetings = await this.getMeetings();
     this.onSearchMeeting('');
     if (this.allOptionsMeetings.length > 0) {
       this.meetingId = this.allOptionsMeetings[0].id;
     }
     this.cdr.detectChanges();
-  }
-
-
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef,
-    private votingCreateService: VotingCreateService,  
-    private meetingListService: MeetingListService) {
-    this.form = this.fb.group({        
-      meetingsSelect: ['', [Validators.required]],
-    });
   }
 
   clearForm(): void {
@@ -58,11 +56,9 @@ export class VotingCreateComponent {
   }
 
   private validateForm(): boolean {
-
     Object.values(this.form.controls).forEach(control => {
       control.markAsTouched();
     });
-
     return this.form.valid;
   }
 
@@ -75,7 +71,7 @@ export class VotingCreateComponent {
       meetingId: this.meetingId.toLowerCase(),
     };
 
-    (await this.votingCreateService.createVotingAsync(voting)).subscribe(
+    (await this.votingService.createVotingAsync(voting)).subscribe(
       (response: any) => {
         this.clearForm();
         console.log('Tema de votación creado exitosamente', response);
@@ -94,7 +90,7 @@ export class VotingCreateComponent {
 
     const meetings: any[] = [];
 
-    (await this.meetingListService.getAllMeetingsAsync()).forEach((item: []) => {
+    (await this.meetingService.getAllMeetingsAsync()).forEach((item: []) => {
       item.forEach((item: any) => {
         let obj = { id: item.id, value: String(item.date) };
         meetings.push(obj);
@@ -103,4 +99,5 @@ export class VotingCreateComponent {
 
     return meetings;
   }
+
 }

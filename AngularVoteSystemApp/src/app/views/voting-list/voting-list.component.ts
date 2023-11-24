@@ -1,37 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IItem } from '@coreui/angular-pro';
-import { map, Observable } from 'rxjs';
-import { VotingListService } from './voting-list.service';
+import { Observable } from 'rxjs';
+                                                                  
+import { VotingService } from '../../services/voting.service';
 
 @Component({
   templateUrl: 'voting-list.component.html',
   styleUrls: ['voting-list.component.scss'],
-  providers: [VotingListService],
+  providers: [VotingService],
 })
-export class VotingListComponent implements OnInit {
-  title = 'Lista de Quorums';
-  votingsData$!: Observable<IItem[]>;
-
-  constructor(private votingListService: VotingListService) { }
+export class VotingListComponent {
+  constructor(private votingService: VotingService) { }
 
   async ngOnInit(): Promise<void> {
-    this.votingsData$ = await this.getVotings();
+    this.votingsData$ = await this.votingService.getAllVotingsPromiseObservableIItemArray();
   }
 
-  private async getVotings(): Promise<Observable<IItem[]>> {
-    return (await this.votingListService.getVotingsAsync()).pipe(
-      map((itemArray: []) => {
-        let votings: IItem[] = [];
-        itemArray.forEach((item: any) => {
-          let voting: IItem = {
-            '# de Casa': item.unitNumber, 'Fecha de Asamblea': item.meetingDate,
-            Vota: 'yes' === item.canVote ? "Sí" : "No"
-          };
-          console.log(item);
-          votings.push(voting);
-        });
-        return votings;
-      })
-    );
-  }
+  title = 'Lista de Quorums';
+
+  votingsData$!: Observable<IItem[]>;
+
 }

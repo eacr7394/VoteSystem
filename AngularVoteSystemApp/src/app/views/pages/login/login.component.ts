@@ -1,29 +1,34 @@
 import { Component } from '@angular/core';
-import { LoginService } from './login.service';
 import { IndexedDbService } from '../../../indexed-db.service';
 import {  Router } from '@angular/router';   
+
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  providers: [AuthService]
 })
 export class LoginComponent {
-  protected userName: string = "";
-  protected password: string = "";
-  protected error: boolean = false;
-  protected errorMessage: string = "Verifique sus credenciales";
-
-  constructor(private loginService: LoginService, private db: IndexedDbService,
+  constructor(private authService: AuthService, private db: IndexedDbService,
     private router: Router) {
   }
 
   async ngOnInit(): Promise<void> {
 
-    if (await this.loginService.isAuthenticated()) {
+    if (await this.authService.isAuthenticated()) {
       this.router.navigate(['/user-list']);
     }
   }
+
+  protected userName: string = "";
+
+  protected password: string = "";
+
+  protected error: boolean = false;
+
+  protected errorMessage: string = "Verifique sus credenciales";
 
   clearForm(): void {
     this.errorMessage = "Verifique sus credenciales";
@@ -36,7 +41,7 @@ export class LoginComponent {
     if (this.userName == "" || this.password == "") {
       return;
     }
-    (await this.loginService.login(this.userName, this.password)).subscribe(
+    (await this.authService.authorize(this.userName, this.password)).subscribe(
       (response: any) => {
         this.clearForm();
         this.db.set(this.db.IsAuthenticatedKey, true);
@@ -56,13 +61,13 @@ export class LoginComponent {
   }
 
   async logout(): Promise<void> {
-    (await this.loginService.logout()).subscribe(
+    (await this.authService.logout()).subscribe(
       (response: void) => {
-        // Manejar la respuesta exitosa (redirección, limpiar token, etc.)
+        this.db.set(this.db.IsAuthenticatedKey, false);
+        this.db.set(this.db.UserIdKey, "");
         console.log('Cierre de sesión exitoso', response);
       },
       (error: void) => {
-        // Manejar el error (mostrar mensaje de error, etc.)
         console.error('Error al cerrar sesión', error);
       }
     );

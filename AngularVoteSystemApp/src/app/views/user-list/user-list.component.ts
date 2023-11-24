@@ -1,39 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { IItem } from '@coreui/angular-pro';
-import { UserListService } from './user-list.service';
+
+import { UserService } from '../../services/user.service';
 
 @Component({
   templateUrl: 'user-list.component.html',
   styleUrls: ['user-list.component.scss'],
-  providers: [UserListService],
+  providers: [UserService],
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent {
+
+  constructor(private userService: UserService) { }
+
+  async ngOnInit(): Promise<void> {
+    this.usersData$ = await this.userService.getAllUsersPromiseObservableIItemArrayAsync();
+  }
 
   title = 'Lista de Propietarios';
 
   usersData$!: Observable<IItem[]>;
 
-  constructor(private userListService: UserListService) { }
-
-  async ngOnInit(): Promise<void> {
-    this.usersData$ = await this.getUsers();
-  }
-
-  private async getUsers(): Promise<Observable<IItem[]>> {
-    return (await this.userListService.getAllUsersAsync()).pipe(
-      map((itemArray: []) => {
-        let users: IItem[] = [];
-        itemArray.forEach((item: any) => {
-          let user: IItem = {
-            Correo: item.email, Nombre: item.name, Apellido: item.lastname,
-            '# de Casa': item.unitNumber, Creado: new Date(item.created).toLocaleString(),
-            Actualizado: new Date(item.updated).toLocaleString()
-          };
-          users.push(user);
-        });
-        return users;
-      })
-    );
-  }
 }

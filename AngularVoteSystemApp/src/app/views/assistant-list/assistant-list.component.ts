@@ -1,37 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { IItem } from '@coreui/angular-pro';
-import { AssistantListService } from './assistant-list.service';
+import { AssistantService } from '../../services/assistant.service'; 
 
 @Component({
   templateUrl: 'assistant-list.component.html',
   styleUrls: ['assistant-list.component.scss'],
-  providers: [AssistantListService],
+  providers: [AssistantService],
 })
-export class AssistantListComponent implements OnInit {
-  title = 'Lista de Quorums';
-  assistantsData$!: Observable<IItem[]>;
+export class AssistantListComponent {
 
-  constructor(private assistantListService: AssistantListService) { }
+  constructor(private assistantService: AssistantService) { }
 
   async ngOnInit(): Promise<void> {
-    this.assistantsData$ = await this.getAssistants();
+    this.assistantsData$ = await this.assistantService
+      .getAllAssistantsPromiseObservableIItemArrayAsync();
   }
 
-  private async getAssistants(): Promise<Observable<IItem[]>> {
-    return (await this.assistantListService.getAssistantsAsync()).pipe(
-      map((itemArray: []) => {
-        let assistants: IItem[] = [];
-        itemArray.forEach((item: any) => {
-          let assistant: IItem = {
-            '# de Casa': item.unitNumber, 'Fecha de Asamblea': item.meetingDate,
-            Vota: 'yes' === item.canVote ? "Sí" : "No"
-          };
-          console.log(item);
-          assistants.push(assistant);
-        });
-        return assistants;
-      })
-    );
-  }
+  title = 'Lista de Quorums';
+
+  assistantsData$!: Observable<IItem[]>;
+ 
 }

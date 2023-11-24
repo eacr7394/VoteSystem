@@ -1,25 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { IItem } from '@coreui/angular-pro';
-import { MeetingListService } from './meeting-list.service';
+import { MeetingService } from '../../services/meeting.service';
 
 @Component({
   templateUrl: 'meeting-list.component.html',
   styleUrls: ['meeting-list.component.scss'],
-  providers: [MeetingListService],
+  providers: [MeetingService],
 })
-export class MeetingListComponent implements OnInit {
-  title = 'Lista de Asambleas';
-  meetingsData$!: Observable<IItem[]>;
+export class MeetingListComponent {
 
-  constructor(private meetingListService: MeetingListService) { }
+  constructor(private meetingService: MeetingService) { }
 
   async ngOnInit(): Promise<void> {
     this.meetingsData$ = await this.getUsers();
   }
 
+  title = 'Lista de Asambleas';
+
+  meetingsData$!: Observable<IItem[]>;
+
+
+
   private async getUsers(): Promise<Observable<IItem[]>> {
-    return (await this.meetingListService.getAllMeetingsAsync()).pipe(
+    return (await this.meetingService.getAllMeetingsAsync()).pipe(
       map((itemArray: []) => {
         let meetings: IItem[] = [];
         itemArray.forEach((item: any) => {
@@ -32,4 +36,5 @@ export class MeetingListComponent implements OnInit {
       })
     );
   }
+
 }

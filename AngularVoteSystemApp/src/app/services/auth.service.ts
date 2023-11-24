@@ -1,19 +1,19 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../../app.environment';
-import { IndexedDbService } from '../../../indexed-db.service';
+import { environment } from '../app.environment';
+import { IndexedDbService } from '../indexed-db.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LoginService {
+export class AuthService {
 
   private apiUrl = environment.apiUrl + "/auth";
 
   constructor(private http: HttpClient, private db: IndexedDbService) { }
 
-  async login(userName: string, password: string): Promise<Observable<any>> {
+  async authorize(userName: string, password: string): Promise<Observable<any>> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });

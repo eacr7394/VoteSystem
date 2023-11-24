@@ -1,29 +1,69 @@
 import { Component } from '@angular/core';
-import { AssistantCreateService } from './assistant-create.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MeetingListService } from '../meeting-list/meeting-list.service';
-import { UserCreateService } from '../user-create/user-create.service';
-
+import { AssistantService } from '../../services/assistant.service';
+import { MeetingService } from '../../services/meeting.service';
+import { UnitService } from '../../services/unit.service';
 
 @Component({
   templateUrl: 'assistant-create.component.html',
-  styleUrls: ['assistant-create.component.scss']
+  styleUrls: ['assistant-create.component.scss'],
+  providers: [AssistantService, MeetingService, UnitService],
 })
 export class AssistantCreateComponent {
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef,
+    private assistantService: AssistantService,     
+    private meetingService: MeetingService,
+    private unitService: UnitService) {
+    this.form = this.fb.group({
+      unitsSelect: ['', [Validators.required]],
+      canVoteSelect: ['', [Validators.required]],
+      meetingsSelect: ['', [Validators.required]],
+    });
+  }
 
-  form: FormGroup;
+  async ngOnInit(): Promise<void> {
+
+    this.allOptionsMeetings = await this.getMeetings();
+
+    this.onSearchMeeting('');
+
+    if (this.allOptionsMeetings.length > 0) {
+
+      this.meetingId = this.allOptionsMeetings[0].id;
+
+    }
+
+    this.allOptionsUnits = await this.unitService.getAllUnitsPromiseAnyArrayAsync();
+
+    this.onSearchUnit('');
+
+    if (this.allOptionsUnits.length > 0) {
+
+      this.unitId = this.allOptionsUnits[0].id;
+
+    }
+
+    this.cdr.detectChanges();
+
+  }
 
   title = 'Quorum';
 
+  form: FormGroup;
+
   protected canVote: string = "";
-  protected unitId: string = "";   
-  protected meetingId: string = "";        
+
+  protected unitId: string = "";
+
+  protected meetingId: string = "";
 
   protected errorMessage: string = "";
+
   protected error: boolean = false;
 
   private allOptionsUnits: any[] = [];
+
   optionsUnits = this.allOptionsUnits;
 
   optionsCanVotes: any[] = [{ id: "yes", value: "Sí" }, { id: "no", value: "No" }];
@@ -48,33 +88,6 @@ export class AssistantCreateComponent {
     this.optionsMeetings = this.allOptionsMeetings.filter(option =>
       option.value.toLowerCase().includes(term.toLowerCase())
     );
-  }
-
-  async ngOnInit(): Promise<void> {
-
-    this.allOptionsMeetings = await this.getMeetings();
-    this.onSearchMeeting('');
-    if (this.allOptionsMeetings.length > 0) {
-      this.meetingId = this.allOptionsMeetings[0].id;
-    }
-    this.allOptionsUnits = await this.getUnits();
-    this.onSearchUnit('');
-    if (this.allOptionsUnits.length > 0) {
-      this.unitId = this.allOptionsUnits[0].id;
-    }
-    this.cdr.detectChanges();
-  }
-
-
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef,
-    private assistantCreateService: AssistantCreateService,
-    private userCreateService: UserCreateService,
-    private meetingListService: MeetingListService) {
-    this.form = this.fb.group({          
-      unitsSelect: ['', [Validators.required]],
-      canVoteSelect: ['', [Validators.required]],
-      meetingsSelect: ['', [Validators.required]],
-    });
   }
 
   clearForm(): void {
@@ -105,7 +118,7 @@ export class AssistantCreateComponent {
       meetingId: this.meetingId.toLowerCase(),
     };
 
-    (await this.assistantCreateService.createAssistantAsync(user)).subscribe(
+    (await this.assistantService.createAssistantAsync(user)).subscribe(
       (response: any) => {
         this.clearForm();
         console.log('Asistencia creada exitosamente', response);
@@ -118,27 +131,13 @@ export class AssistantCreateComponent {
         console.error('Error al crear la assistencia', response);
       }
     );
-  }
-
-  async getUnits(): Promise<any[]> {
-
-    const units: any[] = [];
-
-    (await this.userCreateService.getAllUnitsAsync()).forEach((item: []) => {
-      item.forEach((item: any) => {
-        let obj = { id: item.id, number: String(item.number) };
-        units.push(obj);
-      });
-    });
-
-    return units;
-  }
+  }            
 
   async getMeetings(): Promise<any[]> {
 
     const meetings: any[] = [];
 
-    (await this.meetingListService.getAllMeetingsAsync()).forEach((item: []) => {
+    (await this.meetingService.getAllMeetingsAsync()).forEach((item: []) => {
       item.forEach((item: any) => {
         let obj = { id: item.id, value: String(item.date) };
         meetings.push(obj);
@@ -147,4 +146,5 @@ export class AssistantCreateComponent {
 
     return meetings;
   }
+
 }

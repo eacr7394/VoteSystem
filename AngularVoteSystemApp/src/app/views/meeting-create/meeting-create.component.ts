@@ -1,27 +1,36 @@
 import { Component } from '@angular/core';
-import { MeetingCreateService } from './meeting-create.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { IndexedDbService } from '../../indexed-db.service';
 
+import { MeetingService } from '../../services/meeting.service';
+
 @Component({
   templateUrl: 'meeting-create.component.html',
-  styleUrls: ['meeting-create.component.scss']
+  styleUrls: ['meeting-create.component.scss'],
+  providers: [MeetingService]
 })
 export class MeetingCreateComponent {
-
-  form: FormGroup;
-  title = 'Crear Reunión';
-  date: Date = new Date();
-  errorMessage: string = "";
-  error: boolean = false;
-  minDate: Date = this.date;
-
-  constructor(private db: IndexedDbService, private fb: FormBuilder, private meetingCreateService: MeetingCreateService, private cdr: ChangeDetectorRef) {
+  constructor(private db: IndexedDbService, private fb: FormBuilder,
+    private meetingService: MeetingService, private cdr: ChangeDetectorRef) {
     this.form = this.fb.group({
       dateCreated: []
     });
   }
+
+  title = 'Crear Reunión';
+
+  form: FormGroup;
+
+  date: Date = new Date();
+
+  errorMessage: string = "";
+
+  error: boolean = false;
+
+  minDate: Date = this.date;
+
+
 
   clearForm(): void {
     this.errorMessage = "";
@@ -42,6 +51,7 @@ export class MeetingCreateComponent {
   private getUtcDate(date: Date): string {
     return date.toISOString().split('T')[0];
   }
+
   async createMeeting(): Promise<void> {
     if (!this.validateForm()) {
       return;
@@ -56,7 +66,7 @@ export class MeetingCreateComponent {
       date: this.getUtcDate(this.date)
     };
 
-    (await this.meetingCreateService.createMeetingAsync(meeting)).subscribe(
+    (await this.meetingService.createMeetingAsync(meeting)).subscribe(
       (response: any) => {
         this.clearForm();
         console.log('Asamblea creada exitosamente', response);
@@ -70,4 +80,5 @@ export class MeetingCreateComponent {
       }
     );
   }
+
 }
