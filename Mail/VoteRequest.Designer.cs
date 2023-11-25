@@ -100,6 +100,78 @@ namespace Mail {
         ///            margin: 0 auto;
         ///      [resto de la cadena truncado]&quot;;.
         /// </summary>
+        public static string VoteRequestAcknowledgmentBodyHtml {
+            get {
+                return ResourceManager.GetString("VoteRequestAcknowledgmentBodyHtml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;es&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
+        ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+        ///    &lt;title&gt;Asamblea de Propietarios - P.H. Monte Bello&lt;/title&gt;
+        ///    &lt;style&gt;
+        ///        body {
+        ///            font-family: &apos;Arial&apos;, sans-serif;
+        ///            background-color: #f4f4f4;
+        ///            margin: 0;
+        ///            padding: 20px;
+        ///            text-align: center;
+        ///        }
+        ///
+        ///        .container {
+        ///            max-width: 600px;
+        ///            margin: 0 auto;
+        ///      [resto de la cadena truncado]&quot;;.
+        /// </summary>
+        public static string VoteRequestAcknowledgmentResultBodyHtml {
+            get {
+                return ResourceManager.GetString("VoteRequestAcknowledgmentResultBodyHtml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Resultados - Votación - Asamblea de Propietarios del P.H. Monte Bello.
+        /// </summary>
+        public static string VoteRequestAcknowledgmentResultSubject {
+            get {
+                return ResourceManager.GetString("VoteRequestAcknowledgmentResultSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Recibo de Acuse - Votación - Asamblea de Propietarios del P.H. Monte Bello.
+        /// </summary>
+        public static string VoteRequestAcknowledgmentSubject {
+            get {
+                return ResourceManager.GetString("VoteRequestAcknowledgmentSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;es&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
+        ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+        ///    &lt;title&gt;Asamblea de Propietarios - P.H. Monte Bello&lt;/title&gt;
+        ///    &lt;style&gt;
+        ///        body {
+        ///            font-family: &apos;Arial&apos;, sans-serif;
+        ///            background-color: #f4f4f4;
+        ///            margin: 0;
+        ///            padding: 20px;
+        ///            text-align: center;
+        ///        }
+        ///
+        ///        .container {
+        ///            max-width: 600px;
+        ///            margin: 0 auto;
+        ///      [resto de la cadena truncado]&quot;;.
+        /// </summary>
         public static string VoteRequestBodyHtml {
             get {
                 return ResourceManager.GetString("VoteRequestBodyHtml", resourceCulture);
@@ -112,6 +184,15 @@ namespace Mail {
         public static string VoteRequestSubject {
             get {
                 return ResourceManager.GetString("VoteRequestSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a votingresultexcellcid.
+        /// </summary>
+        public static string VotingResultExcellCid {
+            get {
+                return ResourceManager.GetString("VotingResultExcellCid", resourceCulture);
             }
         }
     }

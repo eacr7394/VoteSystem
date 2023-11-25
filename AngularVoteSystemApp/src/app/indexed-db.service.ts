@@ -9,7 +9,8 @@ export class IndexedDbService {
   private databaseName: string = "voteSystemDb";
   private storeCollection: string = "voteSystemItems";
   public readonly IsAuthenticatedKey: string = "iak";
-  public readonly UserIdKey: string = "iaku";
+  public readonly UserIdKey: string = "iaku";         
+  public readonly AnonymousVotingQueryParamsKey: string = "avqpk";
 
   private async initializeDB() {
     const STORE_COLLECTION = this.storeCollection;

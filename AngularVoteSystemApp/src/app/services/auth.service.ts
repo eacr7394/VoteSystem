@@ -29,9 +29,27 @@ export class AuthService {
     return await this.http.post(`${this.apiUrl}/logout`, {}, options);
   }
 
+  async renewToken(): Promise<Observable<any>>  {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const options = { headers, withCredentials: true };
+    return await this.http.post(`${this.apiUrl}/renewToken`, {}, options);
+  }
+
   public async isAuthenticated(): Promise<boolean> {
+
+    (await this.renewToken()).subscribe(
+      (response: any) => {      
+        console.log('RenewToken exitoso', response);
+      },
+      (response: any) => {       
+        console.error('Error en el RenewToken', response);
+      }
+    );
+
     let authenticatedObject: any = await this.db.get(this.db.IsAuthenticatedKey);
-    let authenticated: boolean = authenticatedObject != null && authenticatedObject ? true : false;
+    let authenticated: boolean = authenticatedObject != null && authenticatedObject.value ? true : false;
     return authenticated;
   }
 

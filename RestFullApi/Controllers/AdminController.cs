@@ -5,8 +5,8 @@
 [ApiController]
 public class AdminController : BaseController<AdminController>
 {
-    public AdminController(ILogger<AdminController> logger, VoteSystemContext voteSystemContext) 
-        : base(logger, voteSystemContext)
+    public AdminController(ILogger<AdminController> logger) 
+        : base(logger)
     {
     }
 

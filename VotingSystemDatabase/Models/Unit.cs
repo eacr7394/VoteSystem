@@ -11,5 +11,5 @@ public partial class Unit
 
     public virtual ICollection<Assistant> Assistants { get; set; } = new List<Assistant>();
 
-    public virtual ICollection<User> Users { get; set; } = new List<User>();
+    public virtual User? User { get; set; }
 }

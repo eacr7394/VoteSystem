@@ -1,0 +1,14 @@
+﻿global using Microsoft.AspNetCore.Mvc;
+global using System.Text;
+global using Microsoft.IdentityModel.Tokens;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using Microsoft.Extensions.Options;
+global using Microsoft.AspNetCore.Mvc.Filters;
+global using Microsoft.Extensions.Logging;
+global using Common;
+global using VotingSystemDatabase.Models;
+global using Microsoft.AspNetCore.Http;
+global using Newtonsoft.Json;
+global using System.Net;
+global using static Common.StringExtension;

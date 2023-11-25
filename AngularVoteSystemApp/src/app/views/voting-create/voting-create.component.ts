@@ -19,6 +19,7 @@ export class VotingCreateComponent {
     private meetingService: MeetingService) {
     this.form = this.fb.group({
       meetingsSelect: ['', [Validators.required]],
+      description: ['', [Validators.required, Validators.maxLength(250)]],
     });
   }
 
@@ -45,7 +46,9 @@ export class VotingCreateComponent {
 
   title = 'Creación de temas de votación';
 
-  protected meetingId: string = "";        
+  protected meetingId: string = "";
+
+  protected description: string = "";
 
   protected errorMessage: string = "";
 
@@ -59,6 +62,7 @@ export class VotingCreateComponent {
   clearForm(): void {
     this.errorMessage = "";
     this.meetingId = "";
+    this.description = "";
     this.error = false;
   }
 
@@ -76,6 +80,7 @@ export class VotingCreateComponent {
     let voting = {
       id: "",                   
       meetingId: this.meetingId.toLowerCase(),
+      description: this.description.toUpperCase(),
     };
 
     (await this.votingService.createVotingAsync(voting)).subscribe(

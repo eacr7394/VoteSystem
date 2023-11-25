@@ -1,0 +1,108 @@
+<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col md="6">
+        <c-card-group>
+          <c-card class="p-6">
+            <c-card-body>
+
+              <c-row class="justify-content-center text-center">
+                <img cImg rounded src="assets/images/ph_monte_bello_logo.svg" style="width: 350px; height: 200px;" />
+                <c-nav variant="tabs">
+                  <a [active]="true" [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="0" cNavLink>Votación</a>
+                  <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink>Resultados en Tiempo Real</a>
+                </c-nav>
+                <c-tab-content #tabContent="cTabContent">
+                  <c-tab-pane class="p-6">
+                    <form cForm>
+                      <p class="text-medium-emphasis">Tu Voto es Muy Importante</p>
+
+                      <c-input-group class="mb-3">
+                        <c-input-group class="mb-3">
+                          <b>
+                            Fecha de Asamblea
+                          </b>
+                        </c-input-group>
+                        <span cInputGroupText>
+                          <svg cIcon name="cil-people"></svg>
+                        </span>
+                        <input cFormControl placeholder="Fecha de Asamblea" disabled value="{{meetingDateLabel}}" />
+                      </c-input-group>
+
+                      <c-input-group class="mb-3">
+                        <c-input-group class="mb-3">
+                          <b>
+                            Tema de Votación
+                          </b>
+                        </c-input-group>
+                        <span cInputGroupText>
+                          <svg cIcon name="cil-description"></svg>
+                        </span>
+                        <input cFormControl placeholder="Tema de Votación" disabled value="{{votingDescriptionLabel}}" />
+                      </c-input-group>
+
+                      <c-input-group class="mb-3">
+                        <c-input-group class="mb-3">
+                          <b>
+                            # de Casa
+                          </b>
+                        </c-input-group>
+                        <span cInputGroupText>
+                          <svg cIcon name="cil-save"></svg>
+                        </span>
+                        <input cFormControl placeholder="# de Casa" disabled value="{{unitNumberLabel}}" />
+                      </c-input-group>
+                      <c-input-group class="mb-3 justify-content-center">
+                        <c-input-group style="color: black" class="mb-3">
+                          <c-form-check>
+                            <input cFormCheckInput type="radio" value="yes" name="accepted" [(ngModel)]="accepted" />
+                            <label cFormCheckLabel style="color: forestgreen">Estoy a Favor</label>
+                          </c-form-check>
+                          &nbsp;&nbsp;&nbsp;
+                          <c-form-check>
+                            <input cFormCheckInput type="radio" value="no" name="accepted" [(ngModel)]="accepted" />
+                            <label cFormCheckLabel style="color:red">Estoy en Contra</label>
+                          </c-form-check>
+                        </c-input-group>
+                      </c-input-group>
+
+                      <p></p>
+
+                      <c-row class="justify-content-center text-center" style="color:red;" [hidden]="!error">
+                        <h6>{{this.errorMessage}}</h6>
+                      </c-row>
+
+                      <div class="d-grid">
+                        <button cButton color="success" style="color: white" (click)="vote()">Votar</button>
+                      </div>
+                    </form>
+                    <input type="hidden" name="user_id" [(ngModel)]="userId" />
+                    <input type="hidden" name="unit_id" [(ngModel)]="unitId" />
+                    <input type="hidden" name="voting_id" [(ngModel)]="votingId" />
+                    <input type="hidden" name="unique_key" [(ngModel)]="uniqueKey" />
+                  </c-tab-pane>
+                  <c-tab-pane class="p-6">
+
+                    <c-smart-table #tableUsers
+                                   activePage="1"
+                                   [columnFilter]="true"
+                                   [columnSorter]="true"
+                                   header
+                                   [itemsPerPage]="10"
+                                   [items]="(userHasvotingsData$ | async) ?? []"
+                                   pagination
+                                   [tableProps]="{ hover: true, striped: true, responsive: true }">
+                    </c-smart-table>
+
+
+                  </c-tab-pane>
+                </c-tab-content>
+
+              </c-row>
+            </c-card-body>
+          </c-card>
+        </c-card-group>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>

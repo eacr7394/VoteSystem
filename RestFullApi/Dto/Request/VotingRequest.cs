@@ -7,6 +7,4 @@ public sealed class VotingRequest
     public string Description { get; set; } = null!;
 
     public string MeetingId { get; set; } = null!;
-
-    public string MeetingAdminId { get; set; } = null!;
 }

@@ -7,6 +7,8 @@ public partial class UserHasVoting
 {
     public string Accepted { get; set; } = null!;
 
+    public DateTime? CloseTime { get; set; }
+
     public DateTime? VotedTime { get; set; }
 
     public DateTime Created { get; set; }

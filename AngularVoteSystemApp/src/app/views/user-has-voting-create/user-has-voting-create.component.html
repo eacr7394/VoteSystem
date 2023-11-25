@@ -1,0 +1,75 @@
+<c-row class="justify-content-center">
+  <c-col md="6">
+    <c-card class="p-3">
+      <c-card-body>
+        <form cForm [formGroup]="form">
+          <c-row class="justify-content-center text-center">
+            <p class="text-medium-emphasis">Enviar Votaciones a Propietarios</p>
+
+
+            <c-input-group class="mb-6">
+              <c-input-group style="color: black" class="mb-3">
+                <h6>Fecha de Asamblea</h6>
+              </c-input-group>
+              <c-multi-select selectionType="text" formControlName="meetingsSelect" id="meetingsSelect"
+                              [options]="(optionsMeeting$ | async) ?? []"
+                              placeholder="Fecha de Asamblea"
+                              [(ngModel)]="meetingId"
+                              (searchValueChange)="searchValueMeeting$.next($event)"
+                              class="form-control">
+                <c-multi-select-option *ngFor="let option of optionsMeeting$ | async"
+                                       [value]="option.value">
+                  <svg [cIcon]="icons.cil-speak" class="me-1" />
+                  {{ option.label }}
+                </c-multi-select-option>
+              </c-multi-select>
+
+              <c-input-group style="color: red" class="mb-3">
+                <h6 *ngIf="form.get('meetingsSelect')?.hasError('required') && form.get('meetingsSelect')?.touched">
+                  La fecha de la Asamblea es requerida.
+                </h6>
+              </c-input-group>
+
+            </c-input-group>
+
+            <c-input-group class="mb-6">
+              <c-input-group style="color: black" class="mb-3">
+                <h6>Tema de Votación</h6>
+              </c-input-group>
+              <c-multi-select selectionType="text" formControlName="descriptionSelect" id="descriptionSelect"
+                              [options]="(optionsDescription$ | async) ?? []"
+                              placeholder="Tema de Votación"
+                              [(ngModel)]="votingId"
+                              (searchValueChange)="searchValueDescription$.next($event)"
+                              class="form-control">
+                <c-multi-select-option *ngFor="let option of optionsDescription$ | async"
+                                       [value]="option.value">
+                  <svg [cIcon]="icons.cil-speak" class="me-1" />
+                  {{ option.label }}
+                </c-multi-select-option>
+              </c-multi-select>
+
+              <c-input-group style="color: red" class="mb-3">
+                <h6 *ngIf="form.get('descriptionSelect')?.hasError('required') && form.get('descriptionSelect')?.touched">
+                  La descripción de la votación es requerida.
+                </h6>
+              </c-input-group>
+
+            </c-input-group>
+
+
+            <p></p>
+            <c-row class="justify-content-center text-center" style="color:red;" [hidden]="!error">
+              <h6>{{this.errorMessage}}</h6>
+            </c-row>
+            <c-row class="justify-content-center text-center">
+              <button cButton class="px-7" color="primary" (click)="generateUserHasVoting()">
+                Enviar Votaciones
+              </button>
+            </c-row>
+          </c-row>
+        </form>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>

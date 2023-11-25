@@ -31,14 +31,28 @@ export class VotingService {
     return await this.http.get(`${this.apiUrl}`, options);
   }
 
+  public async getAllVotingsPromiseAnyArray(): Promise<any[]> {
+
+    const meetings: any[] = [];
+
+    await (await this.getVotingsAsync()).forEach((item: []) => {
+      item.forEach((item: any) => {
+        let obj = { id: item.id, value: item.description };
+        meetings.push(obj);
+      });
+    });
+
+    return meetings;
+  }
+
   public async getAllVotingsPromiseObservableIItemArray(): Promise<Observable<IItem[]>> {
-    return (await this.getVotingsAsync()).pipe(
+    return await (await this.getVotingsAsync()).pipe(
       map((itemArray: []) => {
         let votings: IItem[] = [];
         itemArray.forEach((item: any) => {
           let voting: IItem = {
-            '# de Casa': item.unitNumber, 'Fecha de Asamblea': item.meetingDate,
-            Vota: 'yes' === item.canVote ? "Sí" : "No"
+            'Identificador de Votación': item.id, 'Fecha de Asamblea': item.meetingDate,
+            'Descripción': item.description
           };
           console.log(item);
           votings.push(voting);

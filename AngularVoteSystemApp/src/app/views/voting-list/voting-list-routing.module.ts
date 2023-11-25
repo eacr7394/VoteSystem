@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '',
     component: VotingListComponent,
     data: {
-      title: $localize`AssistantList`
+      title: $localize`UserHasVotingList`
     }
   }
 ];

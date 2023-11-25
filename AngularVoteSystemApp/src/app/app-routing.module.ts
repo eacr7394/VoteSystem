@@ -5,6 +5,7 @@ import { DefaultLayoutComponent } from './containers';
 import { Page404Component } from './views/pages/page404/page404.component';
 import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
+import { AnonymousVotingComponent } from './views/pages/anonymous-voting/anonymous-voting.component';
 import { AuthGuard } from './auth.guard';
 import { RoleGuard } from './role.guard';
 
@@ -20,10 +21,13 @@ import { AssistantCreateComponent } from './views/assistant-create/assistant-cre
 import { VotingListComponent } from './views/voting-list/voting-list.component';
 import { VotingCreateComponent } from './views/voting-create/voting-create.component';
 
+import { UserHasVotingListComponent } from './views/user-has-voting-list/user-has-voting-list.component';
+import { UserHasVotingCreateComponent } from './views/user-has-voting-create/user-has-voting-create.component';
+
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'user-list',  
+    redirectTo: 'user-list',
     pathMatch: 'full'
   },
   {
@@ -80,7 +84,19 @@ const routes: Routes = [
         path: 'voting-create',
         loadChildren: () =>
           import('./views/voting-create/voting-create.module').then((m) => m.VotingCreateModule)
-      }, 
+      },
+      {
+        canActivate: [AuthGuard, RoleGuard],
+        path: 'user-has-voting-list',
+        loadChildren: () =>
+          import('./views/user-has-voting-list/user-has-voting-list.module').then((m) => m.UserHasVotingListModule)
+      },
+      {
+        canActivate: [AuthGuard, RoleGuard],
+        path: 'user-has-voting-create',
+        loadChildren: () =>
+          import('./views/user-has-voting-create/user-has-voting-create.module').then((m) => m.UserHasVotingCreateModule)
+      },
       {
         canActivate: [AuthGuard, RoleGuard],
         path: 'pages',
@@ -142,7 +158,62 @@ const routes: Routes = [
       title: 'Meeting Create Page'
     }
   },
-  { path: '**', redirectTo: 'user-list'}
+  {
+    canActivate: [AuthGuard, RoleGuard],
+    path: 'assistant-list',
+    component: AssistantListComponent,
+    data: {
+      title: 'Assitant List Page'
+    }
+  },
+  {
+    canActivate: [AuthGuard, RoleGuard],
+    path: 'assistant-create',
+    component: AssistantCreateComponent,
+    data: {
+      title: 'Assitant Create Page'
+    }
+  },
+  {
+    canActivate: [AuthGuard, RoleGuard],
+    path: 'voting-list',
+    component: VotingListComponent,
+    data: {
+      title: 'Voting List Page'
+    }
+  },
+  {
+    canActivate: [AuthGuard, RoleGuard],
+    path: 'voting-create',
+    component: VotingCreateComponent,
+    data: {
+      title: 'Voting Create Page'
+    }
+  },
+  {
+    canActivate: [AuthGuard, RoleGuard],
+    path: 'user-has-voting-list',
+    component: UserHasVotingListComponent,
+    data: {
+      title: 'User has Voting List Page'
+    }
+  },
+  {
+    canActivate: [AuthGuard, RoleGuard],
+    path: 'user-has-voting-create',
+    component: UserHasVotingCreateComponent,
+    data: {
+      title: 'User has Voting Create Page'
+    }
+  },
+  {
+    path: 'anonymous-voting',
+    component: AnonymousVotingComponent,
+    data: {
+      title: 'Anonymous Voting Page'
+    }
+  },
+  { path: '**', redirectTo: 'user-list' }
 ];
 
 @NgModule({

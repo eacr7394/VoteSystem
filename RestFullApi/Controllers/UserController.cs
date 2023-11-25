@@ -5,8 +5,8 @@
 [ApiController]
 public class UserController : BaseController<UserController>
 {
-    public UserController(ILogger<UserController> logger, VoteSystemContext voteSystemContext) 
-        : base(logger, voteSystemContext)
+    public UserController(ILogger<UserController> logger) 
+        : base(logger)
     {
     }
 

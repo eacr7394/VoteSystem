@@ -32,6 +32,26 @@
 
             </c-input-group>
 
+            <c-input-group class="mb-3">
+              <span cInputGroupText>
+                <svg cIcon name="cilUser"></svg>
+              </span>
+              <input formControlName="description"
+                     name="description"
+                     [(ngModel)]="description"
+                     autoComplete="description"
+                     cFormControl
+                     placeholder="Descripción" />
+              <c-input-group style="color: red" class="mb-3">
+                <h6 *ngIf="form.get('name')?.hasError('required') && form.get('name')?.touched">
+                  La descripción es requerida.
+                </h6>
+                <h6 *ngIf="form.get('description')?.hasError('maxlength') && form.get('description')?.touched">
+                  La descripción no debe superar los {{ form.get('description')?.getError('maxlength')?.requiredLength }} caracteres.
+                </h6>
+              </c-input-group>
+            </c-input-group>
+
             <p></p>
             <c-row class="justify-content-center text-center" style="color:red;" [hidden]="!error">
               <h6>{{this.errorMessage}}</h6>

@@ -8,9 +8,9 @@ public class BaseController<T> : ControllerBase, IDisposable
     protected ILogger<T> Logger { get; }
     private JsonSerializerSettings JsonOptions { get; }
 
-    public BaseController(ILogger<T> logger, VoteSystemContext voteSystemContext)
+    public BaseController(ILogger<T> logger)
     {
-        VSContext = voteSystemContext;
+        VSContext = new();
         Transaction = VSContext.Database.BeginTransaction();
         Logger = logger;
         JsonOptions = new JsonSerializerSettings

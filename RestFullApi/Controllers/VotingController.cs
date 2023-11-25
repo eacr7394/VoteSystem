@@ -1,12 +1,12 @@
 ﻿namespace RestFullApi.Controllers;
 
-[ClaimRequirement(ClaimPermissionName.AdminController, ClaimPermissionValue.FULL_ACCESS)]
+[ClaimRequirement(ClaimPermissionName.VotingController, ClaimPermissionValue.FULL_ACCESS)]
 [Route("api/[controller]")]
 [ApiController]
 public class VotingController : BaseController<VotingController>
 {
-    public VotingController(ILogger<VotingController> logger, VoteSystemContext voteSystemContext)
-        : base(logger, voteSystemContext)
+    public VotingController(ILogger<VotingController> logger)
+        : base(logger)
     {
     }
 
@@ -18,7 +18,7 @@ public class VotingController : BaseController<VotingController>
             Id = x.Id,
             Description = x.Description,
             MeetingId = x.MeetingId,
-            MeetingAdminId = x.MeetingAdminId
+            MeetingDate = x.Meeting.Date
         }).ToArrayAsync();
     }
 
@@ -30,7 +30,7 @@ public class VotingController : BaseController<VotingController>
             Id = x.Id,
             Description = x.Description,
             MeetingId = x.MeetingId,
-            MeetingAdminId = x.MeetingAdminId
+            MeetingDate = x.Meeting.Date
         }).SingleOrDefaultAsync(x => x.Id == id);
         if (voting == null)
         {
@@ -40,17 +40,27 @@ public class VotingController : BaseController<VotingController>
     }
 
     [HttpPost]
-    public async Task Post([FromBody] VotingRequest request)
+    public async Task<IActionResult> Post([FromBody] VotingRequest request)
     {
         using var context = new VoteSystemContext();
+        if (VSContext.Votings.Any(x => x.MeetingId == request.MeetingId && x.Description == request.Description))
+        {
+            return BadRequest(new
+            {
+                Error = "Ya existe la votación asociada a la Asamblea."
+            });
+        }
+        var meeting = context.Meetings.Single(x => x.Id == request.MeetingId);
         await context.Votings.AddAsync(new Voting
         {
             Id = Guid.NewGuid().ToString(),
             Description = request.Description,
             MeetingId = request.MeetingId,
-            MeetingAdminId = request.MeetingAdminId
+            MeetingAdminId = meeting.AdminId
         });
         await context.SaveChangesAsync();
+
+        return NoContent();
     }
 
 }

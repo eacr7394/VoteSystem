@@ -5,8 +5,7 @@
 [ApiController]
 public class AssistantController : BaseController<AssistantController>
 {
-    public AssistantController(ILogger<AssistantController> logger, 
-        VoteSystemContext voteSystemContext) : base(logger, voteSystemContext)
+    public AssistantController(ILogger<AssistantController> logger) : base(logger)
     {
     }
 

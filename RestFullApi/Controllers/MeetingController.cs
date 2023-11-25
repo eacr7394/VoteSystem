@@ -5,21 +5,20 @@
 [ApiController]
 public class MeetingController : BaseController<MeetingController>
 {
-    public MeetingController(ILogger<MeetingController> logger, VoteSystemContext voteSystemContext)
-        : base(logger, voteSystemContext)
+    public MeetingController(ILogger<MeetingController> logger) : base(logger)
     {
     }
 
     [HttpGet]
     public async Task<IEnumerable<MeetingResponse>> Get()
     {
-        return await VSContext.Meetings.OrderByDescending(x=> x.Date)
+        return await VSContext.Meetings.OrderByDescending(x => x.Date)
             .Select(x => new MeetingResponse
-        {
-            Id = x.Id,
-            Date = x.Date,
-            AdminId = x.AdminId
-        }).ToArrayAsync();
+            {
+                Id = x.Id,
+                Date = x.Date,
+                AdminId = x.AdminId
+            }).ToArrayAsync();
     }
 
     [HttpGet("{id}")]
@@ -41,7 +40,7 @@ public class MeetingController : BaseController<MeetingController>
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] MeetingRequest request)
     {
-        if (VSContext.Meetings.Any(x=> x.Date == request.Date))
+        if (VSContext.Meetings.Any(x => x.Date == request.Date))
         {
             return BadRequest(new
             {

@@ -124,10 +124,25 @@
   <data name="PhMonteBelloLogoCid" xml:space="preserve">
     <value>phmontebellologo</value>
   </data>
+  <data name="VoteRequestAcknowledgmentBodyHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>HtmlTemplates\VoteRequestAcknowledgment.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="VoteRequestAcknowledgmentResultBodyHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>HtmlTemplates\VoteRequestAcknowledgmentResult.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="VoteRequestAcknowledgmentResultSubject" xml:space="preserve">
+    <value>Resultados - Votación - Asamblea de Propietarios del P.H. Monte Bello</value>
+  </data>
+  <data name="VoteRequestAcknowledgmentSubject" xml:space="preserve">
+    <value>Recibo de Acuse - Votación - Asamblea de Propietarios del P.H. Monte Bello</value>
+  </data>
   <data name="VoteRequestBodyHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>HtmlTemplates\VoteRequest.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="VoteRequestSubject" xml:space="preserve">
     <value>Votación - Asamblea de Propietarios del P.H. Monte Bello</value>
+  </data>
+  <data name="VotingResultExcellCid" xml:space="preserve">
+    <value>votingresultexcellcid</value>
   </data>
 </root>

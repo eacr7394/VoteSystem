@@ -2,15 +2,18 @@
 
 public sealed class UserHasVotingResponse
 {
+    public string VotingDescription { get; set; } = null!;
+    public int? UnitNumber { get; set; } = null!;
+    public string CanVote { get; set; } = null!;
+    public DateOnly? MeetingDate { get; set; } = null!;
+
+
     public string Accepted { get; set; } = null!;
+    public string Send { get; set; } = null!;
 
     public DateTime? VotedTime { get; set; }
 
     public DateTime Created { get; set; }
-
-    public string UniqueKey { get; set; } = null!;
-
-    public string Send { get; set; } = null!;
 
     public string UserId { get; set; } = null!;
 

@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Page404Component } from './page404/page404.component';
 import { Page500Component } from './page500/page500.component';
-import { LoginComponent } from './login/login.component';             
+import { LoginComponent } from './login/login.component';
+import { AnonymousVotingComponent } from './anonymous-voting/anonymous-voting.component';             
 
 const routes: Routes = [
   {
@@ -17,6 +18,13 @@ const routes: Routes = [
     component: Page500Component,
     data: {
       title: 'Page 500'
+    }
+  },
+  {
+    path: 'anonymous-voting',
+    component: AnonymousVotingComponent,
+    data: {
+      title: 'Anonymous Voting Page'
     }
   },
   {

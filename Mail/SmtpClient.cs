@@ -29,13 +29,25 @@ public class SmtpClient
             alternateView.LinkedResources.Add(res);
             mailMessage.AlternateViews.Add(alternateView);
         }
+
+        foreach (var attachment in template.Attachments)
+        {
+            mailMessage.Attachments.Add(attachment);
+        }
+
     }
-    public void Send(string adminEmail, string[] bccEmails, SmtpTemplate template)
+    public async Task SendAsync(string[] adminEmail, string[] bccEmails, SmtpTemplate template)
     {
         template.VoteRequestDomain = EmailConfiguration.VoteRequestDomain;
         template.BuildBody();
-        MailAddress to = new(adminEmail);
+        MailAddress to = new(adminEmail[0]);
         MailMessage email = new(From, to);
+        
+        foreach (string cc in adminEmail)
+        {
+            email.To.Add(cc);
+        }
+
         foreach (string bcc in bccEmails)
         {
             email.Bcc.Add(bcc);
@@ -46,11 +58,12 @@ public class SmtpClient
         email.BodyEncoding = UTF8Encoding.UTF8;
         email.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
         AddResources(template, email);
-        Smtp.Send(email);
+        await Smtp.SendMailAsync(email);
     }
 
-    public void Send(string toEmail, SmtpTemplate template)
+    public async Task SendAsync(string toEmail, SmtpTemplate template)
     {
+        template.VoteRequestDomain = EmailConfiguration.VoteRequestDomain;
         template.BuildBody();
         MailAddress to = new(toEmail);
         MailMessage email = new(From, to);
@@ -60,6 +73,6 @@ public class SmtpClient
         email.BodyEncoding = UTF8Encoding.UTF8;
         email.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
         AddResources(template, email);
-        Smtp.Send(email);
+        await Smtp.SendMailAsync(email);
     }
 }

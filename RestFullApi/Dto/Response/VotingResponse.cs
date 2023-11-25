@@ -8,5 +8,5 @@ public sealed class VotingResponse
 
     public string MeetingId { get; set; } = null!;
 
-    public string MeetingAdminId { get; set; } = null!;
+    public DateOnly? MeetingDate { get; set; } = null!;
 }

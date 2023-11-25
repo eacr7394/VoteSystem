@@ -4,20 +4,27 @@ import { FormsModule } from '@angular/forms';
 
 import { PagesRoutingModule } from './pages-routing.module';
 import { LoginComponent } from './login/login.component';
+import { AnonymousVotingComponent } from './anonymous-voting/anonymous-voting.component';
 import { RegisterComponent } from './register/register.component';
 import { Page404Component } from './page404/page404.component';
 import { Page500Component } from './page500/page500.component';
-import { ButtonModule, CardModule, FormModule, GridModule } from '@coreui/angular-pro';
+import { ButtonModule, CardModule, FormModule, GridModule, NavModule, TabsModule } from '@coreui/angular-pro';
 import { IconModule } from '@coreui/icons-angular';
+
+import { SharedModule, SmartTableModule } from '@coreui/angular-pro';
 
 @NgModule({
   declarations: [
+    AnonymousVotingComponent,
     LoginComponent,
     RegisterComponent,
     Page404Component,
-    Page500Component  
+    Page500Component
   ],
   imports: [
+    SharedModule, SmartTableModule,
+    TabsModule,
+    NavModule,
     FormsModule,
     CommonModule,
     PagesRoutingModule,

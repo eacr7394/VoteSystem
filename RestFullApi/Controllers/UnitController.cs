@@ -4,8 +4,8 @@
 [ApiController]
 public class UnitController : BaseController<UnitController>
 {
-    public UnitController(ILogger<UnitController> logger, VoteSystemContext voteSystemContext) 
-        : base(logger,voteSystemContext)
+    public UnitController(ILogger<UnitController> logger) 
+        : base(logger)
     {
     }
 

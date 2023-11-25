@@ -60,17 +60,4 @@ export class LoginComponent {
 
   }
 
-  async logout(): Promise<void> {
-    (await this.authService.logout()).subscribe(
-      (response: void) => {
-        this.db.set(this.db.IsAuthenticatedKey, false);
-        this.db.set(this.db.UserIdKey, "");
-        console.log('Cierre de sesión exitoso', response);
-      },
-      (error: void) => {
-        console.error('Error al cerrar sesión', error);
-      }
-    );
-  }
-
 }

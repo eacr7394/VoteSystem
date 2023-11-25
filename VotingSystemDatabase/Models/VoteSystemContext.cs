@@ -127,9 +127,7 @@ public partial class VoteSystemContext : DbContext
             entity.Property(e => e.LogLevel)
                 .HasMaxLength(250)
                 .HasColumnName("log_level");
-            entity.Property(e => e.Message)
-                .HasColumnType("text")
-                .HasColumnName("message");
+            entity.Property(e => e.Message).HasColumnName("message");
         });
 
         modelBuilder.Entity<Meeting>(entity =>
@@ -278,7 +276,7 @@ public partial class VoteSystemContext : DbContext
 
             entity.HasIndex(e => e.Email, "email_UNIQUE").IsUnique();
 
-            entity.HasIndex(e => e.UnitId, "fk_user_unit_idx");
+            entity.HasIndex(e => e.UnitId, "fk_user_unit_idx").IsUnique();
 
             entity.HasIndex(e => e.Id, "iduser_UNIQUE").IsUnique();
 
@@ -306,8 +304,8 @@ public partial class VoteSystemContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("updated");
 
-            entity.HasOne(d => d.Unit).WithMany(p => p.Users)
-                .HasForeignKey(d => d.UnitId)
+            entity.HasOne(d => d.Unit).WithOne(p => p.User)
+                .HasForeignKey<User>(d => d.UnitId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_user_unit");
         });
@@ -361,8 +359,11 @@ public partial class VoteSystemContext : DbContext
                 .IsFixedLength()
                 .HasColumnName("assistant_meeting_admin_id");
             entity.Property(e => e.Accepted)
-                .HasColumnType("enum('yes','no')")
+                .HasColumnType("enum('yes','no','')")
                 .HasColumnName("accepted");
+            entity.Property(e => e.CloseTime)
+                .HasColumnType("datetime")
+                .HasColumnName("close_time");
             entity.Property(e => e.Created)
                 .HasColumnType("datetime")
                 .HasColumnName("created");

@@ -29,11 +29,12 @@
         p {
             color: #555;
             line-height: 1.6;
+            margin: 10px 0;
         }
 
         a {
             display: inline-block;
-            margin-top: 15px;
+            margin: 15px 0;
             padding: 10px 20px;
             background-color: #0026ff;
             color: #fff;
@@ -44,26 +45,24 @@
         img {
             max-width: 100%;
             height: auto;
-            padding: 100px 200px;
-            margin-bottom: 20px;
+            margin: 10px 0; /* Ajuste el margen para separar la imagen del contenido */
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <img alt="logo" src="cid:phmontebellologo">
+        <img alt="logo" src="cid:phmontebellologo" style="max-width: 100%; height: auto; margin: 10px 0;">
 
         <h1>Asamblea de Propietarios - P.H. Monte Bello</h1>
 
-        <p>Hola [NOMBRE] [APELLIDO],</p>
+        <p>Estimado Sr(a). [NOMBRE] [APELLIDO],</p>
 
-        <p>Te invitamos a participar en la Asamblea de Propietarios del P.H. Monte Bello. Tu voto es importante.</p>
+        <p>Le invitamos a participar en la Asamblea de Propietarios del P.H. Monte Bello. Su voto es muy importante.</p>
 
-        <p>Descripción de la votación:</p>
-        <p>[DESCRIPCION_VOTACION]</p>
+        <p>Desde este momento cuenta con <b>10 minutos</b> para poder votar a favor o en contra de <b>[DESCRIPCION_VOTACION]</b></p>
 
         <p>Para votar de inmediato, haz clic en el siguiente enlace:</p>
-        <a href="[VOTE_REQUEST_DOMAIN]?voter_id=[USER_ID]&unit_id=[UNIT_ID]&voting_id=[VOTING_ID]&unique_key=[UNIQUE_KEY]">Votar Ahora</a>
+        <a style=" display: inline-block; margin: 15px 0; padding: 10px 20px; background-color: #0026ff; color: #fff; text-decoration: none; border-radius: 5px;" href="[VOTE_REQUEST_DOMAIN]#/anonymous-voting?user_id=[USER_ID]&unit_id=[UNIT_ID]&voting_id=[VOTING_ID]&unique_key=[UNIQUE_KEY]">Votar Ahora</a>
 
         <p>Gracias por tu participación.</p>
 

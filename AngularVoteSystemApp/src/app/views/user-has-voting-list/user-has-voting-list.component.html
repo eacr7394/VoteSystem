@@ -1,0 +1,10 @@
+<c-smart-table #tableUsers
+               activePage="1"
+               [columnFilter]="true"
+               [columnSorter]="true"
+               header
+               [itemsPerPage]="10"
+               [items]="(userHasvotingsData$ | async) ?? []"
+               pagination
+               [tableProps]="{ hover: true, striped: true, responsive: true }">
+</c-smart-table>

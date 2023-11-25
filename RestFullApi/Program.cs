@@ -11,11 +11,11 @@ builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection(
 builder.Services.Configure<TokenValidationParametersConfiguration>(builder.Configuration
     .GetSection("TokenValidationParametersConfiguration"));
 
-builder.Services.AddSingleton<SmtpClient>();
 
-builder.Services.AddScoped<VoteSystemContext>();
+builder.Services.AddSingleton<ILoggerProvider, DatabaseLoggerProvider>();
 
-builder.Services.AddTransient<ILoggerProvider, DatabaseLoggerProvider>();
+builder.Services.AddSingleton<IJob, SendUserVotingTask>();
+
 
 builder.Services.AddControllers(options =>
 {
@@ -69,14 +69,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             OnMessageReceived = context =>
             {
-                context.Token = context.HttpContext.Request.Cookies[AuthController.Authorization];
+                context.Token = context.HttpContext.Request.Cookies[JwtToken.Authorization];
                 if (context.Token != null)
                 {
                     context.Token = context.Token.Substring("Bearer ".Length).Trim();
                 }
                 else if (context.Token == null && builder.Environment.IsDevelopment())
                 {
-                    context.Token = context.HttpContext.Request.Headers[AuthController.Authorization];
+                    context.Token = context.HttpContext.Request.Headers[JwtToken.Authorization];
                     if (context.Token != null)
                     {
                         context.Token = context.Token.Substring("Bearer ".Length).Trim();
@@ -109,6 +109,36 @@ builder.Services.AddCors(options =>
                    .AllowCredentials();
         });
 });
+
+builder.Services.AddQuartz(q =>
+{
+    var sendUserVotingTask = new JobKey("SendUserVotingTask");
+    q.AddJob<SendUserVotingTask>(opts => opts.WithIdentity(sendUserVotingTask));
+    q.AddTrigger(opts => opts
+        .ForJob(sendUserVotingTask)
+        .WithIdentity("SendUserVotingTask-trigger")
+        .StartNow()
+                .WithSimpleSchedule(x => x
+                    .WithIntervalInSeconds(15)
+                    .RepeatForever())
+    );
+
+    var sendUserVotingResultTask = new JobKey("SendUserVotingResultTask");
+    q.AddJob<SendUserVotingResultTask>(opts => opts.WithIdentity(sendUserVotingResultTask));
+    q.AddTrigger(opts => opts
+        .ForJob(sendUserVotingResultTask)
+        .WithIdentity("SendUserVotingResultTask-trigger")
+        .StartNow()
+                .WithSimpleSchedule(x => x
+                    .WithIntervalInSeconds(30)
+                    .RepeatForever())
+    );
+
+});
+
+builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+
+
 var app = builder.Build();
 
 app.UseCors("AllowSpecificOrigin");
