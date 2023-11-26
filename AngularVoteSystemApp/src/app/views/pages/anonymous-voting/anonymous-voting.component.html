@@ -72,8 +72,13 @@
                         <h6>{{this.errorMessage}}</h6>
                       </c-row>
 
+                      <p></p>
+                      <c-row class="justify-content-center text-center" style="color:darkblue;" [hidden]="!loading">
+                        <h6>{{this.loadingMessage}}</h6>
+                      </c-row>
+
                       <div class="d-grid">
-                        <button cButton color="success" style="color: white" (click)="vote()">Votar</button>
+                        <button cButton color="success" style="color: white" (click)="vote()"  [disabled]="loading">Votar</button>
                       </div>
                     </form>
                     <input type="hidden" name="user_id" [(ngModel)]="userId" />
@@ -92,6 +97,9 @@
                                    [items]="(userHasvotingsData$ | async) ?? []"
                                    pagination
                                    [tableProps]="{ hover: true, striped: true, responsive: true }">
+                      <c-row class="justify-content-center text-center" style="color:darkblue;" [hidden]="!error">
+                        <h6>{{this.loadingMessage}}</h6>
+                      </c-row>
                     </c-smart-table>
 
 

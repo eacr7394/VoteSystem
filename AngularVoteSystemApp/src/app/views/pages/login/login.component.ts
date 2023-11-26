@@ -11,8 +11,7 @@ import { AuthService } from '../../../services/auth.service';
   providers: [AuthService]
 })
 export class LoginComponent {
-  constructor(private authService: AuthService, private db: IndexedDbService,
-    private router: Router) {
+  constructor(private authService: AuthService, private db: IndexedDbService, private router: Router) {
   }
 
   async ngOnInit(): Promise<void> {
@@ -20,6 +19,9 @@ export class LoginComponent {
     if (await this.authService.isAuthenticated()) {
       this.router.navigate(['/user-list']);
     }
+
+    this.loading = false;
+
   }
 
   protected userName: string = "";
@@ -30,31 +32,61 @@ export class LoginComponent {
 
   protected errorMessage: string = "Verifique sus credenciales";
 
+  protected loadingMessage: string = "Por favor, espere...";
+
+  protected loading: boolean = true;
+
   clearForm(): void {
+
     this.errorMessage = "Verifique sus credenciales";
+
     this.userName = "";
+
     this.password = "";
+
     this.error = false;
+
   }
 
   async login(): Promise<void> {
+
+    this.loading = true;
+
     if (this.userName == "" || this.password == "") {
+
+      this.loading = false;
+
       return;
+
     }
+
     (await this.authService.authorize(this.userName, this.password)).subscribe(
       (response: any) => {
+
+        this.loading = false;
+
         this.clearForm();
+
         this.db.set(this.db.IsAuthenticatedKey, true);
+
         this.db.set(this.db.UserIdKey, response.id);
+
         this.router.navigate(['/user-list']);
+
         console.log('Inicio de sesión exitoso', response);
+
       },
       (response: any) => {
+        this.loading = false;
+
         if (response.error != null && response.error.error != null) {
           this.errorMessage = response.error.error;
         }
+
         this.error = true;
+
         console.error('Error al iniciar sesión', response);
+
       }
     );
 

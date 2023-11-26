@@ -10,13 +10,22 @@ import { UserHasVotingService } from '../../services/user-has-voting.service';
   providers: [UserHasVotingService],
 })
 export class UserHasVotingListComponent {
+
   constructor(private userHasVotingService: UserHasVotingService) { }
 
   async ngOnInit(): Promise<void> {
+
     this.userHasvotingsData$ = await this.userHasVotingService.getAllUserHasVotingsPromiseObservableIItemArray();
+
+    this.loading = false;
+
   }
 
   title = 'Votos';
+
+  protected loadingMessage: string = "Por favor, espere...";
+
+  protected loading: boolean = true;
 
   userHasvotingsData$!: Observable<IItem[]>;
 

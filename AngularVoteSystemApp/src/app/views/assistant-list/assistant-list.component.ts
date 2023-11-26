@@ -13,11 +13,18 @@ export class AssistantListComponent {
   constructor(private assistantService: AssistantService) { }
 
   async ngOnInit(): Promise<void> {
-    this.assistantsData$ = await this.assistantService
-      .getAllAssistantsPromiseObservableIItemArrayAsync();
+
+    this.assistantsData$ = await this.assistantService.getAllAssistantsPromiseObservableIItemArrayAsync();
+
+    this.loading = false;
+
   }
 
   title = 'Lista de Quorums';
+
+  protected loadingMessage: string = "Por favor, espere...";
+
+  protected loading: boolean = true;
 
   assistantsData$!: Observable<IItem[]>;
  

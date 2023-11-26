@@ -16,8 +16,13 @@
               <h6>{{ errorMessage }}</h6>
             </c-row>
 
+            <p></p>
+            <c-row class="justify-content-center text-center" style="color:darkblue;" [hidden]="!loading">
+              <h6>{{this.loadingMessage}}</h6>
+            </c-row>
+
             <c-row class="justify-content-center text-center">
-              <button cButton class="px-7" color="primary" (click)="createMeeting()">
+              <button cButton class="px-7" color="primary" (click)="createMeeting()" [disabled]="loading">
                 Crear
               </button>
             </c-row>

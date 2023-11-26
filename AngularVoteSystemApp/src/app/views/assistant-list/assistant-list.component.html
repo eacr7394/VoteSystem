@@ -7,4 +7,7 @@
                [items]="(assistantsData$ | async) ?? []"
                pagination
                [tableProps]="{ hover: true, striped: true, responsive: true }">
+  <c-row class="justify-content-center text-center" style="color:darkblue;" [hidden]="!loading">
+    <h6>{{this.loadingMessage}}</h6>
+  </c-row>
 </c-smart-table>

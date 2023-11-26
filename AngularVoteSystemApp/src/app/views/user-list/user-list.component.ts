@@ -14,10 +14,18 @@ export class UserListComponent {
   constructor(private userService: UserService) { }
 
   async ngOnInit(): Promise<void> {
+
     this.usersData$ = await this.userService.getAllUsersPromiseObservableIItemArrayAsync();
+
+    this.loading = false;
+
   }
 
   title = 'Lista de Propietarios';
+
+  protected loadingMessage: string = "Por favor, espere...";
+
+  protected loading: boolean = true;
 
   usersData$!: Observable<IItem[]>;
 

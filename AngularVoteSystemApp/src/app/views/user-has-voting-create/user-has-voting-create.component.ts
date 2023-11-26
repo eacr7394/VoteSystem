@@ -15,14 +15,14 @@ import { UserHasVotingService } from '../../services/user-has-voting.service';
 })
 export class UserHasVotingCreateComponent {
 
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef,
-    private votingService: VotingService,
-    private userHasVotingService: UserHasVotingService,
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef, private votingService: VotingService,private userHasVotingService: UserHasVotingService,
     private meetingService: MeetingService) {
+
     this.form = this.fb.group({
       meetingsSelect: ['', [Validators.required]],
       descriptionSelect: ['', [Validators.required]],
     });
+
   }
 
 
@@ -32,8 +32,10 @@ export class UserHasVotingCreateComponent {
       value: option.id,
       label: option.value,
     }));
-    this.optionsMeeting$.next([...this.optionsMeeting]);
-    this.searchValueMeeting$.subscribe((next) => {
+
+    await this.optionsMeeting$.next([...this.optionsMeeting]);
+
+    await this.searchValueMeeting$.subscribe((next) => {
       const filtered = this.optionsMeeting.filter((option: any) =>
         option.label.toLowerCase().startsWith(next.trimStart().toLowerCase()),
       );
@@ -44,14 +46,20 @@ export class UserHasVotingCreateComponent {
       value: option.id,
       label: option.value,
     }));
-    this.optionsDescription$.next([...this.optionsDescription]);
-    this.searchValueDescription$.subscribe((next) => {
+
+    await this.optionsDescription$.next([...this.optionsDescription]);
+
+    await this.searchValueDescription$.subscribe((next) => {
       const filtered = this.optionsDescription.filter((option: any) =>
         option.label.toLowerCase().startsWith(next.trimStart().toLowerCase()),
       );
       this.optionsDescription$.next([...filtered]);
     });
-    this.cdr.detectChanges();
+
+    await this.cdr.detectChanges();
+
+    this.loading = false;
+
   }
 
   icons = { cilSpeak };
@@ -69,43 +77,75 @@ export class UserHasVotingCreateComponent {
   protected error: boolean = false;
 
   optionsMeeting: any;
+
   readonly optionsMeeting$ = new BehaviorSubject<any[]>([]);
+
   readonly searchValueMeeting$ = new Subject<string>();
 
-
   optionsDescription: any;
+
   readonly optionsDescription$ = new BehaviorSubject<any[]>([]);
+
   readonly searchValueDescription$ = new Subject<string>();
 
+  protected loadingMessage: string = "Por favor, espere...";
+
+  protected loading: boolean = true;
+
   clearForm(): void {
+
     this.errorMessage = "";
+
     this.meetingId = "";
+
     this.votingId = "";
+
     this.error = false;
+
   }
 
   private validateForm(): boolean {
+
     Object.values(this.form.controls).forEach(control => {
       control.markAsTouched();
     });
+
     return this.form.valid;
+
   }
 
   async generateUserHasVoting(): Promise<void> {
+
+    this.loading = true;
+
     if (!this.validateForm()) {
+
+      this.loading = false;
+
       return;
+
     }         
 
     (await this.userHasVotingService.generateAllUserHasVoteAsync(this.votingId)).subscribe(
       (response: any) => {
+
+        this.loading = false;
+
         this.clearForm();
+
         console.log('Votaciones generadas exitosamente', response);
+
       },
       (response: any) => {
+
+        this.loading = false;
+
         if (response.error != null && response.error.error != null) {
           this.errorMessage = response.error.error;
         }
+
         this.error = true;
+
         console.error('Error al generar las votaciones', response);
       }
     );
