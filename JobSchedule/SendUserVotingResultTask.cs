@@ -107,7 +107,7 @@ public class SendUserVotingResultTask : IJob
         adminEmails = adminEmails.Where(x => !x.EndsWith("@example.com")).ToArray();
         bccEmails = bccEmails.Where(x => !x.EndsWith("@example.com")).ToArray();
 #endif
-        foreach (var voting in await context.Votings.Where(v => !v.UserHasVotings.Any(uhv => !uhv.VotedTime.HasValue)
+        foreach (var voting in await context.Votings.Where(v => !v.UserHasVotings.Any(uhv => !uhv.VotedTime.HasValue) && v.UserHasVotings.Any()
         && !v.UserHasVotings.Any(uhv => uhv.CloseTime.HasValue)).ToListAsync())
         {
             try

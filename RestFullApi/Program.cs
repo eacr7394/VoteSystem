@@ -136,6 +136,17 @@ builder.Services.AddQuartz(q =>
                     .RepeatForever())
     );
 
+    var sendUserVotingQuorumTask = new JobKey("SendUserVotingQuorumTask");
+    q.AddJob<SendUserVotingQuorumTask>(opts => opts.WithIdentity(sendUserVotingQuorumTask));
+    q.AddTrigger(opts => opts
+        .ForJob(sendUserVotingQuorumTask)
+        .WithIdentity("SendUserVotingQuorumTask-trigger")
+        .StartNow()
+                .WithSimpleSchedule(x => x
+                    .WithIntervalInSeconds(30)
+                    .RepeatForever())
+    );
+
 });
 
 builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);

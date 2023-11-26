@@ -79,7 +79,7 @@ public class SendUserVotingQuorumTask : IJob
             template.AddParameter(new SmtpTemplateParameter
             {
                 Name = "QUORUM_TYPE",
-                Value = "de Exception (Ley 284, Art. 67)",
+                Value = "de Excepción (Ley 284, Art. 67)",
             });
         }
 
