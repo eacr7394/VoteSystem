@@ -139,8 +139,17 @@
   <data name="VoteRequestBodyHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>HtmlTemplates\VoteRequest.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="VoteRequestQuorumNewOwnerBodyHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>HtmlTemplates\VoteRequestQuorumNewOwner.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="VoteRequestQuorumNewOwnerSubject" xml:space="preserve">
+    <value>Quorum Reglamentario - Asamblea de Propietarios del P.H. Monte Bello</value>
+  </data>
   <data name="VoteRequestSubject" xml:space="preserve">
     <value>Votación - Asamblea de Propietarios del P.H. Monte Bello</value>
+  </data>
+  <data name="VotingQuorumExcellCid" xml:space="preserve">
+    <value>votingquorumexcellcid</value>
   </data>
   <data name="VotingResultExcellCid" xml:space="preserve">
     <value>votingresultexcellcid</value>

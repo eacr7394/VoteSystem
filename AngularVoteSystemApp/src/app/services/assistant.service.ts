@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../app.environment';    
+import { environment } from '../../environments/environment';  
 import { map, Observable } from 'rxjs';
 import { IItem } from '@coreui/angular-pro';
 

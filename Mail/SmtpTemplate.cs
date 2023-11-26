@@ -6,7 +6,8 @@ public class SmtpTemplate
     {
         VoteRequest,
         VoteRequestAcknowledgment,
-        VoteRequestAcknowledgmentResult
+        VoteRequestAcknowledgmentResult,
+        VoteRequestQuorumNewOwner
     }
 
     private Template templateName;
@@ -42,6 +43,11 @@ public class SmtpTemplate
             case Template.VoteRequestAcknowledgmentResult:
                 subject = $"{parameters.First(x => x.Name == "DESCRIPCION_VOTACION").Value} - {VoteRequest.VoteRequestAcknowledgmentResultSubject}";
                 body = VoteRequest.VoteRequestAcknowledgmentResultBodyHtml;
+                break;
+
+            case Template.VoteRequestQuorumNewOwner:
+                subject = VoteRequest.VoteRequestQuorumNewOwnerSubject;
+                body = VoteRequest.VoteRequestQuorumNewOwnerBodyHtml;
                 break;
 
             default: throw new ArgumentException(nameof(templateName));

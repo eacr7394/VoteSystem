@@ -5,6 +5,7 @@ var tokenParams = builder.Configuration.GetSection("TokenValidationParametersCon
 string[] allowedOrigins = builder.Configuration.GetSection("CorsSettings:AllowOrigins").Get<string[]>()!;
 string[] allowedHeaders = builder.Configuration.GetSection("CorsSettings:AllowHeaders").Get<string[]>()!;
 string[] allowedMethods = builder.Configuration.GetSection("CorsSettings:AllowMethods").Get<string[]>()!;
+string[] allowedExposedHeaders = builder.Configuration.GetSection("CorsSettings:AllowExposedHeaders").Get<string[]>()!;
 
 builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
 
@@ -104,8 +105,9 @@ builder.Services.AddCors(options =>
         builder =>
         {
             builder.WithOrigins(allowedOrigins)
-                   .AllowAnyHeader()
-                   .AllowAnyMethod()
+                   .WithHeaders(allowedHeaders)
+                   .WithMethods(allowedMethods)
+                   .WithExposedHeaders(allowedExposedHeaders)
                    .AllowCredentials();
         });
 });

@@ -6,6 +6,7 @@ namespace VotingSystemDatabase.Models;
 
 public partial class VoteSystemContext : DbContext
 {
+
     public virtual DbSet<Admin> Admins { get; set; }
 
     public virtual DbSet<Assistant> Assistants { get; set; }
@@ -99,6 +100,9 @@ public partial class VoteSystemContext : DbContext
             entity.Property(e => e.Created)
                 .HasColumnType("datetime")
                 .HasColumnName("created");
+            entity.Property(e => e.QuorumDate)
+                .HasColumnType("datetime")
+                .HasColumnName("quorum_date");
 
             entity.HasOne(d => d.Unit).WithMany(p => p.Assistants)
                 .HasForeignKey(d => d.UnitId)

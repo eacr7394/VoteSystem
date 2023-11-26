@@ -1,0 +1,1 @@
+C:\Users\edwin\source\repos\VoteSystem\AngularVoteSystemApp\obj\Release\AngularVoteSystemApp.esproj.CoreCompileInputs.cache

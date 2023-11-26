@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\IIS\PHMonteBello\API</_PublishTargetUrl>
+    <History>True|2023-11-26T04:25:13.1968732Z;True|2023-11-25T23:23:04.3866986-05:00;True|2023-11-25T23:19:23.7926862-05:00;True|2023-11-25T23:07:22.2742245-05:00;True|2023-11-25T23:02:54.5639635-05:00;True|2023-11-25T22:57:56.0538177-05:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

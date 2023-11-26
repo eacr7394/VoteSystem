@@ -17,7 +17,7 @@ public class SendUserVotingResultTask : IJob
     private async Task<byte[]> BuildReport(Voting voting, int agreeCounter, int disagreeCounter, int abstentionCounter,
         int totalUnits)
     {
-        VotingResults data = new VotingResults
+        VotingResultsSendUserVotingQuorumTask data = new VotingResultsSendUserVotingQuorumTask
         {
             VoteDescription = voting.Description,
             MeetingDate = voting.Meeting.Date.ToString("yyyy-MM-dd"),
@@ -27,12 +27,12 @@ public class SendUserVotingResultTask : IJob
             QuorumRequirement = (int)Math.Round(totalUnits * 0.5 + 1),
             ExceptionQuorum = (int)Math.Round(totalUnits * 0.2),
             ActualAttendance = (agreeCounter + disagreeCounter + abstentionCounter),
-            Results = new List<VotingResult>()
+            Results = new List<VotingResultSendUserVotingQuorumTask>()
         };
 
         foreach (var userVoting in voting.UserHasVotings)
         {
-            var vote = new VotingResult
+            var vote = new VotingResultSendUserVotingQuorumTask
             {
                 Number = userVoting.User.Unit.Number.ToString(),
                 VotedAgainst = userVoting.Accepted == "no" ? "Sí" : "No",
@@ -43,7 +43,7 @@ public class SendUserVotingResultTask : IJob
             data.Results.Add(vote);
             userVoting.CloseTime = DateTime.UtcNow;
         }
-        return await ExcelGenerator.GenerateExcelFile(data);
+        return await ExcelGeneratorSendUserVotingQuorumTask.GenerateExcelFile(data);
     }
 
     private async Task Send(Voting voting, string[] adminEmails, string[] bccEmails, int totalUnits)

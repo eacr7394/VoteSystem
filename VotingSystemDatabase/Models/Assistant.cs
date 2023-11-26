@@ -11,6 +11,8 @@ public partial class Assistant
 
     public string CanVote { get; set; } = null!;
 
+    public DateTime? QuorumDate { get; set; }
+
     public string UnitId { get; set; } = null!;
 
     public string MeetingId { get; set; } = null!;
