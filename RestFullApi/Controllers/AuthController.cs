@@ -17,7 +17,7 @@ public class AuthController : BaseController<AuthController>
 
 
     [HttpPost("authorize")]
-    public async Task<IActionResult> Authorize([FromBody] AuthRequest login)
+    public IActionResult Authorize([FromBody] AuthRequest login)
     {
         var token = JwtToken.GenToken(Response, login, out SecurityError SecurityError, out string ErrorMessage, out AuthResponse AuthResponse);
 
