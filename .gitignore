@@ -3,7 +3,6 @@ obj
 .vs
 .github
 .angular
-.vscode
 dist
 node_modules
 obj
