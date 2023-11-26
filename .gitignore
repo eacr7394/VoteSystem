@@ -6,4 +6,4 @@ obj
 dist
 node_modules
 obj
-packgage-lock.json
+package-lock.json
