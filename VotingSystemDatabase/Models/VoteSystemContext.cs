@@ -15,6 +15,8 @@ public partial class VoteSystemContext : DbContext
 
     public virtual DbSet<Meeting> Meetings { get; set; }
 
+    public virtual DbSet<PasswordRecoveryRequest> PasswordRecoveryRequests { get; set; }
+
     public virtual DbSet<Permission> Permissions { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
@@ -160,6 +162,41 @@ public partial class VoteSystemContext : DbContext
                 .HasForeignKey(d => d.AdminId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_meeting_admin1");
+        });
+
+        modelBuilder.Entity<PasswordRecoveryRequest>(entity =>
+        {
+            entity.HasKey(e => new { e.Id, e.AdminId })
+                .HasName("PRIMARY")
+                .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+
+            entity.ToTable("password_recovery_request");
+
+            entity.HasIndex(e => e.AdminId, "fk_password_recovery_request_admin1_idx");
+
+            entity.Property(e => e.Id)
+                .HasMaxLength(38)
+                .IsFixedLength()
+                .HasColumnName("id");
+            entity.Property(e => e.AdminId)
+                .HasMaxLength(38)
+                .IsFixedLength()
+                .HasColumnName("admin_id");
+            entity.Property(e => e.Created)
+                .HasColumnType("datetime")
+                .HasColumnName("created");
+            entity.Property(e => e.PasswordChangeDate)
+                .HasColumnType("datetime")
+                .HasColumnName("password_change_date");
+            entity.Property(e => e.UniqueKey)
+                .HasMaxLength(250)
+                .HasColumnName("unique_key");
+            entity.Property(e => e.Used).HasColumnName("used");
+
+            entity.HasOne(d => d.Admin).WithMany(p => p.PasswordRecoveryRequests)
+                .HasForeignKey(d => d.AdminId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_password_recovery_request_admin1");
         });
 
         modelBuilder.Entity<Permission>(entity =>

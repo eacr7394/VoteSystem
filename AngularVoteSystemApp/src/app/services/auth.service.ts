@@ -29,6 +29,22 @@ export class AuthService {
     return await this.http.post(`${this.apiUrl}/logout`, {}, options);
   }
 
+  async sendChangePasswordRequest(email: string): Promise<Observable<any>> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const options = { headers, withCredentials: true };
+    return await this.http.post(`${this.apiUrl}/send-change-password-request/${email}`, {}, options);
+  }
+
+  async sendChangePassword(requestId: string, uniqueKey: string, adminId: string, newPassword: string): Promise<Observable<any>> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    const options = { headers, withCredentials: true };
+    return await this.http.post(`${this.apiUrl}/change-password/${requestId}/${uniqueKey}/${adminId}/${newPassword}`, {}, options);
+  }
+
   async renewToken(): Promise<Observable<any>>  {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

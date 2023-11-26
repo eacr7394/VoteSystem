@@ -7,7 +7,8 @@ public class SmtpTemplate
         VoteRequest,
         VoteRequestAcknowledgment,
         VoteRequestAcknowledgmentResult,
-        VoteRequestQuorumNewOwner
+        VoteRequestQuorumNewOwner,
+        VoteRequestChangePassword
     }
 
     private Template templateName;
@@ -32,7 +33,6 @@ public class SmtpTemplate
             case Template.VoteRequest:
                 subject = $"{parameters.First(x => x.Name == "DESCRIPCION_VOTACION").Value} - {VoteRequest.VoteRequestSubject}";
                 body = VoteRequest.VoteRequestBodyHtml;
-                body = body.Replace("[VOTE_REQUEST_DOMAIN]", VoteRequestDomain);
                 break;
 
             case Template.VoteRequestAcknowledgment:
@@ -50,9 +50,14 @@ public class SmtpTemplate
                 body = VoteRequest.VoteRequestQuorumNewOwnerBodyHtml;
                 break;
 
+            case Template.VoteRequestChangePassword:
+                subject = VoteRequest.VoteRequestChangePasswordSubject;
+                body = VoteRequest.VoteRequestChangePasswordBodyHtml;
+                break;
+
             default: throw new ArgumentException(nameof(templateName));
         }
-
+        body = body.Replace("[VOTE_REQUEST_DOMAIN]", VoteRequestDomain);
         parameters.ForEach((p) =>
         {
             body = body.Replace($"[{p.Name}]", p.Value);

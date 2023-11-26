@@ -199,6 +199,42 @@ namespace Mail {
         ///            margin: 0 auto;
         ///      [resto de la cadena truncado]&quot;;.
         /// </summary>
+        public static string VoteRequestChangePasswordBodyHtml {
+            get {
+                return ResourceManager.GetString("VoteRequestChangePasswordBodyHtml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cambio de Contraseña.
+        /// </summary>
+        public static string VoteRequestChangePasswordSubject {
+            get {
+                return ResourceManager.GetString("VoteRequestChangePasswordSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;es&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
+        ///    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+        ///    &lt;title&gt;Asamblea de Propietarios - P.H. Monte Bello&lt;/title&gt;
+        ///    &lt;style&gt;
+        ///        body {
+        ///            font-family: &apos;Arial&apos;, sans-serif;
+        ///            background-color: #f4f4f4;
+        ///            margin: 0;
+        ///            padding: 20px;
+        ///            text-align: center;
+        ///        }
+        ///
+        ///        .container {
+        ///            max-width: 600px;
+        ///            margin: 0 auto;
+        ///      [resto de la cadena truncado]&quot;;.
+        /// </summary>
         public static string VoteRequestQuorumNewOwnerBodyHtml {
             get {
                 return ResourceManager.GetString("VoteRequestQuorumNewOwnerBodyHtml", resourceCulture);

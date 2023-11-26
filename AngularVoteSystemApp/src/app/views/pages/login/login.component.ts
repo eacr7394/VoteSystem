@@ -92,4 +92,8 @@ export class LoginComponent {
 
   }
 
+  async changePassword(): Promise<void> {
+    this.router.navigate(['/change-password']);
+  }
+
 }

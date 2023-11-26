@@ -19,5 +19,7 @@ public partial class Admin
 
     public virtual ICollection<Meeting> Meetings { get; set; } = new List<Meeting>();
 
+    public virtual ICollection<PasswordRecoveryRequest> PasswordRecoveryRequests { get; set; } = new List<PasswordRecoveryRequest>();
+
     public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
 }

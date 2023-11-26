@@ -139,6 +139,12 @@
   <data name="VoteRequestBodyHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>HtmlTemplates\VoteRequest.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="VoteRequestChangePasswordBodyHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>HtmlTemplates\VoteRequestChangePassword.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="VoteRequestChangePasswordSubject" xml:space="preserve">
+    <value>Cambio de Contraseña</value>
+  </data>
   <data name="VoteRequestQuorumNewOwnerBodyHtml" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>HtmlTemplates\VoteRequestQuorumNewOwner.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

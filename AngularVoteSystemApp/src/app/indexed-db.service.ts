@@ -11,6 +11,7 @@ export class IndexedDbService {
   public readonly IsAuthenticatedKey: string = "iak";
   public readonly UserIdKey: string = "iaku";         
   public readonly AnonymousVotingQueryParamsKey: string = "avqpk";
+  public readonly ChangePasswordQueryParamsKey: string = "cpqpk";
 
   private async initializeDB() {
     const STORE_COLLECTION = this.storeCollection;

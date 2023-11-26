@@ -5,6 +5,10 @@ import { DefaultLayoutComponent } from './containers';
 import { Page404Component } from './views/pages/page404/page404.component';
 import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
+
+import { ChangePasswordComponent } from './views/pages/change-password/change-password.component';
+import { ChangePasswordRequestComponent } from './views/pages/change-password-request/change-password-request.component';
+
 import { AnonymousVotingComponent } from './views/pages/anonymous-voting/anonymous-voting.component';
 import { AuthGuard } from './auth.guard';
 import { RoleGuard } from './role.guard';
@@ -124,6 +128,20 @@ const routes: Routes = [
     component: LoginComponent,
     data: {
       title: 'Login Page'
+    }
+  },
+  {
+    path: 'change-password',
+    component: ChangePasswordComponent,
+    data: {
+      title: 'Change Password Page'
+    }
+  },
+  {
+    path: 'change-password-request',
+    component: ChangePasswordRequestComponent,
+    data: {
+      title: 'Change Password Request Page'
     }
   },
   {
