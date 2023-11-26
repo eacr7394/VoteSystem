@@ -36,8 +36,7 @@ export class UserService {
         itemArray.forEach((item: any) => {
           let user: IItem = {
             Correo: item.email, Nombre: item.name, Apellido: item.lastname,
-            '# de Casa': item.unitNumber, Creado: new Date(item.created).toLocaleString(),
-            Actualizado: new Date(item.updated).toLocaleString()
+            '# de Casa': item.unitNumber, Creado: new Date(item.created).toLocaleString()
           };
           users.push(user);
         });
