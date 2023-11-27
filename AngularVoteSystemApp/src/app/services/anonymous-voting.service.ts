@@ -48,7 +48,7 @@ export class AnonymousVotingService {
         let votings: IItem[] = [];
         itemArray.forEach((item: any) => {
           let voting: IItem = {
-            'Tema': item.votingDescription, 'Fecha Asamblea': this.dateExtensions.toLocaleDateString(item.meetingDate),
+            'Tema': item.votingDescription, 'Fecha Asamblea': this.dateExtensions.toLocaleDateString(new Date(String(item.meetingDate) + "T12:00:00")),
             'Casa': item.unitNumber, '¿Vota?': item.canVote === "yes" ? "Sí" : "No",
             'A Favor': item.accepted === "yes" ? "Sí" : (item.accepted === "no" ? "No" : "No ha votado"),
             'Enviada': item.send === "yes" ? "Sí" : "No",

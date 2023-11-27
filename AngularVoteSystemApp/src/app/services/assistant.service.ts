@@ -40,7 +40,7 @@ export class AssistantService {
         let assistants: IItem[] = [];
         itemArray.forEach((item: any) => {
           let assistant: IItem = {
-            '# de Casa': item.unitNumber, 'Fecha de Asamblea': this.dateExtensions.toLocaleDateString(item.meetingDate),
+            '# de Casa': item.unitNumber, 'Fecha de Asamblea': this.dateExtensions.toLocaleDateString(new Date(String(item.meetingDate) + "T12:00:00")),
             Vota: 'yes' === item.canVote ? "Sí" : "No"
           };
           console.log(item);

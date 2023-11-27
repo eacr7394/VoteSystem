@@ -54,7 +54,7 @@ export class VotingService {
         let votings: IItem[] = [];
         itemArray.forEach((item: any) => {
           let voting: IItem = {
-            'Identificador de Votación': item.id, 'Fecha de Asamblea': this.dateExtensions.toLocaleDateString(item.meetingDate),
+            'Identificador de Votación': item.id, 'Fecha de Asamblea': this.dateExtensions.toLocaleDateString(new Date(String(item.meetingDate) + "T12:00:00")),
             'Descripción': item.description
           };
           console.log(item);
