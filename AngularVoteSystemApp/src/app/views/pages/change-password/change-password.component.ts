@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IndexedDbService } from '../../../indexed-db.service';
-import {  Router } from '@angular/router';   
+import { Router } from '@angular/router';
 
 import { AuthService } from '../../../services/auth.service';
 
@@ -20,7 +20,7 @@ export class ChangePasswordComponent {
 
   }
 
-  protected email: string = "";        
+  protected email: string = "";
 
   protected error: boolean = false;
 
@@ -32,7 +32,7 @@ export class ChangePasswordComponent {
 
   clearForm(): void {
 
-    this.errorMessage = "Todos los campos son requeridos";
+    this.errorMessage = "El correo es requerido.";
 
     this.email = "";
 
@@ -46,6 +46,10 @@ export class ChangePasswordComponent {
 
     if (this.email == "") {
 
+      this.errorMessage = "El correo es requerido.";
+
+      this.error = true;
+
       this.loading = false;
 
       return;
@@ -55,9 +59,11 @@ export class ChangePasswordComponent {
     (await this.authService.sendChangePasswordRequest(this.email)).subscribe(
       (response: any) => {
 
+        this.error = false;
+
         this.loading = false;
 
-        this.clearForm();   
+        this.clearForm();
 
         console.log('Correo de cambio de contraseña enviado', response);
 
@@ -78,4 +84,4 @@ export class ChangePasswordComponent {
 
   }
 
-}
+}  

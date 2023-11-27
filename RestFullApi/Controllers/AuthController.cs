@@ -106,10 +106,9 @@ public class AuthController : BaseController<AuthController>
             };
             await VSContext.PasswordRecoveryRequests.AddAsync(request);
             await SendChangePasswordRequest(request, uniqueKey);
-            await VSContext.SaveChangesAsync();
         }
 
-        return NotFound();
+        return NoContent();
     }
 
     [HttpPost("change-password/{requestId}/{uniqueKey}/{adminId}/{newPassword}")]
@@ -121,13 +120,15 @@ public class AuthController : BaseController<AuthController>
                                                                                        x.AdminId == adminId && x.UniqueKey == uniqueKeyHash);
         if (admin == null || DateTime.UtcNow.Subtract(admin.Created).TotalMinutes > 10)
         {
-            return Forbid();
+            return StatusCode(403, new
+            {
+                Error = "Usted no está autorizado para cambiar la contraseña."
+            });
         }
         admin.Admin.Password = StringExtension.GetSHA256Hash(newPassword);
         admin.Used = true;
         admin.PasswordChangeDate = DateTime.UtcNow;
-        await VSContext.SaveChangesAsync();
-        return NotFound();
+        return NoContent();
     }
 }
 

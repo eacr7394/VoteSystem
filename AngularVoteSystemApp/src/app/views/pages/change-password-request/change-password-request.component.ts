@@ -3,6 +3,8 @@ import { IndexedDbService } from '../../../indexed-db.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { AuthService } from '../../../services/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { strongPasswordValidator } from '../../../../common/validators/strong.password.validator';
 
 @Component({
   selector: 'app-change-password-request',
@@ -11,8 +13,15 @@ import { AuthService } from '../../../services/auth.service';
   providers: [AuthService]
 })
 export class ChangePasswordRequestComponent {
-  constructor(private authService: AuthService, private db: IndexedDbService, private router: Router,
+  constructor(private fb: FormBuilder, private authService: AuthService, private db: IndexedDbService, private router: Router,
     private route: ActivatedRoute) {
+
+    this.form = this.fb.group({
+      newPassword: ['', [Validators.required, strongPasswordValidator()]],
+      newPasswordRepeat: ['', [Validators.required, strongPasswordValidator()]],
+    });
+
+
   }
 
   async ngOnInit(): Promise<void> {
@@ -25,9 +34,9 @@ export class ChangePasswordRequestComponent {
 
       this.adminId = params['adminId'];
 
-      if (this.requestId && this.adminId && this.uniqueKey) {
+      if ((this.requestId && this.adminId && this.uniqueKey)) {
 
-        await this.db.set(this.db.AnonymousVotingQueryParamsKey, {
+        await this.db.set(this.db.ChangePasswordQueryParamsKey, {
           requestId: this.requestId,
           adminId: this.adminId,
           uniqueKey: this.uniqueKey,
@@ -40,7 +49,7 @@ export class ChangePasswordRequestComponent {
       }
       else {
 
-        let queryParams = (await this.db.get(this.db.ChangePasswordQueryParamsKey)).value;
+        let queryParams = (await this.db.get(this.db.ChangePasswordQueryParamsKey))?.value;
 
         console.log(queryParams);
 
@@ -55,6 +64,8 @@ export class ChangePasswordRequestComponent {
     this.loading = false;
 
   }
+
+  form: FormGroup;
 
   protected newPassword: string = "";
 
@@ -73,6 +84,15 @@ export class ChangePasswordRequestComponent {
   protected loadingMessage: string = "Por favor, espere...";
 
   protected loading: boolean = true;
+
+  private validateForm(): boolean {
+
+    Object.values(this.form.controls).forEach(control => {
+      control.markAsTouched();
+    });
+
+    return this.form.valid;
+  }
 
   clearForm(): void {
 
@@ -94,6 +114,8 @@ export class ChangePasswordRequestComponent {
 
       this.errorMessage = "Todos los campos son requeridos.";
 
+      this.error = true;
+
       this.loading = false;
 
       return;
@@ -103,6 +125,18 @@ export class ChangePasswordRequestComponent {
     if (this.newPassword !== this.newPasswordRepeat) {
 
       this.errorMessage = "Las contraseñas no coinciden.";
+
+      this.error = true;
+
+      this.loading = false;
+
+      return;
+
+    }
+
+    if (!this.validateForm()) {
+
+      this.error = true;
 
       this.loading = false;
 
@@ -115,6 +149,8 @@ export class ChangePasswordRequestComponent {
 
         this.loading = false;
 
+        this.error = false;
+
         this.clearForm();                                
 
         console.log('Cambio de contraseña exitoso.', response);
@@ -122,6 +158,8 @@ export class ChangePasswordRequestComponent {
       },
       (response: any) => {
         this.loading = false;
+
+        this.error = true;
 
         if (response.error != null && response.error.error != null) {
           this.errorMessage = response.error.error;
