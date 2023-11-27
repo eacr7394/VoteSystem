@@ -55,7 +55,7 @@ public static class ExcelGeneratorVoteRequestQuorumNewOwner
             worksheet.Cells["A9:D9"].Style.Font.Size = 12;
             worksheet.Cells["A9:D9"].Style.Font.Bold = true;
             worksheet.Cells["A9:D9"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-
+            worksheet.Cells["C9"].Style.Numberformat.Format = "dd/MM/yyyy HH:mm:ss";
 
             // Agregar datos de votación
             int row = 10;
