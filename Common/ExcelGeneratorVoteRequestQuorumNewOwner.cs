@@ -35,7 +35,7 @@ public static class ExcelGeneratorVoteRequestQuorumNewOwner
             // Quorum de Excepción (Ley 284, Art. 67)
             worksheet.Cells["A5"].Value = "Quorum de Excepción (Ley 284, Art. 67)";
             worksheet.Cells["B5:D5"].Merge = true;
-            worksheet.Cells["B5:D5"].Value = data.QuorumRequirement;
+            worksheet.Cells["B5:D5"].Value = data.ExceptionQuorum;
 
             // # de Propietarios Asistentes
             worksheet.Cells["A6"].Value = "# de Propietarios Asistentes";
