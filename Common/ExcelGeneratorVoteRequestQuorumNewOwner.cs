@@ -5,7 +5,7 @@ namespace Common;
 
 public static class ExcelGeneratorVoteRequestQuorumNewOwner
 {
-    public async static Task<byte[]> GenerateExcelFile(QuorumResultsVoteRequestQuorumNewOwner data)
+    public async static Task<byte[]> GenerateExcelFile(QuorumResultsVoteRequestQuorumNewOwner data, TimeZone timeZone = TimeZone.AMERICA_PANAMA)
     {
         ExcelPackage.LicenseContext = LicenseContext.NonCommercial; // Actualiza según tu licencia
 
@@ -55,7 +55,6 @@ public static class ExcelGeneratorVoteRequestQuorumNewOwner
             worksheet.Cells["A9:D9"].Style.Font.Size = 12;
             worksheet.Cells["A9:D9"].Style.Font.Bold = true;
             worksheet.Cells["A9:D9"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-            worksheet.Cells["C9"].Style.Numberformat.Format = "dd/MM/yyyy HH:mm:ss";
 
             // Agregar datos de votación
             int row = 10;
@@ -63,7 +62,8 @@ public static class ExcelGeneratorVoteRequestQuorumNewOwner
             {
                 worksheet.Cells[$"A{row}"].Value = quorum.Number;
                 worksheet.Cells[$"B{row}"].Value = quorum.MeetingDate;
-                worksheet.Cells[$"C{row}"].Value = quorum.QuorumDate;
+                worksheet.Cells[$"C{row}"].Value = quorum.QuorumDate?.AddHours((int)timeZone);
+                worksheet.Cells[$"C{row}"].Style.Numberformat.Format = "dd/MM/yyyy HH:mm:ss";
                 row++;
             }
 

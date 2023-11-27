@@ -5,7 +5,7 @@ namespace Common;
 
 public static class ExcelGeneratorSendUserVotingQuorumTask
 {
-    public async static Task<byte[]> GenerateExcelFile(VotingResultsSendUserVotingQuorumTask data)
+    public async static Task<byte[]> GenerateExcelFile(VotingResultsSendUserVotingQuorumTask data, TimeZone timeZone = TimeZone.AMERICA_PANAMA)
     {
         ExcelPackage.LicenseContext = LicenseContext.NonCommercial; // Actualiza según tu licencia
 
@@ -75,7 +75,6 @@ public static class ExcelGeneratorSendUserVotingQuorumTask
             worksheet.Cells["A12:E12"].Style.Font.Size = 12;
             worksheet.Cells["A12:E12"].Style.Font.Bold = true;
             worksheet.Cells["A12:E12"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-            worksheet.Cells["E12"].Style.Numberformat.Format = "dd/MM/yyyy HH:mm:ss";
 
             // Agregar datos de votación
             int row = 13;
@@ -85,7 +84,8 @@ public static class ExcelGeneratorSendUserVotingQuorumTask
                 worksheet.Cells[$"B{row}"].Value = voto.VotedAgainst;
                 worksheet.Cells[$"C{row}"].Value = voto.VotedInFavor;
                 worksheet.Cells[$"D{row}"].Value = voto.Abstained;
-                worksheet.Cells[$"E{row}"].Value = voto.VoteDate;
+                worksheet.Cells[$"E{row}"].Value = voto.VoteDate?.AddHours((int)timeZone);
+                worksheet.Cells[$"E{row}"].Style.Numberformat.Format = "dd/MM/yyyy HH:mm:ss";
                 row++;
             }
 
