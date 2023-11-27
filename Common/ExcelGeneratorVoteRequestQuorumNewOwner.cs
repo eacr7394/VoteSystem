@@ -87,14 +87,14 @@ public static class ExcelGeneratorVoteRequestQuorumNewOwner
 
 public class QuorumResultVoteRequestQuorumNewOwner
 {
-    public string Number { get; set; } = null!;
-    public string MeetingDate { get; set; } = null!;
-    public string QuorumDate { get; set; } = null!;
+    public int? Number { get; set; } = null!;
+    public DateOnly? MeetingDate { get; set; } = null!;
+    public DateTime? QuorumDate { get; set; } = null!;
 }
 
 public class QuorumResultsVoteRequestQuorumNewOwner
 {
-    public string MeetingDate { get; set; } = null!;
+    public DateOnly? MeetingDate { get; set; } = null!;
     public int QuorumRequirement { get; set; }
     public int ExceptionQuorum { get; set; }
     public int ActualAttendance { get; set; }

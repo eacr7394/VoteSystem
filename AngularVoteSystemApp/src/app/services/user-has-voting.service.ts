@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 
 import { IItem } from '@coreui/angular-pro';
 import { map, Observable } from 'rxjs';
+import { DateExtensions } from '../../common/date/date.extensions';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,8 @@ import { map, Observable } from 'rxjs';
 export class UserHasVotingService {
 
   private apiUrl = environment.apiUrl + "/userhasvoting";
+
+  private dateExtensions: DateExtensions = new DateExtensions();
 
   constructor(private http: HttpClient) { }
 
@@ -36,11 +39,11 @@ export class UserHasVotingService {
         let votings: IItem[] = [];
         itemArray.forEach((item: any) => {
           let voting: IItem = {
-            'Tema': item.votingDescription, 'Fecha Asamblea': item.meetingDate,
+            'Tema': item.votingDescription, 'Fecha Asamblea': this.dateExtensions.toLocaleDateString(item.meetingDate),
             'Casa': item.unitNumber, '¿Vota?': item.canVote === "yes" ? "Sí" : "No",
             'A Favor': item.accepted === "yes" ? "Sí" : (item.accepted === "no" ? "No" : "No ha votado"),
             'Enviada': item.send === "yes" ? "Sí" : "No",
-            'Fecha de Voto': item.votedTime
+            'Fecha de Voto': this.dateExtensions.toLocaleDateTimeString(item.votedTime)
           };
           console.log(item);
           votings.push(voting);

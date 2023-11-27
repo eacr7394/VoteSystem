@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { DateExtensions } from '../../../common/date/date.extensions';
 import { IndexedDbService } from '../../indexed-db.service';
 import { MeetingService } from '../../services/meeting.service';
 
@@ -22,6 +23,8 @@ export class MeetingCreateComponent {
     this.loading = await false;
 
   }
+
+  private dateExtensions: DateExtensions = new DateExtensions();
 
   title = 'Crear Reunión';
 
@@ -68,11 +71,6 @@ export class MeetingCreateComponent {
 
   }
 
-  private getUtcDate(date: Date): string {
-
-    return date.toISOString().split('T')[0];
-
-  }
 
   async createMeeting(): Promise<void> {
 
@@ -90,10 +88,12 @@ export class MeetingCreateComponent {
 
     this.error = false;
 
+    this.date.setHours(12);
+
     let meeting = {
       id: "",
       adminId: (await this.db.get(this.db.UserIdKey)).value,
-      date: this.getUtcDate(this.date)
+      date: this.dateExtensions.toUtcDateString(this.date)
     };
 
     (await this.meetingService.createMeetingAsync(meeting)).subscribe(

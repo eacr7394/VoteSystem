@@ -109,23 +109,23 @@ public static class ExcelGeneratorSendUserVotingQuorumTask
 
 public class VotingResultSendUserVotingQuorumTask
 {
-    public string Number { get; set; } = null!;
+    public int? Number { get; set; } = null!;
     public string VotedAgainst { get; set; } = null!;
     public string VotedInFavor { get; set; } = null!;
     public string Abstained { get; set; } = null!;
-    public string VoteDate { get; set; } = null!;
+    public DateTime? VoteDate { get; set; } = null!;
 }
 
 public class VotingResultsSendUserVotingQuorumTask
 {
     public string VoteDescription { get; set; } = null!;
-    public string MeetingDate { get; set; } = null!;
-    public int VotesInFavor { get; set; }
-    public int VotesAgainst { get; set; }
-    public int Abstentions { get; set; }
-    public int QuorumRequirement { get; set; }
-    public int ExceptionQuorum { get; set; }
-    public int ActualAttendance { get; set; }
+    public DateOnly? MeetingDate { get; set; } = null!;
+    public int? VotesInFavor { get; set; }
+    public int? VotesAgainst { get; set; }
+    public int? Abstentions { get; set; }
+    public int? QuorumRequirement { get; set; }
+    public int? ExceptionQuorum { get; set; }
+    public int? ActualAttendance { get; set; }
 
     public List<VotingResultSendUserVotingQuorumTask> Results { get; set; } = null!;
 

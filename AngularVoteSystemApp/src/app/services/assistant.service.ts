@@ -1,25 +1,28 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';  
+import { environment } from '../../environments/environment';
 import { map, Observable } from 'rxjs';
 import { IItem } from '@coreui/angular-pro';
+import { DateExtensions } from '../../common/date/date.extensions';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AssistantService {
 
-  private apiUrl = environment.apiUrl + "/assistant";       
+  private apiUrl = environment.apiUrl + "/assistant";
+
+  private dateExtensions: DateExtensions = new DateExtensions();
 
   constructor(private http: HttpClient) { }
-             
+
 
   public async createAssistantAsync(body: any): Promise<Observable<any>> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
     const options = { headers, withCredentials: true };
-    return await this.http.post(`${this.apiUrl}`, body ,options);
+    return await this.http.post(`${this.apiUrl}`, body, options);
   }
 
 
@@ -37,7 +40,7 @@ export class AssistantService {
         let assistants: IItem[] = [];
         itemArray.forEach((item: any) => {
           let assistant: IItem = {
-            '# de Casa': item.unitNumber, 'Fecha de Asamblea': item.meetingDate,
+            '# de Casa': item.unitNumber, 'Fecha de Asamblea': this.dateExtensions.toLocaleDateString(item.meetingDate),
             Vota: 'yes' === item.canVote ? "Sí" : "No"
           };
           console.log(item);

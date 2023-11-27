@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IItem } from '@coreui/angular-pro';
 import { map, Observable } from 'rxjs';
+import { DateExtensions } from '../../common/date/date.extensions';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -11,6 +12,8 @@ export class MeetingService {
 
   private apiUrl = environment.apiUrl + "/meeting";
 
+  private dateExtensions: DateExtensions = new DateExtensions();
+
   constructor(private http: HttpClient) { }
 
 
@@ -19,7 +22,7 @@ export class MeetingService {
       'Content-Type': 'application/json',
     });
     const options = { headers, withCredentials: true };
-    return await this.http.post(`${this.apiUrl}`, body ,options);
+    return await this.http.post(`${this.apiUrl}`, body, options);
   }
 
   private async getAllMeetingsAsync(): Promise<Promise<any>> {
@@ -36,7 +39,7 @@ export class MeetingService {
 
     await (await this.getAllMeetingsAsync()).forEach((item: []) => {
       item.forEach((item: any) => {
-        let obj = { id: item.id, value: String(item.date) };
+        let obj = { id: item.id, value: String(this.dateExtensions.toLocaleDateString(item.date)) };
         meetings.push(obj);
       });
     });
@@ -48,9 +51,9 @@ export class MeetingService {
     return (await this.getAllMeetingsAsync()).pipe(
       map((itemArray: []) => {
         let meetings: IItem[] = [];
-        itemArray.forEach((item: any) => {
+        itemArray.forEach((item: any) => {     
           let meeting: IItem = {
-            Identificador: item.id, 'Fecha de Celebración': item.date, 'Identificador del Administrador': item.adminId
+            Identificador: item.id, 'Fecha de Celebración': this.dateExtensions.toLocaleDateString(new Date(String(item.date) + "T12:00:00")), 'Identificador del Administrador': item.adminId
           };
           meetings.push(meeting);
         });

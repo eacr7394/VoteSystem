@@ -20,7 +20,7 @@ public class SendUserVotingResultTask : IJob
         VotingResultsSendUserVotingQuorumTask data = new VotingResultsSendUserVotingQuorumTask
         {
             VoteDescription = voting.Description,
-            MeetingDate = voting.Meeting.Date.ToString("yyyy-MM-dd"),
+            MeetingDate = voting.Meeting.Date,
             VotesInFavor = agreeCounter,
             VotesAgainst = disagreeCounter,
             Abstentions = abstentionCounter,
@@ -34,11 +34,11 @@ public class SendUserVotingResultTask : IJob
         {
             var vote = new VotingResultSendUserVotingQuorumTask
             {
-                Number = userVoting.User.Unit.Number.ToString(),
+                Number = userVoting.User.Unit.Number,
                 VotedAgainst = userVoting.Accepted == "no" ? "Sí" : "No",
                 VotedInFavor = userVoting.Accepted == "yes" ? "Sí" : "No",
                 Abstained = userVoting.Accepted == "" ? "Sí" : "No",
-                VoteDate = userVoting.VotedTime?.ToString("yyyy-MM-dd hh:mm:ss")!
+                VoteDate = userVoting.VotedTime
             };
             data.Results.Add(vote);
             userVoting.CloseTime = DateTime.UtcNow;

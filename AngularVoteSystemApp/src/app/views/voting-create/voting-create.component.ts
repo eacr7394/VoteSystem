@@ -36,7 +36,7 @@ export class VotingCreateComponent implements OnInit {
       );
       this.optionsMeeting$.next([...filtered]);
     });
-    
+
     await this.cdr.detectChanges();
 
     this.loading = false;
@@ -101,7 +101,7 @@ export class VotingCreateComponent implements OnInit {
     }
 
     let voting = {
-      id: "",                   
+      id: "",
       meetingId: this.meetingId.toLowerCase(),
       description: this.description.toUpperCase(),
     };

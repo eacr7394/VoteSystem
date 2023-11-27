@@ -11,4 +11,7 @@
     <None Include=".vscode\extensions.json" />
     <None Include=".vscode\tasks.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\common\date\" />
+  </ItemGroup>
 </Project>

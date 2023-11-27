@@ -18,7 +18,7 @@ public class SendUserVotingQuorumTask : IJob
     {
         QuorumResultsVoteRequestQuorumNewOwner data = new QuorumResultsVoteRequestQuorumNewOwner
         {
-            MeetingDate = meeting.Date.ToString("yyyy-MM-dd"),
+            MeetingDate = meeting.Date,
             QuorumRequirement = (int)Math.Round(totalUnits * 0.5 + 1),
             ExceptionQuorum = (int)Math.Round(totalUnits * 0.2),
             ActualAttendance = assistants.Count,
@@ -31,9 +31,9 @@ public class SendUserVotingQuorumTask : IJob
             assistant.QuorumDate = DateTime.UtcNow;
             var quorum = new QuorumResultVoteRequestQuorumNewOwner
             {
-                Number = assistant.Unit.Number.ToString(),
-                MeetingDate = meeting.Date.ToString("yyyy-MM-dd"),
-                QuorumDate = assistant.QuorumDate?.ToString("yyyy-MM-dd hh:mm:ss")!
+                Number = assistant.Unit.Number,
+                MeetingDate = meeting.Date,
+                QuorumDate = assistant.QuorumDate
             };
             data.Results.Add(quorum);
         }
