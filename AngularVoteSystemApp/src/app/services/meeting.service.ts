@@ -39,7 +39,7 @@ export class MeetingService {
 
     await (await this.getAllMeetingsAsync()).forEach((item: []) => {
       item.forEach((item: any) => {
-        let obj = { id: item.id, value: String(this.dateExtensions.toLocaleDateString(item.date)) };
+        let obj = { id: item.id, value: String(this.dateExtensions.toLocaleDateString(new Date(String(item.date) + "T12:00:00"))) };
         meetings.push(obj);
       });
     });
