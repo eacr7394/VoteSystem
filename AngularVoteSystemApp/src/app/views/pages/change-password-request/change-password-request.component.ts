@@ -110,18 +110,6 @@ export class ChangePasswordRequestComponent {
 
     this.loading = true;
 
-    if (this.newPassword == "" || this.newPasswordRepeat == "") {
-
-      this.errorMessage = "Todos los campos son requeridos.";
-
-      this.error = true;
-
-      this.loading = false;
-
-      return;
-
-    }
-
     if (this.newPassword !== this.newPasswordRepeat) {
 
       this.errorMessage = "Las contraseñas no coinciden.";

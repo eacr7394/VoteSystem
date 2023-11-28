@@ -2,9 +2,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 export function strongPasswordValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    if (!control) {
-      return null;
-    }
+
     const value: string = control.value;
 
     if (!value) {
