@@ -13,6 +13,10 @@ public partial class Assistant
 
     public DateTime? QuorumDate { get; set; }
 
+    public string? EmailRepresent { get; set; }
+
+    public string? AssistantRepresent { get; set; }
+
     public string UnitId { get; set; } = null!;
 
     public string MeetingId { get; set; } = null!;

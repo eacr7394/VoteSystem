@@ -14,18 +14,18 @@ public class SendUserVotingTask : IJob
         Logger = logger;
     }
 
-    private async Task Send(User user, Voting voting, string uniqueKey)
+    private async Task Send(UserHasVoting userHasVoting, Voting voting, string uniqueKey)
     {
         var template = new SmtpTemplate(SmtpTemplate.Template.VoteRequest);
         template.AddParameter(new SmtpTemplateParameter
         {
             Name = "NOMBRE",
-            Value = user.Name,
+            Value = userHasVoting.User.Name,
         });
         template.AddParameter(new SmtpTemplateParameter
         {
             Name = "APELLIDO",
-            Value = user.Lastname,
+            Value = userHasVoting.User.Lastname,
         });
         template.AddParameter(new SmtpTemplateParameter
         {
@@ -35,12 +35,12 @@ public class SendUserVotingTask : IJob
         template.AddParameter(new SmtpTemplateParameter
         {
             Name = "USER_ID",
-            Value = user.Id,
+            Value = userHasVoting.User.Id,
         });
         template.AddParameter(new SmtpTemplateParameter
         {
             Name = "UNIT_ID",
-            Value = user.UnitId!,
+            Value = userHasVoting.User.UnitId!,
         });
         template.AddParameter(new SmtpTemplateParameter
         {
@@ -55,7 +55,9 @@ public class SendUserVotingTask : IJob
 
         template.AddResources(VoteRequest.PhMonteBelloLogo, VoteRequest.PhMonteBelloLogoCid);
 
-        await SmtpClient.SendAsync(user.Email, template);
+        var email = string.IsNullOrEmpty(userHasVoting.Assistant.EmailRepresent) ? userHasVoting.User.Email : userHasVoting.Assistant.EmailRepresent;
+
+        await SmtpClient.SendAsync(email, template);
     }
 
     public async Task Execute(IJobExecutionContext jobContext)
@@ -73,14 +75,14 @@ public class SendUserVotingTask : IJob
                     var uniqueKey = StringExtension.RandomString(250);
                     try
                     {
-                        var voting = context.Votings.Single(x => x.MeetingId == userHasVoting.VotingMeetingId);
+                        var voting = context.Votings.Single(x => x.MeetingId == userHasVoting.VotingMeetingId && x.Id == userHasVoting.VotingId);
 #if DEBUG
                         if (userHasVoting.User.Email.EndsWith("@example.com"))
                         {
                             continue;
                         }
 #endif
-                        await Send(userHasVoting.User, voting, uniqueKey);
+                        await Send(userHasVoting, voting, uniqueKey);
                         userHasVoting.Send = "yes";
                         userHasVoting.UniqueKey = StringExtension.GetSHA256Hash(uniqueKey);
                         await context.SaveChangesAsync();

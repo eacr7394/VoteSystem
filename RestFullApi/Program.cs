@@ -121,7 +121,7 @@ builder.Services.AddQuartz(q =>
         .WithIdentity("SendUserVotingTask-trigger")
         .StartNow()
                 .WithSimpleSchedule(x => x
-                    .WithIntervalInMinutes(3)
+                    .WithIntervalInSeconds(30)
                     .RepeatForever())
     );
 
@@ -132,7 +132,7 @@ builder.Services.AddQuartz(q =>
         .WithIdentity("SendUserVotingResultTask-trigger")
         .StartNow()
                 .WithSimpleSchedule(x => x
-                    .WithIntervalInMinutes(5)
+                    .WithIntervalInSeconds(30)
                     .RepeatForever())
     );
 
@@ -143,7 +143,7 @@ builder.Services.AddQuartz(q =>
         .WithIdentity("SendUserVotingQuorumTask-trigger")
         .StartNow()
                 .WithSimpleSchedule(x => x
-                    .WithIntervalInMinutes(4)
+                    .WithIntervalInSeconds(30)
                     .RepeatForever())
     );
 

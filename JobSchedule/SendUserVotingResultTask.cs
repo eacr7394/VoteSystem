@@ -101,7 +101,17 @@ public class SendUserVotingResultTask : IJob
         using var context = new VoteSystemContext();
         using var trans = await context.Database.BeginTransactionAsync();
         string[] adminEmails = await context.Admins.Select(x => x.Email).ToArrayAsync();
-        string[] bccEmails = await context.Users.Select(x => x.Email).ToArrayAsync();
+        List<string> bccUserEmails = await context.Users.Select(x => x.Email).ToListAsync();
+        List<string> bccAssistantEmails = await context.Assistants.Where(x => !string.IsNullOrEmpty(x.EmailRepresent))
+            .Select(x => x.EmailRepresent + "").ToListAsync();
+
+        if (bccAssistantEmails.Count > 0)
+        {
+            bccUserEmails.AddRange(bccAssistantEmails);
+        }
+
+        string[] bccEmails = bccUserEmails.ToArray();
+
         int totalUnits = context.Units.Count();
 #if DEBUG
         adminEmails = adminEmails.Where(x => !x.EndsWith("@example.com")).ToArray();

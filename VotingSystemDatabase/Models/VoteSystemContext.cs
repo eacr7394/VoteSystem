@@ -6,7 +6,6 @@ namespace VotingSystemDatabase.Models;
 
 public partial class VoteSystemContext : DbContext
 {
-
     public virtual DbSet<Admin> Admins { get; set; }
 
     public virtual DbSet<Assistant> Assistants { get; set; }
@@ -96,12 +95,18 @@ public partial class VoteSystemContext : DbContext
                 .HasMaxLength(38)
                 .IsFixedLength()
                 .HasColumnName("meeting_admin_id");
+            entity.Property(e => e.AssistantRepresent)
+                .HasMaxLength(250)
+                .HasColumnName("assistant_represent");
             entity.Property(e => e.CanVote)
                 .HasColumnType("enum('yes','no')")
                 .HasColumnName("can_vote");
             entity.Property(e => e.Created)
                 .HasColumnType("datetime")
                 .HasColumnName("created");
+            entity.Property(e => e.EmailRepresent)
+                .HasMaxLength(250)
+                .HasColumnName("email_represent");
             entity.Property(e => e.QuorumDate)
                 .HasColumnType("datetime")
                 .HasColumnName("quorum_date");

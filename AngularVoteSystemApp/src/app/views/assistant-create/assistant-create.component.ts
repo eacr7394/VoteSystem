@@ -109,6 +109,10 @@ export class AssistantCreateComponent {
 
   protected errorMessage: string = "";
 
+  protected power: string = "";
+
+  protected powerEmail: string = "";
+
   protected error: boolean = false;    
 
   protected loadingMessage: string = "Por favor, espere...";
@@ -155,6 +159,8 @@ export class AssistantCreateComponent {
       unitId: this.unitId.toLowerCase(),
       canVote: this.canVote.toLowerCase(),
       meetingId: this.meetingId.toLowerCase(),
+      assistantRepresent: this.power,
+      emailRepresent: this.powerEmail
     };
 
     (await this.assistantService.createAssistantAsync(user)).subscribe(

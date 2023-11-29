@@ -42,10 +42,10 @@ public class SendUserVotingQuorumTask : IJob
 
     private async Task Send(List<Assistant> assistant, Meeting meeting, string[] adminEmails, string[] bccEmails, int totalUnits)
     {
-        int assistancePercentage = 0;
+        double assistancePercentage = 0;
         if (assistant.Count >= 1)
         {
-            assistancePercentage = (int)Math.Round((double)assistant.Count / totalUnits * 100);
+            assistancePercentage = Math.Round((double)assistant.Count / totalUnits * 100, 2);
         }
 
         var template = new SmtpTemplate(SmtpTemplate.Template.VoteRequestQuorumNewOwner);
@@ -100,7 +100,17 @@ public class SendUserVotingQuorumTask : IJob
         using var context = new VoteSystemContext();
         using var trans = await context.Database.BeginTransactionAsync();
         string[] adminEmails = await context.Admins.Select(x => x.Email).ToArrayAsync();
-        string[] bccEmails = await context.Users.Select(x => x.Email).ToArrayAsync();
+        List<string> bccUserEmails = await context.Users.Select(x => x.Email).ToListAsync();
+        List<string> bccAssistantEmails = await context.Assistants.Where(x => !string.IsNullOrEmpty(x.EmailRepresent))
+            .Select(x => x.EmailRepresent + "").ToListAsync();
+
+        if(bccAssistantEmails.Count > 0)
+        {
+            bccUserEmails.AddRange(bccAssistantEmails);
+        }
+
+        string[] bccEmails = bccUserEmails.ToArray();
+
         int totalUnits = context.Units.Count();
 #if DEBUG
         adminEmails = adminEmails.Where(x => !x.EndsWith("@example.com")).ToArray();

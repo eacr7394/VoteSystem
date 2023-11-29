@@ -89,7 +89,19 @@
 
             </c-input-group>
 
+            <c-input-group class="mb-3">
+              <span cInputGroupText>
+                <svg cIcon name="cilUser"></svg>
+              </span>
+              <input name="power" [(ngModel)]="this.power" autoComplete="power" cFormControl placeholder="Poder a nombre de (Opcional): " />
+            </c-input-group>
 
+            <c-input-group class="mb-3">
+              <span cInputGroupText>
+                <svg cIcon name="cilUser"></svg>
+              </span>
+              <input name="powerEmail" [(ngModel)]="this.powerEmail" autoComplete="powerEmail" cFormControl placeholder="Correo Electrónico del Representante (Opcional): " />
+            </c-input-group>
 
             <p></p>
             <c-row class="justify-content-center text-center" style="color:red;" [hidden]="!error">

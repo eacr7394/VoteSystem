@@ -16,5 +16,9 @@ public sealed class AssistantResponse
 
     public string MeetingAdminId { get; set; } = null!;
 
+    public string? EmailRepresent { get; set; }
+
+    public string? AssistantRepresent { get; set; }
+
     public DateOnly? MeetingDate { get; set; } = null!;
 }

@@ -22,7 +22,8 @@ public class AssistantController : BaseController<AssistantController>
             MeetingId = x.MeetingId,
             MeetingDate = x.Meeting.Date,
             UnitNumber = x.Unit.Number,
-
+            AssistantRepresent = x.AssistantRepresent,
+            EmailRepresent = x.EmailRepresent
         }).ToArrayAsync();
     }
 
@@ -39,9 +40,11 @@ public class AssistantController : BaseController<AssistantController>
             MeetingId = x.MeetingId,
             MeetingDate = x.Meeting.Date,
             UnitNumber = x.Unit.Number,
+            AssistantRepresent = x.AssistantRepresent,
+            EmailRepresent = x.EmailRepresent
 
         }).SingleOrDefaultAsync(x => x.Id == id);
-        if(assistant == null)
+        if (assistant == null)
         {
             return NotFound();
         }
@@ -66,7 +69,9 @@ public class AssistantController : BaseController<AssistantController>
             CanVote = request.CanVote,
             UnitId = request.UnitId,
             MeetingAdminId = meeting.AdminId,
-            MeetingId = request.MeetingId
+            MeetingId = request.MeetingId,
+            AssistantRepresent = request.AssistantRepresent,
+            EmailRepresent = request.EmailRepresent
         });
         await VSContext.SaveChangesAsync();
         return NoContent();

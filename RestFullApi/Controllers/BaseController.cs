@@ -24,6 +24,7 @@ public class BaseController<T> : ControllerBase, IDisposable
         Transaction.Commit();
         VSContext.Database.CloseConnection();
         Transaction.Dispose();
+        VSContext.Dispose();
     }
 
     protected string Serialize(object obj)

@@ -98,14 +98,15 @@ public class AuthController : BaseController<AuthController>
         {
             PasswordRecoveryRequest request = new()
             {
-                Id = new Guid().ToString(),
-                AdminId = admin.Id,
+                Id = Guid.NewGuid().ToString(),
+                Admin = admin,
                 UniqueKey = StringExtension.GetSHA256Hash(uniqueKey),
                 Used = false,
                 Created = DateTime.UtcNow
             };
-            await VSContext.PasswordRecoveryRequests.AddAsync(request);
             await SendChangePasswordRequest(request, uniqueKey);
+            await VSContext.PasswordRecoveryRequests.AddAsync(request);
+            await VSContext.SaveChangesAsync();
         }
 
         return NoContent();
@@ -128,6 +129,7 @@ public class AuthController : BaseController<AuthController>
         admin.Admin.Password = StringExtension.GetSHA256Hash(newPassword);
         admin.Used = true;
         admin.PasswordChangeDate = DateTime.UtcNow;
+        await VSContext.SaveChangesAsync();
         return NoContent();
     }
 }
