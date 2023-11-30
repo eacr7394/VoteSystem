@@ -43,7 +43,7 @@ export class UserHasVotingService {
             'Casa': item.unitNumber, '¿Vota?': item.canVote === "yes" ? "Sí" : "No",
             'A Favor': item.accepted === "yes" ? "Sí" : (item.accepted === "no" ? "No" : "No ha votado"),
             'Enviada': item.send === "yes" ? "Sí" : "No",
-            'Fecha de Voto': this.dateExtensions.toLocaleDateTimeString(item.votedTime)
+            'Fecha de Voto': item.votedTime != "" && item.votedTime != null ? this.dateExtensions.toLocaleDateTimeString(item.votedTime) : ""
           };
           console.log(item);
           votings.push(voting);

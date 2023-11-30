@@ -86,14 +86,14 @@ public class UserHasVotingController : BaseController<UserHasVotingController>
             {
                 return BadRequest(new
                 {
-                    Error = $"No hay Quarum, solo ha asistido {assistantCount} propietario y se requiere mínimo {minimunUnitQuorum} unidades para el Quarum Reglamentario."
+                    Error = $"No hay Quórum, solo ha asistido {assistantCount} propietario y se requiere mínimo {minimunUnitQuorum} unidades para el Quórum Reglamentario."
                 });
             }
             else if (assistantCount == 0)
             {
                 return BadRequest(new
                 {
-                    Error = $"No hay Quarum."
+                    Error = $"No hay Quórum."
                 });
             }
 
@@ -103,14 +103,21 @@ public class UserHasVotingController : BaseController<UserHasVotingController>
             {
                 return BadRequest(new
                 {
-                    Error = $"No hay Quarum, solo han asistido {assistantCount} propietarios y se requiere mínimo {minimunUnitQuorum} unidades para el Quarum Reglamentario o en su defecto el quarum mínimo de excepción se requieren {minimunUnitQuorumException} unidades equivalentes al 20%."
+                    Error = $"No hay Quórum, solo han asistido {assistantCount} propietarios y se requiere mínimo {minimunUnitQuorum} unidades para el Quórum Reglamentario o en su defecto el Quórum mínimo de excepción se requieren {minimunUnitQuorumException} unidades equivalentes al 20%."
                 });
             }
             else if (assistantCount >= minimunUnitQuorumException && minutesPassedFromMeetingStarted < 60)
             {
                 return BadRequest(new
                 {
-                    Error = $"No hay Quarum, solo han asistido {assistantCount} propietarios y se requiere mínimo {minimunUnitQuorum} unidades para el Quarum o en su defecto el quarum mínimo de excepción del 20% equivalentes al {minimunUnitQuorum}, sin embargo solo han pasado {minutesPassedFromMeetingStarted} minutos. Cumplidos los 60 minutos se podrá aplicar el Quarum de excepción."
+                    Error = $"No hay Quórum, solo han asistido {assistantCount} propietarios y se requiere mínimo {minimunUnitQuorum} unidades para el Quórum o en su defecto el Quórum mínimo de excepción del 20% equivalentes al {minimunUnitQuorum}, sin embargo solo han pasado {minutesPassedFromMeetingStarted} minutos. Cumplidos los 60 minutos se podrá aplicar el Quórum de excepción."
+                });
+            }
+            else
+            {
+                return BadRequest(new
+                {
+                    Error = $"No hay Quórum, solo ha asistido {assistantCount} propietario y se requiere mínimo {minimunUnitQuorum} unidades para el Quórum Reglamentario."
                 });
             }
 
@@ -150,7 +157,7 @@ public class UserHasVotingController : BaseController<UserHasVotingController>
         {
             return BadRequest(new
             {
-                Error = $"No hay Quarum, se enviaron las votaciones con el quorum mínimo de excepción del 20% equivalentes al {minimunUnitQuorum}. El secretario debe levantar el acta según lo dispone el Artículo 67 de la Ley 284."
+                Error = $"No hay Quórum, se enviaron las votaciones con el quorum mínimo de excepción del 20% equivalentes al {minimunUnitQuorum}. El secretario debe levantar el acta según lo dispone el Artículo 67 de la Ley 284."
             });
         }
         return NoContent();
