@@ -43,8 +43,8 @@ export class AssistantService {
             '# de Casa': item.unitNumber, 'Fecha de Asamblea': this.dateExtensions.toLocaleDateString(new Date(String(item.meetingDate) + "T12:00:00")),
             Vota: 'yes' === item.canVote ? "Sí" : "No",
             '¿Tiene Poder de Representación?': item.assistantRepresent==""? "No": "Sí",
-            'Nombre del Representante': item.assistantRepresent,
-            'Correo del Representante': item.emailRepresent
+            'Nombre del Representante': item.assistantRepresent.toUpperCase(),
+            'Correo del Representante': item.emailRepresent.toLowerCase()
           };
           console.log(item);
           assistants.push(assistant);

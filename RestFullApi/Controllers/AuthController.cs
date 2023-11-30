@@ -70,7 +70,7 @@ public class AuthController : BaseController<AuthController>
         template.AddParameter(new SmtpTemplateParameter
         {
             Name = "ADMIN_ID",
-            Value = request.AdminId,
+            Value = request.Admin.Id,
         });
         template.AddParameter(new SmtpTemplateParameter
         {
@@ -104,8 +104,8 @@ public class AuthController : BaseController<AuthController>
                 Used = false,
                 Created = DateTime.UtcNow
             };
-            await SendChangePasswordRequest(request, uniqueKey);
             await VSContext.PasswordRecoveryRequests.AddAsync(request);
+            await SendChangePasswordRequest(request, uniqueKey);
             await VSContext.SaveChangesAsync();
         }
 

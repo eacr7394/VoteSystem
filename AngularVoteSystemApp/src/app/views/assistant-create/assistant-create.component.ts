@@ -21,6 +21,8 @@ export class AssistantCreateComponent {
       unitsSelect: ['', [Validators.required]],
       canVoteSelect: ['', [Validators.required]],
       meetingsSelect: ['', [Validators.required]],
+      powerEmail: ['', []],
+      power: ['', []],
     });
 
   }
@@ -129,6 +131,10 @@ export class AssistantCreateComponent {
 
     this.meetingId = "";
 
+    this.power = "";
+
+    this.powerEmail = "";
+
     this.error = false;
 
   }
@@ -159,8 +165,8 @@ export class AssistantCreateComponent {
       unitId: this.unitId.toLowerCase(),
       canVote: this.canVote.toLowerCase(),
       meetingId: this.meetingId.toLowerCase(),
-      assistantRepresent: this.power,
-      emailRepresent: this.powerEmail
+      assistantRepresent: this.power.toUpperCase(),
+      emailRepresent: this.powerEmail.toLowerCase()
     };
 
     (await this.assistantService.createAssistantAsync(user)).subscribe(

@@ -67,6 +67,8 @@ export class ChangePasswordComponent {
 
         console.log('Correo de cambio de contraseña enviado', response);
 
+        this.router.navigate(['/login']);
+
       },
       (response: any) => {
         this.loading = false;

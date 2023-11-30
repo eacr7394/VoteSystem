@@ -27,8 +27,10 @@ public class SendUserVotingQuorumTask : IJob
 
         foreach (var assistant in assistants)
         {
-
-            assistant.QuorumDate = DateTime.UtcNow;
+            if (!assistant.QuorumDate.HasValue)
+            {
+                assistant.QuorumDate = DateTime.UtcNow;
+            }
             var quorum = new QuorumResultVoteRequestQuorumNewOwner
             {
                 Number = assistant.Unit.Number,

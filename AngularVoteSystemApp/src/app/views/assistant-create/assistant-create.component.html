@@ -93,14 +93,14 @@
               <span cInputGroupText>
                 <svg cIcon name="cilUser"></svg>
               </span>
-              <input name="power" [(ngModel)]="this.power" autoComplete="power" cFormControl placeholder="Poder a nombre de (Opcional): " />
+              <input formControlName="power" name="power" [(ngModel)]="this.power" autoComplete="power" cFormControl placeholder="Poder a nombre de (Opcional)" />
             </c-input-group>
 
             <c-input-group class="mb-3">
               <span cInputGroupText>
                 <svg cIcon name="cilUser"></svg>
               </span>
-              <input name="powerEmail" [(ngModel)]="this.powerEmail" autoComplete="powerEmail" cFormControl placeholder="Correo Electrónico del Representante (Opcional): " />
+              <input formControlName="powerEmail" name="powerEmail" [(ngModel)]="this.powerEmail" autoComplete="powerEmail" cFormControl placeholder="Correo Electrónico del Representante (Opcional)" />
             </c-input-group>
 
             <p></p>

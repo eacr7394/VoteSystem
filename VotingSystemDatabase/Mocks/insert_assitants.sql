@@ -1,5 +1,5 @@
 INSERT INTO `vote_system`.`assistant` (`id`, `created`, `can_vote`, `unit_id`, `meeting_id`, `meeting_admin_id`)
-SELECT
+SELECT * FROM (SELECT
     UUID(),
     NOW(),
     'yes',
@@ -14,4 +14,6 @@ WHERE
         SELECT 1
         FROM `vote_system`.`assistant` a
         WHERE a.`unit_id` = u.`id` AND a.`meeting_id` = m.`id`
-    );
+    )) X
+limit 0,10;
+    

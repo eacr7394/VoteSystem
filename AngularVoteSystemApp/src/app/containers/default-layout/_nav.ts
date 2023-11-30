@@ -17,7 +17,7 @@ export const navItems: INavData[] = [
     ]
   },
   {
-    name: 'Asistencia de Propietarios (Quórum)',
+    name: 'Asistencias (Quorum)',
     url: '#',
     iconComponent: { name: 'cil-star' },
     children: [

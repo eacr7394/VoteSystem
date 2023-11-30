@@ -4,9 +4,8 @@ export function strongPasswordValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
 
     const value: string = control.value;
-
     if (!value) {
-      return null; // Don't validate empty values to allow for optional fields
+      return null; 
     }
 
     // Define your password strength rules here
@@ -23,6 +22,6 @@ export function strongPasswordValidator(): ValidatorFn {
       hasNumeric &&
       hasSpecialChar;
 
-    return isStrong ? null : { strongPassword: true };
+    return !isStrong ? { strongPassword: true } : null;
   };
 }

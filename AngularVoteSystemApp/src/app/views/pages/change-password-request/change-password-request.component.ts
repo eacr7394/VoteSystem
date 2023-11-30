@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { IndexedDbService } from '../../../indexed-db.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
@@ -14,7 +14,7 @@ import { strongPasswordValidator } from '../../../../common/validators/strong.pa
 })
 export class ChangePasswordRequestComponent {
   constructor(private fb: FormBuilder, private authService: AuthService, private db: IndexedDbService, private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute, private cdr: ChangeDetectorRef) {
 
     this.form = this.fb.group({
       newPassword: ['', [Validators.required, strongPasswordValidator()]],
@@ -90,7 +90,8 @@ export class ChangePasswordRequestComponent {
     Object.values(this.form.controls).forEach(control => {
       control.markAsTouched();
     });
-
+    this.cdr.detectChanges();
+    debugger;
     return this.form.valid;
   }
 

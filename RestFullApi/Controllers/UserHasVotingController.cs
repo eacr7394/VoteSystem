@@ -70,7 +70,7 @@ public class UserHasVotingController : BaseController<UserHasVotingController>
         var voting = await VSContext.Votings.SingleAsync(x => x.Id == votingId);
         int assistantCount = voting.Meeting.Assistants.Count();
         int unitsTotalCount = VSContext.Units.Count();
-        int minimunUnitQuorum = ((unitsTotalCount / 2) + 1);
+        int minimunUnitQuorum = (unitsTotalCount / 2) + 1;
         int minimunUnitQuorumException = (int)Math.Round(unitsTotalCount * 0.2);
 
         if (assistantCount <= 0)
@@ -86,7 +86,7 @@ public class UserHasVotingController : BaseController<UserHasVotingController>
             {
                 return BadRequest(new
                 {
-                    Error = $"No hay Quarum, solo ha asistido {assistantCount} propietario y se requiere mínimo {minimunUnitQuorum} unidades para el Quarum."
+                    Error = $"No hay Quarum, solo ha asistido {assistantCount} propietario y se requiere mínimo {minimunUnitQuorum} unidades para el Quarum Reglamentario."
                 });
             }
             else if (assistantCount == 0)
@@ -103,7 +103,7 @@ public class UserHasVotingController : BaseController<UserHasVotingController>
             {
                 return BadRequest(new
                 {
-                    Error = $"No hay Quarum, solo han asistido {assistantCount} propietarios y se requiere mínimo {minimunUnitQuorum} unidades para el Quarum o en su defecto el quarum mínimo de excepción del 20% equivalentes al {minimunUnitQuorum}."
+                    Error = $"No hay Quarum, solo han asistido {assistantCount} propietarios y se requiere mínimo {minimunUnitQuorum} unidades para el Quarum Reglamentario o en su defecto el quarum mínimo de excepción se requieren {minimunUnitQuorumException} unidades equivalentes al 20%."
                 });
             }
             else if (assistantCount >= minimunUnitQuorumException && minutesPassedFromMeetingStarted < 60)
@@ -125,7 +125,7 @@ public class UserHasVotingController : BaseController<UserHasVotingController>
         }
         foreach (var assistant in voting.Meeting.Assistants.Where(x => x.CanVote == "yes"))
         {
-            await VSContext.UserHasVotings.AddAsync(new UserHasVoting
+            var userHasVoting = new UserHasVoting
             {
                 Accepted = "",
                 Created = DateTime.UtcNow,
@@ -142,7 +142,8 @@ public class UserHasVotingController : BaseController<UserHasVotingController>
                 AssistantMeetingId = assistant.MeetingId,
                 AssistantMeetingAdminId = assistant.MeetingAdminId,
 
-            });
+            };
+            await VSContext.UserHasVotings.AddAsync(userHasVoting);
             await VSContext.SaveChangesAsync();
         }
         if (assistantCount < minimunUnitQuorumException)

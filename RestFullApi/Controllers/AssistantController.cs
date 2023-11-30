@@ -61,6 +61,14 @@ public class AssistantController : BaseController<AssistantController>
                 Error = "La unidad ya tiene un asistente asociado a la Asamblea."
             });
         }
+        if (!VSContext.Users.Any(x => x.UnitId == request.UnitId))
+        {
+            return BadRequest(new
+            {
+                Error = "Debe asociar un usuario (propietario) a la unidad."
+            });
+        }
+
         var meeting = VSContext.Meetings.Single(x => x.Id == request.MeetingId);
         await VSContext.Assistants.AddAsync(new Assistant
         {
