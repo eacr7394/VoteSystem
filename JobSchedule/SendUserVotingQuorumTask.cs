@@ -114,10 +114,11 @@ public class SendUserVotingQuorumTask : IJob
         string[] bccEmails = bccUserEmails.ToArray();
 
         int totalUnits = context.Units.Count();
-#if DEBUG
+
         adminEmails = adminEmails.Where(x => !x.EndsWith("@example.com")).ToArray();
+
         bccEmails = bccEmails.Where(x => !x.EndsWith("@example.com")).ToArray();
-#endif
+
         foreach (var meeting in await context.Meetings.Where(v => v.Assistants.Any(x => !x.QuorumDate.HasValue)).ToListAsync())
         {
             try

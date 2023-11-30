@@ -76,12 +76,12 @@ public class SendUserVotingTask : IJob
                     try
                     {
                         var voting = context.Votings.Single(x => x.MeetingId == userHasVoting.VotingMeetingId && x.Id == userHasVoting.VotingId);
-#if DEBUG
+
                         if (userHasVoting.User.Email.EndsWith("@example.com"))
                         {
                             continue;
                         }
-#endif
+
                         await Send(userHasVoting, voting, uniqueKey);
                         userHasVoting.Send = "yes";
                         userHasVoting.UniqueKey = StringExtension.GetSHA256Hash(uniqueKey);
